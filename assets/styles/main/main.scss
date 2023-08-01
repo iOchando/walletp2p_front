@@ -1,0 +1,73 @@
+// @forward "base";
+// @forward "default-settings";
+// @forward "mixins";
+// @forward "personal-classes";
+// @forward "responsive";
+// @forward "variables";
+// @use "mixins" as *;
+// @use "variables" as *;
+@import "default-settings";
+@import "vuetify-settings";
+@import "mixins";
+@import "custom-mixins";
+@import "personal-classes";
+@import "responsive";
+@import "variables";
+@import "fonts";
+@import "typography";
+
+
+
+//===================================== global ======================================//
+
+.btn-icon {
+  --size: 31px;
+  --c: #fff !important;
+
+  background-color: var(--primary) !important;
+  border-radius: 50% !important;
+  min-width: var(--size) !important;
+  width: var(--size) !important;
+  min-height: var(--size) !important;
+  height: var(--size) !important;
+}
+
+.btn {
+  --h: 45px;
+  --fw: 700 !important;
+
+  min-height: var(--h);
+  background: #0969FE !important;
+  border-radius: 40px !important;
+  filter: drop-shadow(0px 6px 1px rgba(0, 0, 0, 0.2)) !important;
+  span {
+    color: #fff !important;
+    font-family: var(--font2) !important;
+    font-size: var(--fs, 12px);
+    line-height: 1 !important;
+    letter-spacing: 3.9px !important;
+    text-transform: var(--tt, uppercase);
+  }
+}
+
+.btn-outlined {
+  --h: 45px;
+  --fw: 700 !important;
+
+  min-height: var(--h);
+  background: var(--card) !important;
+  border-radius: 40px !important;
+  border: 1px solid var(--text) !important;
+  span {
+    color: var(--text) !important;
+    font-family: var(--font2) !important;
+    font-size: var(--fs, 12px);
+    line-height: 1 !important;
+    letter-spacing: 3.9px !important;
+    text-transform: var(--tt, uppercase);
+  }
+}
+
+.input {
+
+}
