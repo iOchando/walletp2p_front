@@ -11,7 +11,7 @@
       bottom-text-dir="ltr"
     />
 
-    <div id="verification-content">
+    <section id="verification-content">
       <v-otp-input
         length="4"
         type="number"
@@ -26,8 +26,8 @@
         >2:13</span>
       </div>
 
-      <v-btn class="btn">verify</v-btn>
-    </div>
+      <v-btn class="btn" @click="onVerify()">verify</v-btn>
+    </section>
 
     <Footer ref="footer">
       <template #content>
@@ -42,6 +42,7 @@
 <script>
 export default {
   name: "VerificationPage",
+  layout: "auth-layout",
   data() {
     return {
     }
@@ -53,6 +54,10 @@ export default {
     }
   },
   methods: {
+    onVerify() {
+      localStorage.setItem("auth", true)
+      this.$router.push(this.localePath("/"))
+    }
   }
 };
 </script>

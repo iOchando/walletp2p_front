@@ -1,61 +1,55 @@
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
-// // // login // // // 
-// // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #login {
-  .v-main__wrap {
-    @include media(max, small) {--margin-global: 8em}
-    @include media(max, 600px) {--margin-global: 5em}
-    @include media(max, x-small) {--margin-global: 3em}
-    
-    padding-inline: var(--margin-global);
-    padding-block: calc(var(--h-navbar) + 20px) var(--h-footer, 80px) !important;
-    
-    & > * {
-      font-size: var(--resizer);
-      @include media(max, small) {
-        font-size: var(--resizer-mobile)
-      }
-    }
+  @include parent;
+  padding-inline: var(--margin-global);
+  
+  &-decoration-1 {
+    position: absolute;
+    top: 30px;
+    right: 0px;
+    width: 186px;
+    height: 186px;
+    background: rgba(36, 200, 255, 0.22);
+    filter: blur(8px);
+    border-radius: 50%;
+  }
+  
+  &-decoration-2 {
+    position: absolute;
+    left: -20px;
+    bottom: 50px;
+    width: 137px;
+    height: 137px;
+    background-color: rgba(9, 105, 254, 0.19);
+    filter: blur(8px);
+    border-radius: 50%;
+  }
+  
+  &-decoration-3 {
+    position: absolute;
+    right: var(--margin-global);
+    bottom: 10px;
+    width: 45px;
+    height: 45px;
+    background: #24C8FF;
+    border-radius: 50%;
   }
 
-  .v-window-item > section {
+  &-footer-content {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    gap: 24px;
-    width: min(100%, max(270px, 24em));
-    margin-inline: auto;
-  }
+    width: 100%;
 
-  label {
-    --fw: 900;
-    --fs: max(15px, 1.35em);
-    text-indent: .5ch;
-      
-    sup {
-      font-size: 1.4em;
-      top: 0;
+    > *:not(.v-input, .v-input + .v-btn) {
+      margin-top: 15px;
     }
-  }
-  .v-btn {
-    --w: max-content;
-    --fs: max(15px, 1.25em);
-    --p: .45em 1em;
-  }
 
-  #register-window > section{
-    width: min(100%, max(270px, 28em));
-    .v-input {
-      --bg: var(--primary);
-      
-      &__prepend-outer {
-        margin-block: 0;
-        * {color: #fff !important}
-        input {display: none}
-        .v-input__append-inner {
-          padding: 0;
-          .v-icon {font-size: 1.1em}
-        }
+    .v-btn {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      span {
+        white-space: initial !important;
       }
     }
   }

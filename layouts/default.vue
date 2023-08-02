@@ -8,7 +8,7 @@
       id="layout-background"
       :src="
         require(`~/assets/sources/images/circle${
-          $route.path === '/' ? '-main'
+          $route.path === '/login' ? '-main'
           : $route.path === '/verification' ? '-person'
           : ''
         }.svg`)
@@ -25,7 +25,7 @@
 <script>
 export default {
   name: "DefaultLayout",
-  // middleware: ['authenticated'],
+  middleware: ['authenticated'],
   data() {
     return {
     }
@@ -74,4 +74,4 @@ export default {
 }
 </script>
 
-<style src="~/assets/styles/layouts/default.scss" lang="scss" />
+<style src="~/assets/styles/layouts/layout.scss" lang="scss" />
