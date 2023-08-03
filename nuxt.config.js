@@ -12,7 +12,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    titleTemplate: '%s - global-dv-nuxt2',
+    titleTemplate: '%s - wallet-p2p',
     title: 'Home',
     htmlAttrs: {
       lang: 'en',
@@ -152,7 +152,7 @@ export default {
 
   // Router property -  https://nuxtjs.org/docs/2.x/features/file-system-routing#the-router-property
   router: {
-    base: development ? '/global-dv-nuxt2/' : '/',
+    base: development ? '/wallet-p2p/' : '/',
     // middleware: ['route-validator'],
     extendRoutes(routes, resolve) {
       routes.push({
@@ -173,7 +173,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    publicPath: development ? '/global-dv-nuxt2/' : '/',
+    publicPath: development ? '/wallet-p2p/' : '/',
     // TODO: read about this to fix it.
     // plugins: [
     //   new webpack.ProvidePlugin({
