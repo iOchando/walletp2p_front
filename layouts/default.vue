@@ -1,9 +1,9 @@
 <template>
   <v-app id="default-layout">
     <Alerts ref="alerts" />
-    <ModalsConfirmMsg ref="confirmMsg" />
-    <ModalsConnect ref="connect" />
-    
+    <!-- <ModalsConfirmMsg ref="confirmMsg" />
+    <ModalsConnect ref="connect" /> -->
+
     <Navbar ref="navbar"></Navbar>
 
     <img

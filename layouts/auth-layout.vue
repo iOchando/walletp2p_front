@@ -8,13 +8,13 @@
       id="auth-layout-background"
       :src="
         require(`~/assets/sources/images/circle${
-          $route.path === '/login' ? '-main'
-          : $route.path === '/verification' ? '-person'
+          route === '/login' ? '-main'
+          : route === '/verification' ? '-person'
           : ''
         }.svg`)
       "
       alt="background"
-      :style="`--w: ${excludedRoutes.includes($route.path) ? 452 : 634}px`"
+      :style="`--w: ${excludedRoutes.includes(route) ? 452 : 634}px`"
     >
 
     <v-main class="parent">
@@ -33,7 +33,18 @@ export default {
         "/verification",
       ],
     };
-  }
+  },
+  computed: {
+    route() {
+      const route = this.$route.path
+      
+      if (route.endsWith("/")) {
+        return route.slice(0, -1);
+      }
+
+      return route
+    }
+  },
 }
 </script>
 
