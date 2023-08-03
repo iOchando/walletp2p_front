@@ -13,7 +13,7 @@
   &.light {
     // default color
     --primary: #0969FE;
-    --secondary: #000000;
+    --secondary: #DEE6EA;
     --accent: rgb(176, 114, 0);
     --active: var(--primary);
     --gradient: linear-gradient(to right top,#356D74,#2A505C,#21394A,#1A293D,#172035,#161D33,#161E34,#192539,#1E3143,#244251,#2D5862,#387378,#449492,#53B9B1,#63E2D2);
@@ -41,7 +41,7 @@
   &.dark {
     // default color
     --primary: #0969FE;
-    --secondary: #000000;
+    --secondary: #DEE6EA;
     --accent: rgb(176, 114, 0);
     --active: var(--primary);
     --gradient: linear-gradient(to right top,#356D74,#2A505C,#21394A,#1A293D,#172035,#161D33,#161E34,#192539,#1E3143,#244251,#2D5862,#387378,#449492,#53B9B1,#63E2D2);
@@ -77,7 +77,6 @@
   --parent: 400px; //1600px;
   --subparent: 1900px;
   --h-navbar: 100px;
-  @include media(max, small) {--h-navbar: 80px}
   --w-scroll: 8px;
   //------- shadows -------//
   --sombra-filter: drop-shadow(0px 4px 1px rgba(0, 0, 0, 0.3));
@@ -96,7 +95,7 @@ $sombra-filter: drop-shadow(0px 4px 1px rgba(0, 0, 0, 0.3));
 
 //========== Colors ==========//
 $primary:           #0969FE;
-$secondary:         #000000;
+$secondary:         #DEE6EA;
 $accent:            #b07200;
 $error:             #ff4081;
 $warning:           #FFC260;

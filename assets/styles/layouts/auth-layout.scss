@@ -1,0 +1,33 @@
+#auth-layout {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: center no-repeat url(../../sources/images/background.png) !important;
+    background-size: cover !important;
+  }
+
+  &-background {
+    position: absolute;
+    top: calc(var(--margin-with-top) + 70px);
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 100% !important;
+  }
+
+  //- responsive font size -//
+  & > * {
+    font-size: var(--resizer);
+  }
+  .v-main {
+    & > * {
+      @include media(max, small) {
+        font-size: var(--resizer-mobile)
+      }
+    }
+  }
+}

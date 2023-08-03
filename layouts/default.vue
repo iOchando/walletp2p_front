@@ -1,24 +1,27 @@
 <template>
-  <v-app id="layout" class="relative">
+  <v-app id="default-layout">
     <Alerts ref="alerts" />
     <ModalsConfirmMsg ref="confirmMsg" />
     <ModalsConnect ref="connect" />
+    
+    <Navbar ref="navbar"></Navbar>
 
     <img
-      id="layout-background"
-      :src="
-        require(`~/assets/sources/images/circle${
-          $route.path === '/login' ? '-main'
-          : $route.path === '/verification' ? '-person'
-          : ''
-        }.svg`)
-      "
+      id="default-layout-background"
+      src="~/assets/sources/images/circle.svg"
       alt="background"
     >
 
     <v-main class="parent">
       <nuxt-child data-nuxt="childs" />
     </v-main>
+    
+    <Footer ref="footer">
+      <template #content>
+        <span class="text">© 2023 Near p2p LLC. all rights reserved.</span>
+        <a href="#" target="_blank">Terms of Service // Privacy Policy</a>
+      </template>
+    </Footer>
   </v-app>
 </template>
 
@@ -36,13 +39,13 @@ export default {
   },
   mounted() {
     this.scrollX();
-    this.footerHeightListener();
+    // this.footerHeightListener(); 
     
     // resize listener
-    window.addEventListener("resize", this.footerHeightListener);
+    // window.addEventListener("resize", this.footerHeightListener);
   },
   beforeDestroy() {
-    window.removeEventListener("resize", this.footerHeightListener);
+    // window.removeEventListener("resize", this.footerHeightListener);
   },
   methods: {
     scrollX() {
@@ -74,4 +77,4 @@ export default {
 }
 </script>
 
-<style src="~/assets/styles/layouts/layout.scss" lang="scss" />
+<style src="~/assets/styles/layouts/default-layout.scss" lang="scss" />

@@ -1,11 +1,11 @@
 <template>
-  <v-app id="layout">
+  <v-app id="auth-layout">
     <Alerts ref="alerts" />
     <ModalsConfirmMsg ref="confirmMsg" />
     <ModalsConnect ref="connect" />
 
     <img
-      id="layout-background"
+      id="auth-layout-background"
       :src="
         require(`~/assets/sources/images/circle${
           $route.path === '/login' ? '-main'
@@ -14,6 +14,7 @@
         }.svg`)
       "
       alt="background"
+      :style="`max-width: ${excludedRoutes.includes($route.path) ? 452 : 634}px`"
     >
 
     <v-main class="parent">
@@ -25,7 +26,15 @@
 <script>
 export default {
   name: "LoginLayout",
+  data() {
+    return {
+      excludedRoutes: [
+        "/login",
+        "/verification",
+      ],
+    };
+  }
 }
 </script>
 
-<style src="~/assets/styles/layouts/layout.scss" lang="scss" />
+<style src="~/assets/styles/layouts/auth-layout.scss" lang="scss" />

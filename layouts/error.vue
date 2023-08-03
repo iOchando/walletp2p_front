@@ -14,7 +14,7 @@
 <script>
 export default {
   name: "ErrorPage",
-  layout: 'empty-layout',
+  layout: 'auth-layout',
   props: {
     error: {
       type: Object,

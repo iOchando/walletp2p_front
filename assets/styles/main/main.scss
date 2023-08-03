@@ -24,27 +24,29 @@
   --size: 31px;
   --c: #fff !important;
 
-  background-color: var(--primary) !important;
+  background-color: var(--bg, var(--primary)) !important;
   border-radius: var(--br, 50%) !important;
   min-width: var(--size) !important;
   width: var(--size) !important;
   min-height: var(--size) !important;
   height: var(--size) !important;
+  padding: var(--p, 0) !important;
 }
 
 .btn {
   --h: 45px;
-  --fw: 700 !important;
+  --fw: 700;
   --tt: uppercase;
 
   min-height: var(--h);
-  background: #0969FE !important;
+  background: var(--bg, #0969FE) !important;
   border-radius: var(--br, 40px) !important;
   filter: drop-shadow(0px 6px 1px rgba(0, 0, 0, 0.2)) !important;
   span {
     color: #fff !important;
     font-family: var(--font2) !important;
-    font-size: var(--fs, 12px);
+    font-weight: var(--fw) !important;
+    font-size: var(--fs, 10px);
     line-height: 1 !important;
     letter-spacing: 3.9px !important;
     text-transform: var(--tt, uppercase);
@@ -53,17 +55,18 @@
 
 .btn-outlined {
   --h: 45px;
-  --fw: 700 !important;
+  --fw: 700;
   --tt: uppercase;
 
   min-height: var(--h);
-  background: var(--card) !important;
+  background: var(--bg, var(--card)) !important;
   border-radius: var(--br, 40px) !important;
   border: 1px solid var(--text) !important;
   span {
     color: var(--text) !important;
     font-family: var(--font2) !important;
-    font-size: var(--fs, 12px);
+    font-weight: var(--fw) !important;
+    font-size: var(--fs, 10px);
     line-height: 1 !important;
     letter-spacing: 3.9px !important;
     text-transform: var(--tt, uppercase);

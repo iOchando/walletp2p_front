@@ -79,7 +79,7 @@ label:not(.v-input .v-label, .not_typography, .not) {
 }
 .text {
   text-decoration: var(--under, initial);
-  font-family: var(--font2);
+  font-family: var(--ff, --font2);
   font-weight: var(--fw, 700) !important;
   font-size: var(--fs, max(12px, 0.75em)) !important;
   letter-spacing: var(--ls, 0.36px);
