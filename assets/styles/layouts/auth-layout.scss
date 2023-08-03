@@ -12,7 +12,7 @@
 
   &-background {
     position: absolute;
-    top: calc(var(--margin-with-top) + 70px);
+    top: calc(var(--margin-header) + 70px);
     left: 50%;
     transform: translateX(-50%);
   }

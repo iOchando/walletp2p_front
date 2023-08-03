@@ -73,7 +73,7 @@ export default {
 
 <style lang="scss">
 #header {
-  margin-top: var(--margin-with-top);
+  margin-top: var(--margin-header);
   width: 100%;
   display: flex;
   flex-direction: column;

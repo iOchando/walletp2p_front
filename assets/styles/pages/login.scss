@@ -1,6 +1,7 @@
 #login {
   @include parent;
   padding-inline: var(--margin-global);
+  margin-bottom: var(--margin-footer);
   
   &-decoration-1 {
     position: absolute;
@@ -34,10 +35,11 @@
     border-radius: 50%;
   }
 
-  &-footer-content {
+  &-content {
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-top: 309px;
 
     > *:not(.v-input, .v-input + .v-btn) {
       margin-top: 15px;
