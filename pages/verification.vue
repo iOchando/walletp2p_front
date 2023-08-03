@@ -55,8 +55,7 @@ export default {
   },
   methods: {
     onVerify() {
-      localStorage.setItem("auth", true)
-      this.$router.push(this.localePath("/"))
+      this.$router.push(this.localePath("/pick-username"))
     }
   }
 };

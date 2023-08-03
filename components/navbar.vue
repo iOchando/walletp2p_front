@@ -8,8 +8,16 @@
       </nuxt-link>
 
       <div class="container-btns">
+        <v-btn data-avatar class="btn-icon">
+          <img src="@/assets/sources/avatars/person.png" alt="avatar">
+        </v-btn>
+        
+        <v-btn class="btn-icon">
+          <img width="16px" src="@/assets/sources/icons/options.svg" alt="settings">
+        </v-btn>
+
         <!-- menu user -->
-        <v-menu bottom offset-y nudge-bottom="10px">
+        <!-- <v-menu bottom offset-y nudge-bottom="10px">
           <template #activator="{ on, attrs }">
             <v-btn data-avatar class="btn-icon" v-bind="attrs" v-on="on">
               <img src="@/assets/sources/avatars/person.png" alt="avatar">
@@ -25,11 +33,11 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-        </v-menu>
+        </v-menu> -->
 
 
         <!-- menu -->
-        <v-menu bottom offset-y nudge-bottom="10px">
+        <!-- <v-menu bottom offset-y nudge-bottom="10px">
           <template #activator="{ on, attrs }">
             <v-btn class="btn-icon" v-bind="attrs" v-on="on">
               <img width="16px" src="@/assets/sources/icons/options.svg" alt="settings">
@@ -43,7 +51,7 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-        </v-menu>
+        </v-menu> -->
       </div>
     </v-app-bar>
   </div>

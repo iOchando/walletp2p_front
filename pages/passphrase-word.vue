@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     onVerify() {
-      this.$router.push(this.localePath("/verification"))
+      this.$router.push(this.localePath("/pick-username"))
     }
   }
 };

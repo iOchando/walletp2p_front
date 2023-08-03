@@ -59,7 +59,7 @@ export default {
       this.$router.push(this.localePath("/verification"))
     },
     onContinuePassphrase() {
-      this.$router.push(this.localePath("/passphrase-login"))
+      this.$router.push(this.localePath("/passphrase"))
     }
   }
 };

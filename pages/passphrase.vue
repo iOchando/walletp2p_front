@@ -27,8 +27,8 @@
 
     <Footer ref="footer">
       <template #content>
-        <span class="text" style="--text: var(--text2)">ALREADY HAVE A PASSPHRASEP? 
-          <a style="--fw: 700" href="#" target="_blank">SIGN IN</a>
+        <span class="text" style="--text: var(--text2)">ALREADY HAVE A PASSPHRASE? 
+          <a style="--fw: 700" @click="onSignIn()">SIGN IN</a>
         </span>
       </template>
     </Footer>
@@ -55,7 +55,10 @@ export default {
   methods: {
     onContinue() {
       this.$router.push(this.localePath("/passphrase-word"))
-    }
+    },
+    onSignIn() {
+      this.$router.push(this.localePath("/passphrase-login"))
+    },
   }
 };
 </script>

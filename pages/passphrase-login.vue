@@ -11,7 +11,7 @@
     />
 
     <section id="passphrase-login-content">
-      <div class="container-words">
+      <div ref="container" class="container-words" @scroll="onScroll">
         <v-text-field
           v-for="item in 12" :key="item"
           :label="`enter word #${item}`" solo
@@ -19,19 +19,24 @@
         ></v-text-field>
       </div>
 
-      <v-btn class="btn" @click="onTap()">
-        <img width="10px" src="../assets/sources/icons/scroll-down.svg" alt="scroll down">
+
+      <v-btn v-if="!scrollEnd" class="btn" @click="$refs.container.scrollTop += 100">
+        <img width="10px" src="@/assets/sources/icons/scroll-down.svg" alt="scroll down">
       </v-btn>
+
+      <v-btn v-else class="btn" @click="onTap()">Continue</v-btn>
     </section>
   </div>
 </template>
 
 <script>
+
 export default {
   name: "PassphraseLoginPage",
   layout: "auth-layout",
   data() {
     return {
+      scrollEnd: false,
     }
   },
   head() {
@@ -41,8 +46,12 @@ export default {
     }
   },
   methods: {
+    onScroll(event) {
+      const container = event.currentTarget
+      this.scrollEnd = container.scrollTop + container.clientHeight === container.scrollHeight
+    },
     onTap() {
-      this.$router.push(this.localePath("/pick-username"))
+      this.$router.push(this.localePath("/verification"))
     }
   }
 };
