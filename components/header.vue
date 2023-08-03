@@ -1,6 +1,6 @@
 <template>
   <div id="header">
-    <v-btn :style="`opacity: ${showBackBtn ? 1 : 0}`" class="btn-icon" @click="onPressBackBtn ?? $router.go(-1)">
+    <v-btn :style="`visibility: ${showBackBtn ? 'visible' : 'hidden'}`" class="btn-icon" @click="onPressBackBtn ?? $router.go(-1)">
       <img src="~/assets/sources/icons/arrow.svg" alt="go back">
     </v-btn>
 
