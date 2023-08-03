@@ -60,7 +60,7 @@ div.v-card::before {background: transparent !important}
 }
 
 .v-application {
-  background-color: var(--bg-color-app) !important;
+  background-color: var(--bg-app) !important;
   background: center no-repeat fixed var(--bg-app) !important;
   background-size: cover !important;
 }
@@ -68,7 +68,7 @@ div.v-card::before {background: transparent !important}
 * {caret-color: var(--caret, var(--primary)) !important}
 ::selection {
   background-color: #ff4081;
-  color: var(--bg-color-app);
+  color: var(--bg-app);
 }
 :-webkit-autofill {
   -webkit-text-fill-color: var(--primary);

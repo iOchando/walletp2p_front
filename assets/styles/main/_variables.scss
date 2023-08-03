@@ -17,8 +17,7 @@
     --accent: rgb(176, 114, 0);
     --active: var(--primary);
     --gradient: linear-gradient(to right top,#356D74,#2A505C,#21394A,#1A293D,#172035,#161D33,#161E34,#192539,#1E3143,#244251,#2D5862,#387378,#449492,#53B9B1,#63E2D2);
-    --bg-color-app: #F6F5F5;
-    --bg-app: conic-gradient(from 226deg at 58.72% 42.42%, rgba(255, 255, 255, 0.53) 0deg, rgba(220, 220, 220, 0.48) 120.00000357627869deg, rgba(36, 200, 255, 0.35) 240.00000715255737deg, #F6F6F7 360deg);
+    --bg-app: #F6F5F5;
     --text: #000;
     --text2: #333;
     --hover: hsl(288 90% 10%);
@@ -45,7 +44,7 @@
     --accent: rgb(176, 114, 0);
     --active: var(--primary);
     --gradient: linear-gradient(to right top,#356D74,#2A505C,#21394A,#1A293D,#172035,#161D33,#161E34,#192539,#1E3143,#244251,#2D5862,#387378,#449492,#53B9B1,#63E2D2);
-    --bg-ap: #000000;
+    --bg-ap: #F6F5F5;
     --text: #FFFFFF;
     --hover: hsl(288 90% 90%);
     --scroll: var(--primary);

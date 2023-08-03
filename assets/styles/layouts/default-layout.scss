@@ -29,11 +29,9 @@
   &-background {
     position: absolute;
     top: -65px;
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 100% !important;
-    max-width: 634px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 634px !important;
   }
 
   //- responsive font size -//

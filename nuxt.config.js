@@ -154,6 +154,16 @@ export default {
   router: {
     base: development ? '/global-dv-nuxt2/' : '/',
     // middleware: ['route-validator'],
+    extendRoutes(routes, resolve) {
+      routes.push({
+        path: '*',
+        component: resolve(__dirname, 'layouts/error.vue'),
+        name: 'ErrorPage',
+        props: (route) => ({
+          error: route.params.error || { statusCode: 404 }
+        })
+      });
+    }
   },
 
   server: {

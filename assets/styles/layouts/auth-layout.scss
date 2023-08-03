@@ -13,10 +13,8 @@
   &-background {
     position: absolute;
     top: calc(var(--margin-with-top) + 70px);
-    left: 0;
-    right: 0;
-    margin: auto;
-    width: 100% !important;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   //- responsive font size -//

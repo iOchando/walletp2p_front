@@ -14,7 +14,7 @@
         }.svg`)
       "
       alt="background"
-      :style="`max-width: ${excludedRoutes.includes($route.path) ? 452 : 634}px`"
+      :style="`--w: ${excludedRoutes.includes($route.path) ? 452 : 634}px`"
     >
 
     <v-main class="parent">
@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: "LoginLayout",
+  name: "AuthLayout",
   data() {
     return {
       excludedRoutes: [
