@@ -152,7 +152,8 @@ export default {
 
   // Router property -  https://nuxtjs.org/docs/2.x/features/file-system-routing#the-router-property
   router: {
-    base: development ? '/wallet-p2p/' : '/',
+    base: '/wallet-p2p/',
+    // base: development ? '/wallet-p2p/' : '/', //! commented
     // middleware: ['route-validator'],
     extendRoutes(routes, resolve) {
       routes.push({
@@ -173,7 +174,8 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    publicPath: development ? '/wallet-p2p/' : '/',
+    publicPath: '/wallet-p2p/',
+    // publicPath: development ? '/wallet-p2p/' : '/', //! commented
     // TODO: read about this to fix it.
     // plugins: [
     //   new webpack.ProvidePlugin({
