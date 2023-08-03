@@ -1,8 +1,8 @@
 <template>
   <v-app id="auth-layout">
     <Alerts ref="alerts" />
-    <ModalsConfirmMsg ref="confirmMsg" />
-    <ModalsConnect ref="connect" />
+    <!-- <ModalsConfirmMsg ref="confirmMsg" />
+    <ModalsConnect ref="connect" /> -->
 
     <img
       id="auth-layout-background"
