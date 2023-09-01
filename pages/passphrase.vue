@@ -19,15 +19,21 @@
 
       <div class="space" style="gap: 15px">
         <v-btn class="btn" style="flex-grow: 1" @click="onContinue()">continue</v-btn>
-        <v-btn class="btn-icon" style="--size: 45px">
-          <img width="23px" src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
+        <v-btn
+          class="btn-icon"
+          style="--size: 45px"
+          @click="fnCopie()"
+          v-clipboard:copy="seedPhrase"
+        >
+          <v-icon v-if="copie">mdi-check</v-icon>
+          <img v-if="!copie" width="23px" src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
         </v-btn>
       </div>
     </section>
 
     <Footer ref="footer">
       <template #content>
-        <span class="text" style="--text: var(--text2)">ALREADY HAVE A PASSPHRASE? 
+        <span class="text" style="--text: var(--text2)">ALREADY HAVE A PASSPHRASE?
           <a style="--fw: 700" @click="onSignIn()">SIGN IN</a>
         </span>
       </template>
@@ -36,14 +42,17 @@
 </template>
 
 <script>
+
+import { generateSeedPhrase } from 'near-seed-phrase';
+
 export default {
   name: "PassphrasePage",
   layout: "auth-layout",
   data() {
     return {
-      dataPassphrase: [
-        "LAWSUIT", "FISH", "MEAD", "SINGULAR", "AIRPORT", "HEALTH", "CIDER", "CAR", "KOMBUCHA", "BEER", "RETIRE", "SEA",
-      ],
+      dataPassphrase: [],
+      seedPhrase: "",
+      copie: false,
     }
   },
   head() {
@@ -52,12 +61,35 @@ export default {
       title,
     }
   },
+  mounted() {
+    this.generatePhrase();
+  },
   methods: {
+    fnCopie() {
+      this.copie = true;
+      const timer = setInterval(() => {
+        this.copie = false;
+        clearInterval(timer)
+      }, 1000*2);
+      
+    },
+
     onContinue() {
       this.$router.push(this.localePath("/passphrase-word"))
     },
     onSignIn() {
       this.$router.push(this.localePath("/passphrase-login"))
+    },
+    async generatePhrase() {
+      const { seedPhrase } = await generateSeedPhrase();
+
+      // this.$auth.$storage.setState("seedPhraseGenerate", seedPhrase);
+      localStorage.setItem("seedPhraseGenerate", seedPhrase);
+      // console.log(this.$auth.$storage.getState("seedPhraseGenerate"))
+      
+      this.seedPhrase = seedPhrase;
+      this.dataPassphrase = seedPhrase.split(" ").map((item) => { return item });
+      
     },
   }
 };
