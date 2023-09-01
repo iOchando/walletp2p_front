@@ -182,6 +182,7 @@ export default {
   },
   methods: {
     async getBalance() {
+      let balance = 0
       const privateKey = localStorage.getItem("privateKey");
 
       const myKeyStore = new keyStores.InMemoryKeyStore();
@@ -196,15 +197,14 @@ export default {
 
       const result = await account.getAccountBalance();
 
-      // console.log(utils.format.formatNearAmount(result.available))
-      this.balance = utils.format.formatNearAmount(result.available);
-      // console.log("balance: ", this.balance)
+      balance = Number(utils.format.formatNearAmount(result.available));
+      
 
-      /* await axios.get(process.env.URL_APIP_PRICE, 
-      {email: localStorage.getItem("email"), code: this.otp.toString()}
-      ).then((response) => {
-
-      }) */
+      await axios.post(process.env.URL_APIP_PRICE,
+        {fiat: "USD", crypto: "NEAR"})
+      .then((response) => {
+        this.balance = (balance * response.data[0].value).toFixed(2)
+      })
 
     },
 
@@ -213,9 +213,9 @@ export default {
       await axios.get(process.env.URL_API_INDEXER + wallet +'/activity')
       .then((response) => {
         const data = response.data;
-        
+
         this.dataActivity = data.map((items) => {
-          let typeParam = ""; 
+          let typeParam = "";
           let amountParam = "";
           let coinParam = "";
           let accountParam = "";
@@ -236,8 +236,8 @@ export default {
               accountParam = items.receiver_id
               break;
           }
-          
-          
+
+
           const res = {
             type: typeParam,
             account: accountParam,
@@ -245,7 +245,7 @@ export default {
             amount: amountParam,
             date: "1d",
           }
-          
+
           return res
         })
 
