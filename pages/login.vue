@@ -28,10 +28,10 @@
         >
           continue
         </v-btn>
-      
+
 
       <p class="p tcenter">or</p>
-      
+
       <!--<v-btn
         class="btn-outlined"
         @click="onContinueGoogle()"
@@ -62,9 +62,17 @@
       >
         CONTINUE WITH PASSPHRASE
       </v-btn>
+
+
+      <v-btn
+        class="btn-outlined"
+        @click="prueba()"
+      >
+        Pruebas login
+      </v-btn>
     </section>
-    
-    
+
+
 
     <Footer ref="footer">
       <template #content>
@@ -103,17 +111,17 @@ export default {
   mounted() {
     localStorage.removeItem("seedPhraseLogin");
     localStorage.removeItem("auth");
-    // initialize Google Sign in  
+    // initialize Google Sign in
     window.google.accounts.id.initialize({
         client_id: process.env.CLIEN_ID_GOOGLE,
         callback: this.handleCredentialResponse, // method to run after user clicks the Google sign in button
         context: 'signin'
       });
-    
+
     // render button
     window.google.accounts.id.renderButton(
       document.getElementById('googleButton'),
-      { 
+      {
         type: 'standard',
         theme: 'outline',
         size: 'large',
@@ -125,10 +133,47 @@ export default {
     );
   },
   methods: {
+    prueba() {
+      console.log("paso 1")
+      function receiver(event) {
+        console.log("paso 2 - ", event.origin)
+          if (event.origin === 'http://localhost:8004/') {
+              // if (event.data == 'Hello B') {
+                  event.source.postMessage('Hello A, how are you?', event.origin);
+             /* }
+              else {
+                  console.log(event.data);
+              } */
+          }
+      }
+      console.log("paso 3")
+      window.addEventListener('message', receiver, false);
+      console.log("paso 4")
+      
+      /* console.log("paso 1");
+      parent.postMessage("prueba el resultado", "http://localhost:8004/")
+      console.log("paso 2") */
+      /* window.addEventListener("message", function(event) {
+        console.log("paso 2");
+        if (event.origin !== 'http://localhost:8000') {
+          // algo de un dominio desconocido, ignorémoslo
+          console.log( "Recibí: " + event.origin + " - " + event.data );
+          return;
+        }
+
+        console.log( "Recibí: " + event.origin + " - " + event.data );
+
+        // puedes enviar un mensaje usando event.source.postMessage(...)
+        event.source.postMessage("prueba el resultado", "http://localhost:8004")
+      }); */
+      // window.postMessage("prueba el resultado", "http://localhost:8004/")
+      // window.alert('fgff');
+      // window.close()
+    },
     async onContinue() {
       if(this.$refs.formEmail.validate()) {
         this.loading = true
-        await axios.post(process.env.URL_BACKEND +'/wallet/send-code', 
+        await axios.post(process.env.URL_BACKEND +'/wallet/send-code',
         {email: this.emailImput}, {
           headers: {
             'accept': 'application/json',
@@ -142,7 +187,7 @@ export default {
         })
       }
     },
-    
+
     /* onContinueGoogle() {
       window.google.accounts.id.initialize({
         client_id: process.env.CLIEN_ID_GOOGLE,
@@ -169,14 +214,14 @@ export default {
       console.log(`Image URL: ${token.picture}`)
       console.log(`Email: ${token.email}`)
 
-      await axios.post(process.env.URL_BACKEND +'/wallet/verify-google', 
+      await axios.post(process.env.URL_BACKEND +'/wallet/verify-google',
         {token: response.credential}, {
         headers: {
           'accept': 'application/json',
         },
       }).then((response) => {
         const data = response.data.data;
-        
+
         this.loading = false
 
         localStorage.setItem("address", data.address);
@@ -208,10 +253,10 @@ export default {
         console.log("error: ", error)
       })
       // call your backend API here
-      
+
       // the token can be accessed as: response.credential
     },
-    
+
     onContinuePassphrase() {
       this.$router.push(this.localePath("/passphrase"))
     }
