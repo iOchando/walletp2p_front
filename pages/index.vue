@@ -129,7 +129,6 @@ import * as nearAPI from "near-api-js";
 import { CONFIG } from "@/services/nearConfig";
 const { connect, keyStores, KeyPair, utils } = nearAPI;
 
-
 export default {
   name: "HomePage",
   data() {

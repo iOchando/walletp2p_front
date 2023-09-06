@@ -57,9 +57,6 @@
       </template>
     </Footer>
 
-    <AlertsComponent
-      :dataAlerts="dataAlerts"
-    />
   </div>
 </v-form>
 </template>
@@ -68,6 +65,7 @@
 
 import * as nearAPI from "near-api-js";
 import { CONFIG } from "@/services/nearConfig";
+import { ALERT_TYPE } from '~/plugins/dictionary';
 const { connect, keyStores, KeyPair, Account, Near } = nearAPI;
 
 export default {
@@ -84,13 +82,6 @@ export default {
       successAccount: null,
       network: "",
       loading: false,
-      dataAlerts: [{
-        model:true,
-        centered: true,
-        title: "error por aqui",
-        icon:"error",
-        desc: "aqui paso un error",
-      }]
     }
   },
   head() {
@@ -145,7 +136,10 @@ export default {
     async onCreateName() {
       try {
         this.loading = true;
-        if(!this.$refs.form.validate() || this.errorAccount != null) return
+        if(!this.$refs.form.validate() || this.errorAccount != null) {
+          this.loading = false;
+          return
+        }
 
         console.log(this.accountNear)
         if(this.accountNear === null || this.accountNear === "") {
@@ -199,7 +193,12 @@ export default {
         if(response2.receipts_outcome[1].outcome.status.Failure === undefined) {
           console.log("cuenta creada")
         } else {
-          window.alert(response2.receipts_outcome[1].outcome.status.Failure)
+          this.$alert(ALERT_TYPE.ERROR, {
+            title: "Error",
+            desc: response2.receipts_outcome[1].outcome.status.Failure.toString(),
+            timeout: 1000*60
+
+          })
         }
         this.loading = false;
       } catch (error) {
