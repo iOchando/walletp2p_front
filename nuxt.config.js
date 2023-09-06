@@ -4,6 +4,15 @@ import colors from 'vuetify/es5/util/colors'
 const development = process.env.NODE_ENV !== 'production'
 
 export default {
+  env: {
+    Network: process.env.Network || 'testnet',
+    baseUrl: process.env.BASE_URL || 'http://localhost:3000',
+    URL_BACKEND: process.env.URL_BACKEND || 'http://localhost:3000',
+    URL_APIP_PRICE: process.env.URL_APIP_PRICE || 'http://localhost:3000',
+    URL_API_INDEXER: process.env.URL_API_INDEXER || 'http://localhost:3000',
+    CLIEN_ID_GOOGLE: process.env.CLIEN_ID_GOOGLE || 'http://localhost:3000',
+    URL_EXPLORER: process.env.URL_EXPLORER || 'http://localhost:3000',
+  },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
 
@@ -36,11 +45,24 @@ export default {
       { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=League+Gothic&display=swap' },
     ],
     script: [
+      {
+        src: 'https://accounts.google.com/gsi/client',
+      },
       // {
       //   src: "https://code.jquery.com/jquery-3.5.1.min.js",
       //   body: true
       // },
     ],
+  },
+
+  google: {
+    clientId: process.env.CLIEN_ID_GOOGLE,
+    codeChallengeMethod: '',
+    responseType: 'code',
+    endpoints: {
+      token: 'http://localhost:8000/wallet-p2p/login', // somm backend url to resolve your auth with google and give you the token back
+      userInfo: 'http://localhost:8000/wallet-p2p/login' // the endpoint to get the user info after you recived the token 
+    },
   },
 
   loading: {
@@ -86,7 +108,17 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     '@nuxtjs/i18n',
+    '@nuxtjs/auth-next',
+    'nuxt-clipboard2',
   ],
+
+  auth: {
+    strategies: {
+      google: {
+        clientId: process.env.CLIEN_ID_GOOGLE
+      },
+    }
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
@@ -127,7 +159,7 @@ export default {
       '~/assets/styles/main/_custom-mixins.scss',
     ],
     theme: {
-      dark: true,
+      dark: false,
       themes: {
         dark: {
           primary: colors.blue.darken2,

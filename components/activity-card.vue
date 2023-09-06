@@ -6,13 +6,13 @@
       <div class="divcol">
         <span>{{matchingType.title}}{{coin ? ` ${coin}` : ''}}</span>
         <span>{{matchingType.text}} 
-          <span style="--fw: 700">{{type == "receive" ? coin : account}}</span>
+          <span style="--fw: 700">{{account}}</span>
         </span>
       </div>
     </div>
 
     <div class="divcol">
-      <span style="color: var(--primary)">+{{amount}} {{coin}}</span>
+      <span style="color: var(--primary)">{{amount}} {{coin}}</span>
       <span style="text-align: right">{{date}} ago</span>
     </div>
   </div>
@@ -49,6 +49,11 @@ export default {
         "receive": {
           icon: require("@/assets/sources/icons/icon-recieved.svg"),
           title: "received",
+          text: "From",
+        },
+        "sent": {
+          icon: require("@/assets/sources/icons/icon-sent.svg"),
+          title: "send",
           text: "From",
         },
         "access": {

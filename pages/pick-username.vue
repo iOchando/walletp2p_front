@@ -1,4 +1,5 @@
 <template>
+  <v-form ref="form" v-model="valid">
   <div id="pick-username" class="divcol center">
     <Header
       ref="header"
@@ -13,10 +14,31 @@
 
     <section id="pick-username-content">
       <v-text-field
+        v-model="accountNear"
         label="username / wallet" solo
         style="--margin-message: 1px"
+        :error-messages="errorAccount"
+        :success-messages="successAccount"
+        :suffix="network"
+        :rules="required"
+        @keyup="verificarAccount(accountNear)"
       ></v-text-field>
-      <v-btn class="btn" @click="onSignUp()">sign up</v-btn>
+      <p>The following wallet </p>
+      <p> 
+        <strong>{{ address.substring(0, 20) }} ... {{ address.substring(20, 37) }}</strong> 
+        <v-btn
+          class="btn-icon"
+          style="--size: 35px"
+          @click="fnCopie()"
+          v-clipboard:copy="address"
+        >
+          <v-icon v-if="copie">mdi-check</v-icon>
+          <img v-if="!copie" width="20px" src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
+        </v-btn>
+      </p>
+      <p>must have <strong>0.00005</strong> NEAR available, to be able to assign a name</p>
+      <v-btn :loading="loading" class="btn" @click="onCreateName()">sign up</v-btn>
+      <v-btn :loading="loading" class="btn-outlined mt-5" @click="onSignUp()">Skip</v-btn>
 
       <article class="btn-outlined">
         <img width="36px" src="@/assets/sources/icons/warning.svg" alt="warning icon">
@@ -34,15 +56,41 @@
         </span>
       </template>
     </Footer>
+
+    <AlertsComponent
+      :dataAlerts="dataAlerts"
+    />
   </div>
+</v-form>
 </template>
 
 <script>
+
+import * as nearAPI from "near-api-js";
+import { CONFIG } from "@/services/nearConfig";
+const { connect, keyStores, KeyPair, Account, Near } = nearAPI;
+
 export default {
   name: "PickUsernamePage",
   layout: "auth-layout",
   data() {
     return {
+      valid:false,
+      address: "",
+      accountNear: null,
+      required: [(v) => !!v || "Field required"],
+      copie: false,
+      errorAccount: null,
+      successAccount: null,
+      network: "",
+      loading: false,
+      dataAlerts: [{
+        model:true,
+        centered: true,
+        title: "error por aqui",
+        icon:"error",
+        desc: "aqui paso un error",
+      }]
     }
   },
   head() {
@@ -51,11 +99,114 @@ export default {
       title,
     }
   },
+  mounted() {
+    this.address = localStorage.getItem("address"); // this.$auth.$storage.getState("address") ?? " ";
+    this.network = "."+process.env.Network
+  },
   methods: {
+    fnCopie() {
+      this.copie = true;
+      const timer = setInterval(() => {
+        this.copie = false;
+        clearInterval(timer)
+      }, 1000*2);
+      
+    },
     onSignUp() {
       localStorage.setItem("auth", true)
       this.$router.push(this.localePath("/"))
-    }
+    },
+    async verificarAccount(value) {
+      const accountInput = value + "." + process.env.Network;
+      console.log(accountInput)
+
+      const keyStore = new keyStores.InMemoryKeyStore()
+      const near = new Near(CONFIG(keyStore))
+      const account = new Account(near.connection, accountInput)
+      
+      let response = null
+      await account.state()
+          .then(() => {
+            response = true
+            this.successAccount = null
+            this.errorAccount = "Account already exists"
+          }).catch(() => {
+            response = false
+            this.successAccount = "This account is valid"
+            this.errorAccount = null
+          })
+
+      console.log(response)
+      console.log(this.errorAccount)
+      
+
+    },
+
+    async onCreateName() {
+      try {
+        this.loading = true;
+        if(!this.$refs.form.validate() || this.errorAccount != null) return
+
+        console.log(this.accountNear)
+        if(this.accountNear === null || this.accountNear === "") {
+          
+          throw new Error ("debe introducir un accountId")
+        }
+
+        const privateKey = localStorage.getItem("privateKey"); // this.$auth.$storage.getState("privateKey");
+        const address =  localStorage.getItem("address"); // this.$auth.$storage.getState("address");
+        const publicKey2 = localStorage.getItem("publicKey"); // this.$auth.$storage.getState("privateKey");
+
+
+        // creates a public / private key pair using the provided private key
+        // adds the keyPair you created to keyStore
+        const myKeyStore = new keyStores.InMemoryKeyStore();
+        const keyPairOld = KeyPair.fromString(privateKey);
+        await myKeyStore.setKey(process.env.Network, address, keyPairOld);
+
+        console.log("keyPair old: ", keyPairOld)
+        console.log("publickey old:", publicKey2)
+        console.log("privatekey old: ", privateKey)
+
+
+        const nearConnection = await connect(CONFIG(myKeyStore));
+        const account = await nearConnection.account(address);
+        
+        
+        // const creatorAccount = await nearConnection.account(address);
+        const keyPairNew = KeyPair.fromRandom("ed25519");
+        const publicKey = keyPairNew.publicKey.toString();
+        console.log(this.accountNear, " -- ", keyPairNew)
+        await myKeyStore.setKey(process.env.Network, this.accountNear, keyPairNew);
+
+        console.log("keyPair new: ", keyPairNew)
+        console.log("publickey new:", publicKey)
+
+        const response2 = await account.functionCall({
+          contractId: process.env.Network,
+          methodName: "create_account",
+          args: {
+            new_account_id: this.accountNear,
+            new_public_key: publicKey,
+          },
+          gas: "300000000000000",
+          attachedDeposit: "50000000000000000000",
+        });
+
+        console.log(response2)
+        console.log("error: ", response2.receipts_outcome[1].outcome.status.Failure)
+
+        if(response2.receipts_outcome[1].outcome.status.Failure === undefined) {
+          console.log("cuenta creada")
+        } else {
+          window.alert(response2.receipts_outcome[1].outcome.status.Failure)
+        }
+        this.loading = false;
+      } catch (error) {
+        this.loading = false;
+        console.log(error);
+      }
+    },
   }
 };
 </script>
