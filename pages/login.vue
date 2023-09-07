@@ -64,12 +64,12 @@
       </v-btn>
 
 
-      <v-btn
+      <!--<v-btn
         class="btn-outlined"
         @click="prueba()"
       >
         Pruebas login
-      </v-btn>
+      </v-btn>-->
     </section>
 
 
@@ -109,8 +109,7 @@ export default {
     }
   },
   mounted() {
-    localStorage.removeItem("seedPhraseLogin");
-    localStorage.removeItem("auth");
+    // localStorage.removeItem("auth");
     // initialize Google Sign in
     window.google.accounts.id.initialize({
         client_id: process.env.CLIEN_ID_GOOGLE,
@@ -131,6 +130,12 @@ export default {
         width: 330
       }
     );
+    localStorage.removeItem("importEmailNickname")
+    localStorage.removeItem("importEmail")
+    localStorage.removeItem("seedPhraseLoginNew")
+    localStorage.removeItem("seedPhraseLogin")
+    localStorage.removeItem("seedPhrase")
+    localStorage.removeItem("login")
   },
   methods: {
     prueba() {
@@ -181,6 +186,7 @@ export default {
         }).then(() => {
           this.loading = false
           localStorage.setItem("email", this.emailImput);
+          localStorage.setItem("login", true);
           this.$router.push(this.localePath("/verification"))
         }).catch(() => {
           this.loading = false
@@ -244,11 +250,11 @@ export default {
         const userMapStr = JSON.stringify(Array.from(user.entries()));
         localStorage.setItem("listUser", userMapStr);
 
-        if(data.isExists) {
+        // if(data.isExists) {
           this.$router.push(this.localePath("/"))
-        } else {
+        // } else {
           this.$router.push(this.localePath("/pick-username"))
-        }
+        // }
       }).catch((error) => {
         console.log("error: ", error)
       })
@@ -258,6 +264,7 @@ export default {
     },
 
     onContinuePassphrase() {
+      localStorage.setItem("login", true);
       this.$router.push(this.localePath("/passphrase"))
     }
   }

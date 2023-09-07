@@ -85,6 +85,7 @@ export default {
     },
   },
   mounted() {
+    this.$store.commit('validSession')
     this.initCounter();
   },
   methods: {
@@ -122,17 +123,36 @@ export default {
     async onVerify() {
       this.loading = true;
       this.error = null;
-      await axios.post(process.env.URL_BACKEND +'/wallet/verify-code', 
-      {email: localStorage.getItem("email"), code: this.otp.toString()}
+      
+      let route = "email-wallet-import"
+      let params = {email: localStorage.getItem("email"), code: this.otp.toString()}
+      const importWalletNickname = localStorage.getItem("importEmailNickname")
+      if(importWalletNickname !== undefined && importWalletNickname !== null) {
+        route = "email-create-nickname"
+        params = {email: localStorage.getItem("email"), code: this.otp.toString(), nickname: importWalletNickname }
+      }
+
+      await axios.post(process.env.URL_BACKEND +'/wallet/'+route, params
       ).then((response) => {
         const data = response.data.data;
+
+        if(localStorage.getItem("importEmailNickname") !== undefined && localStorage.getItem("importEmailNickname") !== null) {          
+          const list = localStorage.getItem("listUser")
+          if(list !== undefined && list !== null) {
+            const user = new Map(JSON.parse(list))
+            user.delete(localStorage.getItem("address"))
+            
+            const userMapStr = JSON.stringify(Array.from(user.entries()));
+            localStorage.setItem("listUser", userMapStr);
+          }
+        }
         
         this.loading = false
 
         localStorage.setItem("address", data.address);
         localStorage.setItem("publicKey", data.publicKey);
         localStorage.setItem("privateKey", data.secretKey);
-        localStorage.setItem("auth", true)
+        
 
         const dataUser = {
           address: data.address.toString(),
@@ -152,8 +172,10 @@ export default {
         console.log(data)
 
         if(data.isExists) {
+          localStorage.setItem("auth", true)
           this.$router.push(this.localePath("/"))
         } else {
+          localStorage.setItem("importEmail", true)
           this.$router.push(this.localePath("/pick-username"))
         }
       }).catch((error) => {

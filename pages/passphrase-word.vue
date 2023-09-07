@@ -34,7 +34,7 @@
 </template>
 
 <script>
-
+import axios from 'axios';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import * as nearAPI from "near-api-js";
 const { KeyPair } = nearAPI;
@@ -58,9 +58,9 @@ export default {
     }
   },
   mounted() {
+    this.$store.commit('validSession')
     this.phraseNumber = Math.floor(Math.random() * 12)
     // console.log(this.$auth.$storage.getState("seedPhraseGenerate"))
-    localStorage.removeItem("auth");
     if(localStorage.getItem("seedPhraseLoginNew") !== undefined && localStorage.getItem("seedPhraseLoginNew") !== null) {
       this.showBackBtn = false
     }
@@ -81,8 +81,15 @@ export default {
 
 
           const { secretKey, publicKey } = await parseSeedPhrase(localStorage.getItem("seedPhraseGenerate"));
-          const keyPair = KeyPair.fromString(secretKey);
-          const address = Buffer.from(keyPair.getPublicKey().data).toString("hex");
+          const keyPairNew = KeyPair.fromString(secretKey);
+          let address = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
+
+          await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
+            .then((response) => {
+              if(response.data.length > 0) {
+                address = response.data[0].toString()
+              }
+          })
           
           /* this.$auth.$storage.setState("address", address)
           this.$auth.$storage.setState("publicKey", publicKey)

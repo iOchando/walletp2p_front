@@ -54,8 +54,7 @@ export default {
     }
   },
   mounted() {
-    localStorage.removeItem("seedPhraseLogin");
-    localStorage.removeItem("auth");
+    this.$store.commit('validSession')
   },
   methods: {
     onScroll(event) {

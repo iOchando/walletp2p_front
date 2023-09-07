@@ -135,7 +135,7 @@ export default {
     return {
       linkExplorer: "",
       sheet: false,
-      balance: "0.0",
+      balance: "0.00",
       address: "",
       dataBtns: [
         {
@@ -177,6 +177,13 @@ export default {
       this.getBalance()
       this.recentActivity()
     }, 1000*10); // se ejecuta cada 10 segundos
+    // eliminando variables de inicio de session
+    localStorage.removeItem("importEmailNickname")
+    localStorage.removeItem("importEmail")
+    localStorage.removeItem("seedPhraseLoginNew")
+    localStorage.removeItem("seedPhraseLogin")
+    localStorage.removeItem("seedPhrase")
+    localStorage.removeItem("login");
     console.log("address: ", this.address)
   },
   methods: {
@@ -198,11 +205,10 @@ export default {
 
       balance = Number(utils.format.formatNearAmount(result.available));
       
-
       await axios.post(process.env.URL_APIP_PRICE,
         {fiat: "USD", crypto: "NEAR"})
       .then((response) => {
-        this.balance = (balance * response.data[0].value).toFixed(2)
+        this.balance = ((balance.isNaN === undefined ? 0 : balance) * response.data[0].value).toFixed(2)
       })
 
     },

@@ -104,6 +104,15 @@ export const mutations = {
     setTimeout(() => this.$router.go(0), 100);
     this.$router.push(this.localePath('/'));
   },
+  validSession() {
+    if(localStorage.getItem("login") === undefined || localStorage.getItem("login") === null) {
+      if(localStorage.getItem("auth") === undefined || localStorage.getItem("auth") === null) {
+        this.$router.push(this.localePath("/login"))
+      } else {
+        this.$router.push(this.localePath("/"))
+      }
+    }
+  }
 };
 
 export const actions = {
