@@ -23,7 +23,7 @@
         :rules="required"
         @keyup="verificarAccount(accountNear)"
       ></v-text-field>
-      <p>The following wallet </p>
+      <!--<p>The following wallet </p>
       <p> 
         <strong>{{ address.substring(0, 20) }} ... {{ address.substring(20, 37) }}</strong> 
         <v-btn
@@ -36,7 +36,7 @@
           <img v-if="!copie" width="20px" src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
         </v-btn>
       </p>
-      <p>must have <strong>0.5</strong> NEAR available, to be able to assign a name</p>
+      <p>must have <strong>0.5</strong> NEAR available, to be able to assign a name</p>-->
       <v-btn :loading="loading" class="btn" @click="onCreateName()">sign up</v-btn>
       <v-btn :loading="loading" class="btn-outlined mt-5" @click="onSignUp()">Skip</v-btn>
 

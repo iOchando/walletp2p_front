@@ -49,6 +49,7 @@
       </v-btn> -->
       <v-btn
         class="btn-outlined"
+        :loading="loading"
       >
         <span id="googleButton"></span>
       </v-btn>
