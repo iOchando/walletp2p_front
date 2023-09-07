@@ -36,7 +36,7 @@
           <img v-if="!copie" width="20px" src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
         </v-btn>
       </p>
-      <p>must have <strong>0.00005</strong> NEAR available, to be able to assign a name</p>
+      <p>must have <strong>0.5</strong> NEAR available, to be able to assign a name</p>
       <v-btn :loading="loading" class="btn" @click="onCreateName()">sign up</v-btn>
       <v-btn :loading="loading" class="btn-outlined mt-5" @click="onSignUp()">Skip</v-btn>
 
@@ -67,6 +67,8 @@ import * as nearAPI from "near-api-js";
 import { CONFIG } from "@/services/nearConfig";
 import { ALERT_TYPE } from '~/plugins/dictionary';
 const { connect, keyStores, KeyPair, Account, Near } = nearAPI;
+const { generateSeedPhrase } = require('near-seed-phrase');
+
 
 export default {
   name: "PickUsernamePage",
@@ -95,6 +97,22 @@ export default {
     this.network = "."+process.env.Network
   },
   methods: {
+    /* async pru(){
+      await axios.get('https://testnet-api.kitwallet.app/publicKey/ed25519:3Q2hUgzX1XnPHVgeJkiLjkAqjocL94SFbSum99GamnZk/accounts', {
+        headers: {
+            'X-requestor': 'near'
+          },
+        },
+      )
+      .then((response) => {
+        console.log("cuenta 1: ", response)
+        console.log("cuenta 2: ", response.data)
+        console.log("cuenta 3: ", response.data[0])
+      }).catch((error) => {
+        console.log("cuenta error: ", error)
+      })
+    }, */
+
     fnCopie() {
       this.copie = true;
       const timer = setInterval(() => {
@@ -141,16 +159,10 @@ export default {
           return
         }
 
-        console.log(this.accountNear)
-        if(this.accountNear === null || this.accountNear === "") {
-          
-          throw new Error ("debe introducir un accountId")
-        }
 
         const privateKey = localStorage.getItem("privateKey"); // this.$auth.$storage.getState("privateKey");
         const address =  localStorage.getItem("address"); // this.$auth.$storage.getState("address");
-        const publicKey2 = localStorage.getItem("publicKey"); // this.$auth.$storage.getState("privateKey");
-
+        const newAccount = this.accountNear + this.network;
 
         // creates a public / private key pair using the provided private key
         // adds the keyPair you created to keyStore
@@ -158,40 +170,52 @@ export default {
         const keyPairOld = KeyPair.fromString(privateKey);
         await myKeyStore.setKey(process.env.Network, address, keyPairOld);
 
-        console.log("keyPair old: ", keyPairOld)
-        console.log("publickey old:", publicKey2)
-        console.log("privatekey old: ", privateKey)
-
-
         const nearConnection = await connect(CONFIG(myKeyStore));
         const account = await nearConnection.account(address);
         
         
         // const creatorAccount = await nearConnection.account(address);
-        const keyPairNew = KeyPair.fromRandom("ed25519");
+        const {seedPhrase, secretKey} = generateSeedPhrase();
+        const keyPairNew = KeyPair.fromString(secretKey);;// KeyPair.fromRandom("ed25519");
         const publicKey = keyPairNew.publicKey.toString();
-        console.log(this.accountNear, " -- ", keyPairNew)
-        await myKeyStore.setKey(process.env.Network, this.accountNear, keyPairNew);
+        await myKeyStore.setKey(process.env.Network, newAccount, keyPairNew);
 
-        console.log("keyPair new: ", keyPairNew)
-        console.log("publickey new:", publicKey)
 
         const response2 = await account.functionCall({
           contractId: process.env.Network,
           methodName: "create_account",
           args: {
-            new_account_id: this.accountNear,
+            new_account_id: newAccount,
             new_public_key: publicKey,
           },
           gas: "300000000000000",
-          attachedDeposit: "50000000000000000000",
+          attachedDeposit: "500000000000000000000000",
         });
-
-        console.log(response2)
-        console.log("error: ", response2.receipts_outcome[1].outcome.status.Failure)
 
         if(response2.receipts_outcome[1].outcome.status.Failure === undefined) {
           console.log("cuenta creada")
+          localStorage.setItem("address", newAccount);
+          localStorage.setItem("publicKey", publicKey);
+          localStorage.setItem("privateKey", keyPairNew.secretKey);
+          localStorage.setItem("seedPhrase", seedPhrase);
+          
+          const dataUser = {
+            address: newAccount,
+            publicKey: publicKey.toString(),
+            privateKey: keyPairNew.secretKey
+          };
+
+          let user = new Map();
+          if(localStorage.getItem("listUser") !== undefined && localStorage.getItem("listUser") !== null) {
+            const list = localStorage.getItem("listUser")
+            user = new Map(JSON.parse(list))
+          }
+          user.set(address.toString(), dataUser)
+          const userMapStr = JSON.stringify(Array.from(user.entries()));
+          localStorage.setItem("listUser", userMapStr);
+
+          this.$router.push(this.localePath("/passphrase-new"))
+
         } else {
           this.$alert(ALERT_TYPE.ERROR, {
             title: "Error",
@@ -203,7 +227,13 @@ export default {
         this.loading = false;
       } catch (error) {
         this.loading = false;
-        console.log(error);
+        console.log(error)
+        this.$alert(ALERT_TYPE.ERROR, {
+          title: "Error",
+          desc: error.toString(),
+          timeout: 1000*60
+
+        })
       }
     },
   }

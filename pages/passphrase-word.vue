@@ -8,6 +8,7 @@
       max-width="284px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"
+      :show-back-btn="showBackBtn"
     />
 
     <section id="passphrase-word-content">
@@ -47,6 +48,7 @@ export default {
       error: null,
       phraseNumber: 0,
       seedPhraseWord: null,
+      showBackBtn: true,
     }
   },
   head() {
@@ -59,6 +61,9 @@ export default {
     this.phraseNumber = Math.floor(Math.random() * 12)
     // console.log(this.$auth.$storage.getState("seedPhraseGenerate"))
     localStorage.removeItem("auth");
+    if(localStorage.getItem("seedPhraseLoginNew") !== undefined && localStorage.getItem("seedPhraseLoginNew") !== null) {
+      this.showBackBtn = false
+    }
   },
   methods: {
     async onVerify() {
@@ -67,49 +72,62 @@ export default {
       const seedPhrase = localStorage.getItem("seedPhraseGenerate").split(" ").map((item) => { return item });
 
       if(this.seedPhraseWord === seedPhrase[this.phraseNumber]) {
-        const { secretKey, publicKey } = await parseSeedPhrase(localStorage.getItem("seedPhraseGenerate"));
-        const keyPair = KeyPair.fromString(secretKey);
-        const address = Buffer.from(keyPair.getPublicKey().data).toString("hex");
-        
-        /* this.$auth.$storage.setState("address", address)
-        this.$auth.$storage.setState("publicKey", publicKey)
-        this.$auth.$storage.setState("privateKey", secretKey) */
-
-        localStorage.setItem("address", address);
-        localStorage.setItem("publicKey", publicKey);
-        localStorage.setItem("privateKey", secretKey);
-        
-        const dataUser = {
-          address: address.toString(),
-          publicKey: publicKey.toString(),
-          privateKey: secretKey
-        };
-
-        let user = new Map();
-        if(localStorage.getItem("listUser") !== undefined && localStorage.getItem("listUser") !== null) {
-          const list = localStorage.getItem("listUser")
-          user = new Map(JSON.parse(list))
-        }
-        user.set(address.toString(), dataUser)
-        const userMapStr = JSON.stringify(Array.from(user.entries()));
-        localStorage.setItem("listUser", userMapStr);
-
-        /* const list = localStorage.getItem("listUser")
-        const map = new Map(JSON.parse(list))
-        
-        console.log(map)
-        console.log(map.get(address.toString())) */
-        
-        // console.log(localStorage.getItem("privateKey") )
-        
-        this.loading = false
-        
-        if(localStorage.getItem("seedPhraseLogin") !== undefined && localStorage.getItem("seedPhraseLogin") !== null) {
+        if(localStorage.getItem("seedPhraseLoginNew") !== undefined && localStorage.getItem("seedPhraseLoginNew") !== null) {
+          this.loading = false
           localStorage.setItem("auth", true)
+          localStorage.removeItem("seedPhraseLogin")
           this.$router.push(this.localePath("/"))
         } else {
-          this.$router.push(this.localePath("/pick-username"))
+
+
+          const { secretKey, publicKey } = await parseSeedPhrase(localStorage.getItem("seedPhraseGenerate"));
+          const keyPair = KeyPair.fromString(secretKey);
+          const address = Buffer.from(keyPair.getPublicKey().data).toString("hex");
+          
+          /* this.$auth.$storage.setState("address", address)
+          this.$auth.$storage.setState("publicKey", publicKey)
+          this.$auth.$storage.setState("privateKey", secretKey) */
+
+          localStorage.setItem("address", address);
+          localStorage.setItem("publicKey", publicKey);
+          localStorage.setItem("privateKey", secretKey);
+          
+          const dataUser = {
+            address: address.toString(),
+            publicKey: publicKey.toString(),
+            privateKey: secretKey
+          };
+
+          let user = new Map();
+          if(localStorage.getItem("listUser") !== undefined && localStorage.getItem("listUser") !== null) {
+            const list = localStorage.getItem("listUser")
+            user = new Map(JSON.parse(list))
+          }
+          user.set(address.toString(), dataUser)
+          const userMapStr = JSON.stringify(Array.from(user.entries()));
+          localStorage.setItem("listUser", userMapStr);
+
+          /* const list = localStorage.getItem("listUser")
+          const map = new Map(JSON.parse(list))
+          
+          console.log(map)
+          console.log(map.get(address.toString())) */
+          
+          // console.log(localStorage.getItem("privateKey") )
+          
+
+          this.loading = false
+          
+          if(localStorage.getItem("seedPhraseLogin") !== undefined && localStorage.getItem("seedPhraseLogin") !== null) {
+            localStorage.setItem("auth", true)
+            localStorage.removeItem("seedPhraseLogin")
+            this.$router.push(this.localePath("/"))
+          } else {
+            this.$router.push(this.localePath("/pick-username"))
+          }
+
         }
+        
       } else {
         this.loading = false;
         this.error = "incorrect word";

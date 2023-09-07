@@ -209,7 +209,7 @@ export default {
 
     async recentActivity() {
       const wallet = this.address;
-      await axios.get(process.env.URL_API_INDEXER + wallet +'/activity')
+      await axios.get(process.env.URL_API_INDEXER + "/account/" + wallet +'/activity')
       .then((response) => {
         const data = response.data;
 
