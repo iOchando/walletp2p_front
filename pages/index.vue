@@ -211,7 +211,10 @@ export default {
       await axios.post(process.env.URL_APIP_PRICE,
         {fiat: "USD", crypto: "NEAR"})
       .then((response) => {
-        this.balance = ((balance.isNaN === undefined ? 0 : balance) * response.data[0].value).toFixed(2)
+        const balanceNear = isNaN(balance) ? 0 : balance
+        this.balance = (balanceNear * response.data[0].value).toFixed(2)
+      }).catch((error) => {
+        console.log("error balane: ", error)
       })
 
     },
