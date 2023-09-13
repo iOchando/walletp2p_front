@@ -170,6 +170,41 @@ export default {
   },
   mounted() {
     this.address = localStorage.getItem("address");
+
+    localStorage.removeItem("importEmailNickname");
+    localStorage.removeItem("importEmail");
+    localStorage.removeItem("seedPhraseLoginNew");
+    localStorage.removeItem("seedPhraseLogin");
+    localStorage.removeItem("seedPhrase");
+    localStorage.removeItem("login");
+    
+    if(!localStorage.removeItem("login") === undefined || !localStorage.getItem("privateKey") === undefined) {
+      this.$router.push(this.localePath("/login"))
+    }
+
+    if(!localStorage.getItem("loginExternal") !== undefined) {
+      const ruta = localStorage.getItem("loginExternal");
+      const json = JSON.stringify({
+        wallet: this.address,
+        cretaDate: new Date()
+      })
+      const token = btoa(json)
+
+      // console.log("json: ", json)
+      // console.log("token: ", token)
+      
+      // console.log("ruta1: ", ruta)
+      localStorage.removeItem("loginExternal");
+
+      // console.log("ruta2: ", ruta+"?token="+token);
+      location.replace(ruta+"?token="+token);
+    }
+
+    
+    
+    
+
+    
     this.linkExplorer = process.env.URL_EXPLORER + "/accounts/" + this.address
     this.getBalance()
     this.recentActivity()
@@ -178,15 +213,6 @@ export default {
       this.recentActivity()
     }, 1000*10); // se ejecuta cada 10 segundos
     // eliminando variables de inicio de session
-    localStorage.removeItem("importEmailNickname")
-    localStorage.removeItem("importEmail")
-    localStorage.removeItem("seedPhraseLoginNew")
-    localStorage.removeItem("seedPhraseLogin")
-    localStorage.removeItem("seedPhrase")
-    localStorage.removeItem("login");
-    if(!localStorage.removeItem("login") === undefined || !localStorage.getItem("privateKey") === undefined) {
-      this.$router.push(this.localePath("/login"))
-    }
     console.log("address: ", this.address)
   },
   methods: {

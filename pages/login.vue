@@ -109,7 +109,7 @@ export default {
       title,
     }
   },
-  mounted() {
+  mounted() {    
     // localStorage.removeItem("auth");
     // initialize Google Sign in
     window.google.accounts.id.initialize({
@@ -137,6 +137,12 @@ export default {
     localStorage.removeItem("seedPhraseLogin")
     localStorage.removeItem("seedPhrase")
     localStorage.removeItem("login")
+    localStorage.removeItem("loginExternal")
+    
+    if(this.$route.query.redirect !== undefined){
+      localStorage.setItem("loginExternal", this.$route.query.redirect)
+      console.log("paso login: ", localStorage.getItem("loginExternal"))
+    }
   },
   methods: {
     prueba() {
