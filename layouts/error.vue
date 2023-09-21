@@ -66,7 +66,7 @@ export default {
       border: 2px solid $primary;
       border-radius: 50.6557px;
       span {
-        color: $text-btn;
+        color: #fff;
       }
     }
   }

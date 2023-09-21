@@ -4,8 +4,6 @@
     <!-- <ModalsConfirmMsg ref="confirmMsg" />
     <ModalsConnect ref="connect" /> -->
 
-    <Navbar ref="navbar"></Navbar>
-
     <img
       id="default-layout-background"
       src="~/assets/sources/images/circle.svg"
@@ -15,13 +13,6 @@
     <v-main class="parent">
       <nuxt-child data-nuxt="childs" />
     </v-main>
-    
-    <Footer ref="footer">
-      <template #content>
-        <span class="text">© 2023 Near p2p LLC. all rights reserved.</span>
-        <a href="#" target="_blank">Terms of Service // Privacy Policy</a>
-      </template>
-    </Footer>
   </v-app>
 </template>
 

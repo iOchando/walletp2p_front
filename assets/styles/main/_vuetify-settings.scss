@@ -475,6 +475,12 @@
     -ms-text-stroke: var(--stroke-label);
     -o-text-stroke: var(--stroke-label);
   }
+
+  & .v-text-field__details {
+    margin-top: 7px;
+
+    &:has(:empty) { margin-top: 0px }
+  }
   
   // input statements //
   &.v-input--is-focused:not(.not_focus, .not_statement) .v-input__slot {--ol: 1px solid rgba(255, 255, 255, 0.3)}
@@ -511,9 +517,6 @@
   }
 }
 
-
-//- menu select (desplegable menu) -//
-.v-menu__content {overscroll-behavior: contain}
 
 .v-select-list {
   font-size: var(--resizer);

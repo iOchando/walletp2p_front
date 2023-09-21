@@ -1,16 +1,23 @@
 <template>
   <div id="header">
-    <v-btn :style="`visibility: ${showBackBtn ? 'visible' : 'hidden'}`" class="btn-icon" @click="onPressBackBtn ?? $router.go(-1)">
-      <img src="~/assets/sources/icons/arrow.svg" alt="go back">
-    </v-btn>
+    <Navbar
+      :show-append="showAppend"
+      :show-back-btn="showBackBtn"
+      :on-press-back-btn="onPressBackBtn"
+    >
+      <template #prepend>
+        <slot name="prepend" />
+      </template>
+    </Navbar>
 
     <div
+      v-if="topText || bottomText || description"
       id="header-content"
       :style="`--max-width: ${maxWidth}; --margin-left: ${marginLeftContent}; --margin-right: ${marginRightContent}`"
     >
-      <h1 :style="`--dir: ${topTextDir}; --indent: ${topTextIndent}`" class="p">{{topText}}</h1>
-      <h1 :style="`--dir: ${bottomTextDir}; --indent: ${bottomTextIndent}`">{{bottomText}}</h1>
-      <p>{{description}}</p>
+      <h1 v-if="topText" :style="`--dir: ${topTextDir}; --indent: ${topTextIndent}`" :class="{p: bottomText}">{{topText}}</h1>
+      <h1 v-if="bottomText" :style="`--dir: ${bottomTextDir}; --indent: ${bottomTextIndent}`">{{bottomText}}</h1>
+      <p v-if="description" :style="`--align: ${descriptionAlign}`">{{description}}</p>
     </div>
   </div>
 </template>
@@ -19,6 +26,10 @@
 export default {
   name: "HeaderComponent",
   props: {
+    showAppend: {
+      type: Boolean,
+      default: false,
+    },
     maxWidth: {
       type: String,
       default: undefined,
@@ -67,6 +78,10 @@ export default {
       type: String,
       default: undefined
     },
+    descriptionAlign: {
+      type: String,
+      default: "center"
+    },
   },
 };
 </script>
@@ -85,7 +100,7 @@ export default {
     margin-right: var(--margin-right, auto);
     margin-top: 16px;
 
-    h1.p {
+    h1:first-child {
       direction: var(--dir, ltr);
       text-indent: var(--indent);
     }
@@ -96,7 +111,7 @@ export default {
     }
 
     p {
-      text-align: center;
+      text-align: var(--align, center);
     }
   }
 }

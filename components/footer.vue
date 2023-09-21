@@ -1,6 +1,6 @@
 <template>
   <v-footer id="footer" absolute color="transparent">
-    <slot name="content"></slot>
+    <slot />
   </v-footer>
 </template>
 

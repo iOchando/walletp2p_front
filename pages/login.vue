@@ -76,12 +76,10 @@
 
 
     <Footer ref="footer">
-      <template #content>
-          <span
-            class="text tcenter"
-            style="--fw: 700; --text: var(--text2); margin-top: 22px"
-          >PRIVACY POLICY</span>
-      </template>
+      <span
+        class="text tcenter"
+        style="--fw: 700; --text: var(--text2); margin-top: 22px"
+      >PRIVACY POLICY</span>
     </Footer>
   </div>
 </v-form>

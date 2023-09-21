@@ -1,6 +1,14 @@
 <template>
   <div id="home" class="divcol center">
-    <section id="section-available">
+    <Header show-append>
+      <template #prepend>
+        <nuxt-link :to="localePath('/')">
+          <img src="@/assets/sources/logos/logo.svg" alt="logo" style="--w: 34px">
+        </nuxt-link>
+      </template>
+    </Header>
+
+    <section id="section-available" style="padding-top: 23px;">
       <div class="space" style="gap: 10px">
         <v-btn
           class="btn-outlined"
@@ -21,7 +29,7 @@
 
       <aside class="container-available">
         <h1 class="p" style="--currency: 'USD'">
-          <span style="--fw: 400">$</span>{{ balance }}
+          <span style="--fw: 400">$</span>{{ 'balance' }}
         </h1>
 
         <div class="divcol center" style="margin-top: 25px;">
@@ -91,13 +99,18 @@
       </a>
     </section>
 
+
+    <Footer ref="footer">
+      <span class="text">© 2023 Near p2p LLC. all rights reserved.</span>
+      <a href="#" target="_blank">Terms of Service // Privacy Policy</a>
+    </Footer>
+
+
     <div class="text-center">
       <v-bottom-sheet
         v-model="sheet"
         inset
       >
-        <template>
-        </template>
         <v-sheet
           class="text-center"
           height="200px"
@@ -116,11 +129,8 @@
         </v-sheet>
       </v-bottom-sheet>
     </div>
-
   </div>
 </template>
-
-
 
 
 <script>

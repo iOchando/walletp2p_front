@@ -47,11 +47,9 @@
     </section>
 
     <Footer ref="footer">
-      <template #content>
-        <span class="text" style="--text: var(--text2)">NEED HELP? 
-          <a style="--fw: 700" href="#" target="_blank">SUPPORT</a>
-        </span>
-      </template>
+      <span class="text" style="--text: var(--text2)">NEED HELP? 
+        <a style="--fw: 700" href="#" target="_blank">SUPPORT</a>
+      </span>
     </Footer>
   </div>
 </template>

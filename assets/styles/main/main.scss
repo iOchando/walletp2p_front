@@ -20,6 +20,30 @@
 
 //===================================== global ======================================//
 
+
+//- menu select (desplegable menu) -//
+.v-menu__content {
+  overscroll-behavior: contain;
+
+  .v-list-item {
+    &__title {
+      color: #000 !important;
+      font-family: var(--font2);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: 3.9px;
+      text-transform: uppercase;
+    }
+
+    &--active {
+      
+      .v-list-item__title { color: #fff !important }
+      background-color: var(--primary) !important;
+    }
+  }
+}
+
 .btn-icon {
   --size: 31px;
   --c: #fff !important;

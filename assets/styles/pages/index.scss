@@ -1,7 +1,7 @@
 #home {
   @include parent;
   padding-inline: var(--margin-global);
-  margin-top: var(--h-navbar);
+  margin-bottom: var(--margin-footer);
 
   // section-available
   #section-available {
