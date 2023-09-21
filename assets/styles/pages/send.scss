@@ -1,0 +1,4 @@
+#send {
+  @include parent;
+  padding-inline: var(--margin-global);
+}

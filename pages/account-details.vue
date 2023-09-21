@@ -116,7 +116,7 @@
 <script>
 export default {
   name: "AccountDetails",
-  layout: "background-layout",
+  layout: "default-variant",
   data() {
     return {
       details: {

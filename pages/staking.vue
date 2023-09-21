@@ -74,7 +74,7 @@
 <script>
 export default {
   name: "StakingPage",
-  layout: "background-layout",
+  layout: "default-variant",
   data() {
     return {
       dataTokens: [

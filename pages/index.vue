@@ -61,7 +61,7 @@
 
         <v-btn
           class="btn"
-          @click="sheet=true"
+          to="/explore"
         >
           explore apps
         </v-btn>
@@ -76,27 +76,29 @@
 
 
     <section id="section-recent-activity">
-      <h1 class="p">recent <br>activity</h1>
+      <div id="section-recent-activity__wrapper">
+        <h1 class="p">recent <br>activity</h1>
 
-      <div class="divcol" style="gap: 20px">
-        <ActivityCard
-          v-for="(item, i) in dataActivity" :key="i"
-          :type="item.type"
-          :account="item.account"
-          :coin="item.coin"
-          :amount="item.amount"
-          :date="item.date"
-        />
+        <div class="divcol" style="gap: 20px">
+          <ActivityCard
+            v-for="(item, i) in dataActivity" :key="i"
+            :type="item.type"
+            :account="item.account"
+            :coin="item.coin"
+            :amount="item.amount"
+            :date="item.date"
+          />
+        </div>
+
+        <a :href="linkExplorer" target="_blank">
+          <v-btn
+            class="btn"
+            style="width:335px"
+          >
+            view all
+          </v-btn>
+        </a>
       </div>
-
-      <a :href="linkExplorer" target="_blank">
-        <v-btn
-          class="btn"
-          style="width:335px"
-        >
-          view all
-        </v-btn>
-      </a>
     </section>
 
 

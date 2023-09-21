@@ -1,11 +1,11 @@
 <template>
-  <v-app id="background-layout">
+  <v-app id="default-layout-variant">
     <Alerts ref="alerts" />
     <!-- <ModalsConfirmMsg ref="confirmMsg" />
     <ModalsConnect ref="connect" /> -->
 
     <img
-      id="auth-layout-background"
+      id="default-layout-variant-background"
       :src="require(`~/assets/sources/images/circle.svg`)"
       alt="background"
       :style="`--w: 634px`"
@@ -26,8 +26,8 @@
 
 <script>
 export default {
-  name: "BackgroundLayout",
+  name: "DefaultLayoutVariant",
 }
 </script>
 
-<style src="~/assets/styles/layouts/background-layout.scss" lang="scss" />
+<style src="~/assets/styles/layouts/default-layout-variant.scss" lang="scss" />

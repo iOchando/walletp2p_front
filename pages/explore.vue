@@ -75,7 +75,7 @@
 <script>
 export default {
   name: "ExplorePage",
-  layout: "background-layout",
+  layout: "default-variant",
   data() {
     return {
       selectedFilter: "",
