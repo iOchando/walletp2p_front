@@ -1,0 +1,33 @@
+#background-layout {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: center no-repeat url(../../sources/images/background.png) !important;
+    background-size: cover !important;
+  }
+
+  &-background {
+    position: absolute;
+    top: calc(var(--margin-header) + 70px);
+    left: 50%;
+    transform: translateX(-50%);
+  }
+
+  //- responsive font size -//
+  & > * {
+    font-size: var(--resizer);
+  }
+  .v-main {
+    margin-bottom: var(--margin-footer);
+
+    & > * {
+      @include media(max, small) {
+        font-size: var(--resizer-mobile)
+      }
+    }
+  }
+}

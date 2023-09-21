@@ -100,12 +100,6 @@
     </section>
 
 
-    <Footer ref="footer">
-      <span class="text">© 2023 Near p2p LLC. all rights reserved.</span>
-      <a href="#" target="_blank">Terms of Service // Privacy Policy</a>
-    </Footer>
-
-
     <div class="text-center">
       <v-bottom-sheet
         v-model="sheet"

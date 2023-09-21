@@ -1,5 +1,5 @@
 <template>
-  <v-app id="auth-layout">
+  <v-app id="background-layout">
     <Alerts ref="alerts" />
     <!-- <ModalsConfirmMsg ref="confirmMsg" />
     <ModalsConnect ref="connect" /> -->
@@ -14,6 +14,13 @@
     <v-main class="parent">
       <nuxt-child data-nuxt="childs" />
     </v-main>
+
+    <Footer ref="footer">
+      <span class="text" style="--text: var(--text2)">© 2023 Near p2p LLC. all rights reserved.</span>
+      <a class="text" style="--fw: 700; color: var(--primary) !important" href="#" target="_blank">
+        Terms of Service // Privacy Policy
+      </a>
+    </Footer>
   </v-app>
 </template>
 
@@ -23,4 +30,4 @@ export default {
 }
 </script>
 
-<style src="~/assets/styles/layouts/auth-layout.scss" lang="scss" />
+<style src="~/assets/styles/layouts/background-layout.scss" lang="scss" />

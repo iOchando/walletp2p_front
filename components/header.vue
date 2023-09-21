@@ -15,9 +15,20 @@
       id="header-content"
       :style="`--max-width: ${maxWidth}; --margin-left: ${marginLeftContent}; --margin-right: ${marginRightContent}`"
     >
-      <h1 v-if="topText" :style="`--dir: ${topTextDir}; --indent: ${topTextIndent}`" :class="{p: bottomText}">{{topText}}</h1>
-      <h1 v-if="bottomText" :style="`--dir: ${bottomTextDir}; --indent: ${bottomTextIndent}`">{{bottomText}}</h1>
-      <p v-if="description" :style="`--align: ${descriptionAlign}`">{{description}}</p>
+      <h1
+        v-if="topText"
+        :class="{p: bottomText, tcenter: topTextCenter}"
+        :style="`--dir: ${topTextDir}; --indent: ${topTextIndent}`"
+      >{{topText}}</h1>
+      <h1
+        v-if="bottomText"
+        :class="{tcenter: bottomTextCenter}"
+        :style="`--dir: ${bottomTextDir}; --indent: ${bottomTextIndent}`"
+      >{{bottomText}}</h1>
+      <p
+        v-if="description"
+        :style="`--align: ${descriptionAlign}`"
+      >{{description}}</p>
     </div>
   </div>
 </template>
@@ -57,6 +68,14 @@ export default {
     bottomText: {
       type: String,
       default: undefined
+    },
+    topTextCenter: {
+      type: Boolean,
+      default: false
+    },
+    bottomTextCenter: {
+      type: Boolean,
+      default: false
     },
     topTextDir: {
       type: String,

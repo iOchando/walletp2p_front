@@ -69,14 +69,6 @@
         <p class="mb-0">{{ item.description }}</p>
       </v-card>
     </section>
-
-
-    <Footer>
-      <span class="text" style="--text: var(--text2)">© 2023 Near p2p LLC. all rights reserved.</span>
-      <a class="text" style="--fw: 700; color: var(--primary) !important" href="#" target="_blank">
-        Terms of Service // Privacy Policy
-      </a>
-    </Footer>
   </div>
 </template>
 
