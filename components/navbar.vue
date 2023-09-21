@@ -46,7 +46,7 @@
       </slot>
 
       <aside v-if="showAppend" class="container-btns">
-        <v-btn data-avatar class="btn-icon">
+        <v-btn data-avatar class="btn-icon" to="/account-details">
           <img src="@/assets/sources/avatars/person.png" alt="avatar">
         </v-btn>
         

@@ -85,7 +85,7 @@
   min-height: var(--h);
   background: var(--bg, var(--card)) !important;
   border-radius: var(--br, 40px) !important;
-  border: 1px solid var(--text) !important;
+  border: 1px solid var(--b-color, var(--text)) !important;
   span {
     color: var(--text) !important;
     font-family: var(--font2) !important;
