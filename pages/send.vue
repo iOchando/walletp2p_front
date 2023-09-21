@@ -1,5 +1,9 @@
 <template>
   <div id="send">
+    <Header
+      :show-prepend="false"
+      show-append
+    ></Header>
   </div>
 </template>
 

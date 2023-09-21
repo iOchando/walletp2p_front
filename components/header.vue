@@ -2,7 +2,7 @@
   <div id="header">
     <Navbar
       :show-append="showAppend"
-      :show-back-btn="showBackBtn"
+      :show-prepend="showPrepend"
       :on-press-back-btn="onPressBackBtn"
     >
       <template #prepend>
@@ -45,7 +45,7 @@ export default {
       type: String,
       default: undefined,
     },
-    showBackBtn: {
+    showPrepend: {
       type: Boolean,
       default: true,
     },
