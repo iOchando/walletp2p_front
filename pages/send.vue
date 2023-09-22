@@ -1,5 +1,10 @@
 <template>
   <div id="send" class="d-flex flex-column">
+    <ModalCryptos
+      ref="cryptos"
+      @on-selected-coin="coin => $log(coin)"
+    ></ModalCryptos>
+
     <Header
       :show-prepend="false"
       show-append
@@ -34,6 +39,7 @@
       <v-card
         class="btn-outlined space"
         style="--bg: #DEE6EA; --b-color: #D1C4E8; padding: 0 23px;"
+        @click="$refs.cryptos.model = true"
       >
         <h5 class="mb-0">SELECT ASSET</h5>
         

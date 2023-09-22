@@ -1,8 +1,8 @@
 <template>
   <v-app id="default-layout">
     <Alerts ref="alerts" />
-    <!-- <ModalsConfirmMsg ref="confirmMsg" />
-    <ModalsConnect ref="connect" /> -->
+    <!-- <ModalConfirmMsg ref="confirmMsg" />
+    <ModalConnect ref="connect" /> -->
 
     <img
       id="default-layout-background"

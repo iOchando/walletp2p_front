@@ -55,6 +55,7 @@
   min-height: var(--size) !important;
   height: var(--size) !important;
   padding: var(--p, 0) !important;
+  border: var(--b, none);
 }
 
 .btn {
