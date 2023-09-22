@@ -90,7 +90,13 @@ export default {
         },
       ]
     }
-  }
+  },
+  head() {
+    const title = 'Staking';
+    return {
+      title,
+    }
+  },
 }
 </script>
 

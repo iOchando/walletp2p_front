@@ -87,12 +87,12 @@
   border-radius: var(--br, 40px) !important;
   border: 1px solid var(--b-color, var(--text)) !important;
   span {
-    color: var(--text) !important;
+    color: var(--c, var(--text)) !important;
     font-family: var(--font2) !important;
     font-weight: var(--fw) !important;
     font-size: var(--fs, 10px);
     line-height: 1 !important;
-    letter-spacing: 3.9px !important;
+    letter-spacing: var(--ls, 3.9px) !important;
     text-transform: var(--tt, uppercase);
   }
 }
