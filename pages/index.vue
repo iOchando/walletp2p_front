@@ -28,8 +28,9 @@
       </div>
 
       <aside class="container-available">
-        <h1 class="p" style="--currency: 'USD'">
+        <h1 class="p">
           <span style="--fw: 400">$</span>{{ 'balance' }}
+          <span class="currency">USD</span>
         </h1>
 
         <div class="divcol center" style="margin-top: 25px;">

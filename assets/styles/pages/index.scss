@@ -23,16 +23,15 @@
         text-transform: uppercase;
         position: relative;
 
-        &::after {
+        .currency {
           --distance: -12px;
-          content: var(--currency);
+          --fw: 700;
           position: absolute;
           bottom: var(--distance);
           right: var(--distance);
 
-          font-weight: 700;
-          letter-spacing: 1.76px;
-          font-size: 16px;
+          letter-spacing: 1.76px !important;
+          font-size: 16px !important;
           font-family: var(--font1);
           text-align: right;
           text-transform: uppercase;
