@@ -1,42 +1,6 @@
 <template>
   <div>
-    <MenuNavbar ref="menu"></MenuNavbar>
-    <!-- menu user -->
-    <!-- <v-menu bottom offset-y nudge-bottom="10px">
-      <template #activator="{ on, attrs }">
-        <v-btn data-avatar class="btn-icon" v-bind="attrs" v-on="on">
-          <img src="@/assets/sources/avatars/person.png" alt="avatar">
-        </v-btn>
-      </template>
-
-      <v-list class="font2" color="var(--secondary)" style="--c:#fff">
-        <v-list-item-group active-class="activeClass">
-          <v-list-item
-            v-for="(item,i) in dataMenuUser" :key="i"
-            @click="item.key==='logout' ? $store.commit('signOut') : $router.push(localePath(key))">
-            <v-list-item-title>{{item.name}}</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-menu> -->
-
-
-    <!-- menu -->
-    <!-- <v-menu bottom offset-y nudge-bottom="10px">
-      <template #activator="{ on, attrs }">
-        <v-btn class="btn-icon" v-bind="attrs" v-on="on">
-          <img width="16px" src="@/assets/sources/icons/options.svg" alt="settings">
-        </v-btn>
-      </template>
-
-      <v-list class="font2" color="var(--secondary)" style="--c:#fff">
-        <v-list-item-group active-class="activeClass">
-          <v-list-item v-for="(item,i) in dataMenu" :key="i">
-            <v-list-item-title>{{item.name}}</v-list-item-title>
-          </v-list-item>
-        </v-list-item-group>
-      </v-list>
-    </v-menu> -->
+    <Drawer ref="drawer"></Drawer>
     
     <div id="navbar" color="transparent">
       <slot name="prepend">
@@ -49,10 +13,8 @@
         <v-btn data-avatar class="btn-icon" to="/account-details">
           <img src="@/assets/sources/avatars/person.png" alt="avatar">
         </v-btn>
-        
-        <v-btn class="btn-icon">
-          <img width="16px" src="@/assets/sources/icons/options.svg" alt="settings">
-        </v-btn>
+
+        <v-btn class="btn-icon" style="visibility: hidden" />
       </aside>
     </div>
   </div>

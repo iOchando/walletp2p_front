@@ -8,6 +8,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--h-navbar) + 2em);
+  scrollbar-gutter: stable;
 }
 //---------------------------------------------------------------------------------------------//
 //============================== delete-config-default-vuetify ================================//
