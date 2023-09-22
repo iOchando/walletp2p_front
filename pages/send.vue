@@ -11,7 +11,7 @@
     ></Header>
 
     <aside class="d-flex" style="gap: 12px; margin-top: 26px;">
-      <v-btn class="btn-outlined flex-grow-1" style="--bg: #DEE6EA;">
+      <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);">
         SEND
       </v-btn>
 
@@ -30,7 +30,7 @@
 
       <v-btn
         class="btn-outlined mx-auto"
-        style="--bg: #DEE6EA; --b-color: var(--primary); --c: var(--primary); --fs: 12px; --fw: 700; --ls: 0.36px; --h: 34px; width: 121px;"
+        style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary); --fs: 12px; --fw: 700; --ls: 0.36px; --h: 34px; width: 121px;"
       >USE MAX</v-btn>
     </section>
 
@@ -38,7 +38,7 @@
     <section class="d-flex flex-column" style="gap: 14px;">
       <v-card
         class="btn-outlined space"
-        style="--bg: #DEE6EA; --b-color: #D1C4E8; padding: 0 23px;"
+        style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
         @click="$refs.cryptos.model = true"
       >
         <h5 class="mb-0">SELECT ASSET</h5>
@@ -52,7 +52,7 @@
 
       <v-card
         class="btn-outlined space"
-        style="--bg: #DEE6EA; --b-color: #D1C4E8; padding: 0 23px;"
+        style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
       >
         <h5 class="mb-0">AVAILABLE TO SEND</h5>
         
@@ -60,7 +60,7 @@
       </v-card>
 
       <aside class="d-flex" style="gap: 12px">
-        <v-btn class="btn-outlined flex-grow-1" style="--bg: #DEE6EA;" @click="$router.go(-1)">
+        <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);" @click="$router.go(-1)">
           CANCEL
         </v-btn>
 

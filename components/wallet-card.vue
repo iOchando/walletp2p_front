@@ -24,7 +24,7 @@
         <img src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
       </v-btn>
 
-      <v-btn class="btn-icon" style="--bg: #DEE6EA; --b: 1px solid var(--primary);">
+      <v-btn class="btn-icon" style="--bg: var(--secondary); --b: 1px solid var(--primary);">
         <img src="@/assets/sources/icons/eye-off.svg" alt="hide password">
       </v-btn>
     </aside>

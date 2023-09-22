@@ -64,7 +64,7 @@
 
     <v-card
       class="btn-outlined d-flex align-center justify-space-between"
-      style="--br: 20px; padding: 22px 17px; gap: 19px; background-color: #DEE6EA !important; margin-bottom: 41px;"
+      style="--br: 20px; padding: 22px 17px; gap: 19px; background-color: var(--secondary) !important; margin-bottom: 41px;"
     >
       <div class="d-flex flex-column" style="gap: 5px; max-width: 126px;">
         <h5 class="mb-0">ledger hardware wallet</h5>
@@ -80,7 +80,7 @@
 
     <v-card
       class="btn-outlined d-flex align-center justify-space-between"
-      style="--br: 20px; padding: 22px 17px; gap: 19px; background-color: #DEE6EA !important; margin-bottom: 27px;"
+      style="--br: 20px; padding: 22px 17px; gap: 19px; background-color: var(--secondary) !important; margin-bottom: 27px;"
     >
       <div class="d-flex" style="gap: 5px;">
         <div class="d-flex flex-column" style="max-width: 126px;">
@@ -101,7 +101,7 @@
     <div class="d-flex flex-column" style="gap: 15px;">
       <v-btn
         class="btn-outlined"
-        style="--b-color: var(--primary); --bg: #DEE6EA"
+        style="--b-color: var(--primary); --bg: var(--secondary)"
       >
         <span style="color: var(--primary) !important;">export local private key</span>
       </v-btn>

@@ -6,7 +6,7 @@
     ></Header>
 
     <aside class="d-flex" style="gap: 12px; margin-top: 26px;">
-      <v-btn class="btn-outlined flex-grow-1" style="--bg: #DEE6EA;">
+      <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);">
         SEND
       </v-btn>
 
@@ -54,7 +54,7 @@
         <label>ACCOUNT ID</label>
         <v-card
           class="btn-outlined space"
-          style="--bg: #DEE6EA; padding: 0 8px 0 23px;"
+          style="--bg: var(--secondary); padding: 0 8px 0 23px;"
         >
           <h5 class="mb-0">beesimple.near</h5>
 
@@ -65,7 +65,7 @@
       </div>
 
       <aside class="d-flex" style="gap: 12px">
-        <v-btn class="btn-outlined flex-grow-1" style="--bg: #DEE6EA;" @click="$router.go(-1)">
+        <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);" @click="$router.go(-1)">
           CANCEL
         </v-btn>
 

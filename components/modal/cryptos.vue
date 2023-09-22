@@ -7,7 +7,7 @@
     <aside class="d-flex justify-end mb-5">
       <v-btn
         class="btn-icon"
-        style="max-width: max-content; --bg: #DEE6EA; --b: 1px solid #000"
+        style="max-width: max-content; --bg: var(--secondary); --b: 1px solid #000"
       >
         <img src="@/assets/sources/icons/magnify.svg" alt="search icon">
       </v-btn>
@@ -167,7 +167,7 @@ export default {
         margin-inline: auto;
         height: 1px;
         width: calc(100% - var(--padding-inline) * 2);
-        background-color: #DEE6EA;
+        background-color: var(--secondary);
       }
 
       &.active {

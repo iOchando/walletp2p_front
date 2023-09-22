@@ -10,7 +10,7 @@
 
     <v-btn
       class="btn-outlined mx-auto mt-2 mb-6"
-      style="--bg: #DEE6EA; --h: 34px"
+      style="--bg: var(--secondary); --h: 34px"
     >
       <img src="@/assets/sources/icons/language-blue.svg">
       <h5 class="mb-0">app.nea--ramper.com</h5>
@@ -33,14 +33,14 @@
 
       <v-btn
         class="btn-outlined"
-        style="--b-color: var(--primary); --bg: #DEE6EA; --c: var(--primary); margin-right: calc(var(--p-inside) + var(--p-outside));"
+        style="--b-color: var(--primary); --bg: var(--secondary); --c: var(--primary); margin-right: calc(var(--p-inside) + var(--p-outside));"
       >
         IMPORT A DIFFERENT ACCOUNT
       </v-btn>
     </v-card>
 
     <aside class="d-flex justify-space-between mt-6" style="gap: 12px;">
-      <v-btn class="btn-outlined flex-grow-1" style="--bg: #DEE6EA">
+      <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary)">
         CANCEL
       </v-btn>
 

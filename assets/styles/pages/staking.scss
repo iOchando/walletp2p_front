@@ -70,7 +70,7 @@
     justify-content: center;
     min-height: 107px;
     padding: 29px 20px 20px;
-    background-color: #DEE6EA !important;
+    background-color: var(--secondary) !important;
 
     p {
       --fw: 500;
@@ -81,6 +81,6 @@
       line-height: normal;
     }
 
-    .v-btn { background-color: #DEE6EA !important }
+    .v-btn { background-color: var(--secondary) !important }
   }
 }
