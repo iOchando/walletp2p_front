@@ -150,15 +150,6 @@ export default {
       max-height: calc(var(--height) - var(--padding-block) * 2);
       border-radius: 0 !important;
       overflow-y: auto;
-
-      &::-webkit-scrollbar {
-        background-color: transparent;
-
-        &-thumb {
-          border: 0.5px solid rgba(124, 123, 127, 0.81);
-          background-color: rgba(124, 123, 127, 0.34);
-        }
-      }
     }
 
     

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Drawer ref="drawer"></Drawer>
+    <Drawer v-if="showAppend" ref="drawer"></Drawer>
     
     <div id="navbar" color="transparent">
       <slot name="prepend">

@@ -24,25 +24,10 @@
       </section>
 
 
-      <section id="drawer__footer" class="d-flex flex-column" style="gap: 16px;">
+      <section class="d-flex flex-column" style="gap: 16px;">
         <div class="d-flex flex-column" style="gap: 9px;">
           <label>ACCOUNT</label>
-          <v-card class="btn-outlined space" style="padding: 0 8px 0 18px;">
-            <h5 class="mb-0">patriciasilvab.near</h5>
-
-
-            <aside class="d-flex" style="gap: 6px;">
-              <div class="container-dots"></div>
-
-              <v-btn class="btn-icon">
-                <img src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
-              </v-btn>
-
-              <v-btn class="btn-icon" style="--bg: #DEE6EA; --b: 1px solid var(--primary);">
-                <img src="@/assets/sources/icons/eye-off.svg" alt="hide password">
-              </v-btn>
-            </aside>
-          </v-card>
+          <WalletCard wallet="patriciasilvab.near" pass="hola hola hola" />
         </div>
 
         <v-btn class="btn">IMPORT ACCOUNT</v-btn>
