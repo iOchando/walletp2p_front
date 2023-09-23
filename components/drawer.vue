@@ -4,10 +4,6 @@
     :class="{ opened: model }"
   >
     <img id="drawer-background" src="~/assets/sources/images/bg-drawer.svg" alt="background">
-    <!-- toggle when closed -->
-    <v-btn id="drawer-toggle" v-ripple="false" class="btn-icon" style="--bg: transparent;" @click="model = !model">
-      <img src="@/assets/sources/icons/options.svg" alt="settings">
-    </v-btn>
 
     <div id="drawer__wrapper">
       <section id="drawer__ring">
@@ -32,7 +28,10 @@
 
         <v-btn class="btn">IMPORT ACCOUNT</v-btn>
 
-        <v-btn class="btn-outlined">CREATE NEW ACCOUNT</v-btn>
+        <v-btn
+          class="btn-outlined"
+          style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary)"
+        >CREATE NEW ACCOUNT</v-btn>
       </section>
     </div>
   </nav>
@@ -80,6 +79,11 @@ export default {
           action: () => {},
         },
       ]
+    }
+  },
+  watch: {
+    model(value) {
+      if (!value) document.getElementById('drawer').scrollTop = 0
     }
   }
 }

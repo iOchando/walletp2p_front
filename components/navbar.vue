@@ -14,7 +14,9 @@
           <img src="@/assets/sources/avatars/person.png" alt="avatar">
         </v-btn>
 
-        <v-btn class="btn-icon" style="visibility: hidden" />
+        <v-btn class="btn-icon" style="--bg: var(--primary);" @click="$refs.drawer.model = !$refs.drawer.model">
+          <img src="@/assets/sources/icons/options.svg" alt="settings">
+        </v-btn>
       </aside>
     </div>
   </div>

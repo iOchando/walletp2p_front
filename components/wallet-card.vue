@@ -1,8 +1,10 @@
 <template>
   <v-card
+    v-ripple="clickable"
     class="wallet-card btn-outlined space"
-    :class="{active: active, disabled: disabled }"
+    :class="{ active: active, disabled: disabled }"
     style="padding: 0 8px 0 18px; gap: 11px;"
+    :style="`cursor: ${clickable ? '' : 'default'}`"
     @click="$emit('click')"
   >
     <aside
@@ -44,6 +46,10 @@ export default {
       default: undefined
     },
     collapsed: {
+      type: Boolean,
+      default: false
+    },
+    clickable: {
       type: Boolean,
       default: false
     },

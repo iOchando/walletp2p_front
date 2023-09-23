@@ -1,27 +1,47 @@
 $dotSize: 31px;
 $iconSize: 16px;
 
+$margin-top: 50px;
+$padding: 93px;
+$gap: 53px;
+
+:root {
+  --sum: 3px;
+  @include media(max, small) { --sum: 0px }
+}
+
+$xAxis: calc((50vw - #{$dotSize / 2}) + (min(var(--parent), 100%) / 2 - (var(--margin-global) + var(--w-scroll)) + var(--sum)));
+$yAxis: calc(var(--margin-header) + 16px);
+
+
 #drawer {
   position: fixed;
   inset: 0;
   z-index: 99;
   isolation: isolate;
-  background-color: var(--primary);
-  clip-path: circle(16px at calc((50vw - #{$dotSize / 2}) + (min(var(--parent), 100%) / 2 - var(--margin-global) - var(--w-scroll) + 3px)) calc(var(--margin-header) + 16px));
+  overflow-x: hidden;
+  overflow-y: auto;
+  scroll-behavior: smooth;
+  scrollbar-gutter: stable;
+  pointer-events: none;
+  clip-path: circle(16px at $xAxis $yAxis);
   transition: all .8s cubic-bezier(0.86, 0, 0.07, 1);
+
+  &::-webkit-scrollbar { background-color: var(--secondary) }
 
 
   &__wrapper {
     @include parent;
     padding-inline: var(--margin-global);
     position: relative;
+    display: flex;
+    flex-direction: column;
+    margin-top: $margin-top;
+    padding-bottom: $padding;
+    gap: $gap;
+    opacity: 0;
+    transition: all .8s cubic-bezier(0.86, 0, 0.07, 1);
 
-    > * {
-      opacity: 0;
-      pointer-events: none;
-      transition: all .8s cubic-bezier(0.86, 0, 0.07, 1);
-    }
-    
 
     label {
       --fw: 700;
@@ -50,7 +70,6 @@ $iconSize: 16px;
 
     max-width: var(--width);
     height: 454px;
-    margin-block: 96px 53px;
     margin-left: auto;
     position: relative;
 
@@ -76,26 +95,19 @@ $iconSize: 16px;
     content: "";
     position: absolute;
     inset: 0;
+    @include media(max, small) { height: calc(100% + #{$padding + $gap}) }
     background: center no-repeat url(../../sources/images/background.png);
     background-size: cover;
-    opacity: 0.5;
+    opacity: 0;
     z-index: -2;
     pointer-events: none;
-  }
-
-  &-toggle {
-    position: absolute;
-    top: var(--margin-header);
-    right: calc((50vw - #{$dotSize / 2}) - (min(var(--parent), 100%) / 2 - var(--margin-global) - var(--w-scroll) - 3px));
-    opacity: 1 !important;
-    pointer-events: all !important;
-
     transition: all .8s cubic-bezier(0.86, 0, 0.07, 1);
   }
-  
+
+
   &-background {
     position: absolute;
-    top: -43px;
+    top: -83px;
     left: 50%;
     transform: translateX(-29%);
     width: 736px;
@@ -108,21 +120,17 @@ $iconSize: 16px;
 
 
   &.opened {
-    background-color: #F6F5F5;
+    background-color: var(--bg-app);
     clip-path: circle(75% at 50vw 50vh);
+    pointer-events: all;
 
-    
-    #drawer__wrapper > * {
-      opacity: 1;
-      pointer-events: all;
+    > * { opacity: 1 }
+
+    &::after { opacity: 0.5 }
+
+    #drawer__wrapper {
       animation: movedown .4s ease;
       animation-delay: 200ms;
-    }
-
-    #drawer-background { opacity: 1 }
-    #drawer-toggle {
-      opacity: 0 !important;
-      pointer-events: none !important;
     }
   }
 }

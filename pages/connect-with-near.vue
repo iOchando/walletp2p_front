@@ -27,6 +27,7 @@
           :active="i == 0"
           :disabled="i != 0"
           :show="i == 0"
+          clickable
           @click="$log(item)"
         />
       </div>
