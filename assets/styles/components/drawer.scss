@@ -1,16 +1,7 @@
 $dotSize: 31px;
 $iconSize: 16px;
 
-$margin-top: 50px;
-$padding: 93px;
-$gap: 53px;
-
-:root {
-  --sum: 3px;
-  @include media(max, small) { --sum: 0px }
-}
-
-$xAxis: calc((50vw - #{$dotSize / 2}) + (min(var(--parent), 100%) / 2 - (var(--margin-global) + var(--w-scroll)) + var(--sum)));
+$xAxis: calc((50vw - #{$dotSize / 2}) + (min(var(--parent), 100%) / 2 - (var(--margin-global) + var(--w-scroll)) + 3px));
 $yAxis: calc(var(--margin-header) + 16px);
 
 
@@ -36,9 +27,9 @@ $yAxis: calc(var(--margin-header) + 16px);
     position: relative;
     display: flex;
     flex-direction: column;
-    margin-top: $margin-top;
-    padding-bottom: $padding;
-    gap: $gap;
+    margin-top: 50px;
+    padding-bottom: 20px;
+    gap: 53px;
     opacity: 0;
     transition: all .8s cubic-bezier(0.86, 0, 0.07, 1);
 
@@ -93,9 +84,8 @@ $yAxis: calc(var(--margin-header) + 16px);
   
   &::after {
     content: "";
-    position: absolute;
+    position: fixed;
     inset: 0;
-    @include media(max, small) { height: calc(100% + #{$padding + $gap}) }
     background: center no-repeat url(../../sources/images/background.png);
     background-size: cover;
     opacity: 0;
