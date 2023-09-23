@@ -18,7 +18,7 @@ $yAxis: calc(var(--margin-header) + 16px);
   clip-path: circle(16px at $xAxis $yAxis);
   transition:
     clip-path .8s cubic-bezier(0.86, 0, 0.07, 1),
-    background-color .6s cubic-bezier(0.86, 0, 0.07, 1);
+    background-color .65s cubic-bezier(0.86, 0, 0.07, 1);
 
   &::-webkit-scrollbar { background-color: var(--secondary) }
 
@@ -122,7 +122,7 @@ $yAxis: calc(var(--margin-header) + 16px);
 
     #drawer__wrapper {
       animation: movedown .4s ease;
-      animation-delay: 300ms;
+      animation-delay: 200ms;
     }
   }
 }
