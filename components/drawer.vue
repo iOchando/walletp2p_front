@@ -83,7 +83,15 @@ export default {
   },
   watch: {
     model(value) {
-      if (!value) document.getElementById('drawer').scrollTop = 0
+      const el = document.getElementById('drawer')
+
+      if (!value) {
+        el.style.backgroundColor = 'transparent'
+        document.getElementById('drawer').scrollTop = 0
+      } else {
+        el.style.backgroundColor = 'var(--primary)'
+        setTimeout(() => { el.style.backgroundColor = 'var(--bg-app)' }, 400);
+      }
     }
   }
 }

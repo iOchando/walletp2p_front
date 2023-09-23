@@ -147,7 +147,10 @@ export default {
 
     transition: .3s cubic-bezier(0.86, 0, 0.07, 1);
 
-    &__slot { min-height: 31px !important }
+    &__slot {
+      min-height: 31px !important;
+      outline: none !important;
+    }
 
     .v-input__append-inner img {
       transform: translateX(-8px);

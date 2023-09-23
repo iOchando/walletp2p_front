@@ -10,15 +10,15 @@
     </section>
 
 
-    <section class="d-flex flex-column" style="gap: 14px; margin-bottom: 43px;">
-      <v-card
-        class="btn-outlined space"
-        style="--bg: var(--secondary); padding: 0 23px;"
+    <section class="d-flex flex-column" style="margin-bottom: 43px;">
+      <v-text-field
+        placeholder="ACCOUNT ID" solo
+        style="--bg: var(--secondary); --p: 0 15px 0 23px"
       >
-        <h5 class="mb-0" style="color: var(--primary)">SEND TO</h5>
-        
-        <span style="--fs: 12px; --ls: normal">ACCOUNT ID</span>
-      </v-card>
+        <template #prepend-inner>
+          <h5 class="mb-0" style="color: var(--primary)">SEND TO</h5>
+        </template>
+      </v-text-field>
 
       <aside class="d-flex" style="gap: 12px">
         <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);" @click="$router.go(-1)">
