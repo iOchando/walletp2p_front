@@ -2,15 +2,18 @@
   <v-dialog
     v-model="model"
     max-width="max-content"
+    :overlay-opacity=".9"
     content-class="modal-cryptos"
   >
     <aside class="d-flex justify-end mb-5">
-      <v-btn
-        class="btn-icon"
-        style="max-width: max-content; --bg: var(--secondary); --b: 1px solid #000"
+      <v-text-field
+        v-model="search"
+        hide-details solo
       >
-        <img src="@/assets/sources/icons/magnify.svg" alt="search icon">
-      </v-btn>
+        <template #append>
+          <img src="@/assets/sources/icons/magnify.svg" alt="search icon">
+        </template>
+      </v-text-field>
     </aside>
 
 
@@ -50,6 +53,7 @@ export default {
   data() {
     return {
       model: false,
+      search: '',
       selectedCoin: undefined,
       dataTokens: [
         {
@@ -124,12 +128,39 @@ export default {
         },
       ]
     }
+  },
+  watch: {
+    model(value) {
+      if (!value) this.search = ''
+    }
   }
 }
 </script>
 
 <style lang="scss">
 .modal-cryptos {
+
+  .v-input {
+    flex-grow: 1;
+    transform-origin: right;
+    max-width: 31px !important;
+
+    transition: .3s cubic-bezier(0.86, 0, 0.07, 1);
+
+    &__slot { min-height: 31px !important }
+
+    .v-input__append-inner img {
+      transform: translateX(-8px);
+      transition: transform .3s ease;
+    }
+
+    &--is-focused {
+      max-width: 100% !important;
+      
+      .v-input__append-inner img { transform: translateX(0) }
+    }
+  }
+
 
   .cryptos-card {
     --height: 600px;
