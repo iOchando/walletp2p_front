@@ -14,7 +14,7 @@
           <img src="@/assets/sources/avatars/person.png" alt="avatar">
         </v-btn>
 
-        <v-btn class="btn-icon" style="--bg: var(--primary);" @click="$refs.drawer.model = !$refs.drawer.model">
+        <v-btn class="btn-icon" style="--bg: var(--primary);" @click="showDrawer()">
           <img src="@/assets/sources/icons/options.svg" alt="settings">
         </v-btn>
       </aside>
@@ -41,27 +41,16 @@ export default {
   },
   data() {
     return {
-      dataMenuUser: [
-        { key:"logout", name:"Log out" },
-      ],
-      dataMenu: [],
     };
   },
-  // created() {
-  //   const theme = localStorage.getItem("theme");
-  //   if (theme) {
-  //     setTimeout(() => {
-  //       this.$store.commit("switchTheme", theme);
-  //     }, 100);
-  //   }
-  //   if (theme === "light") {this.themeButton = true}
-  //   else {this.themeButton = false}
-  // },
   methods: {
-    // changeTheme(theme) {
-    //   this.$store.commit("switchTheme", theme);
-    //   this.themeButton = !this.themeButton;
-    // },
+    showDrawer() {
+      const el = this.$refs.drawer.$el
+      el.style.backgroundColor = 'var(--primary)'
+      setTimeout(() => { el.style.backgroundColor = 'var(--bg-app)' }, 300);
+
+      setTimeout(() => { this.$refs.drawer.model = !this.$refs.drawer.model }, 50);
+    }
   },
 };
 </script>

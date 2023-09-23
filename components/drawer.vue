@@ -86,11 +86,9 @@ export default {
       const el = document.getElementById('drawer')
 
       if (!value) {
-        el.style.backgroundColor = 'transparent'
-        document.getElementById('drawer').scrollTop = 0
-      } else {
         el.style.backgroundColor = 'var(--primary)'
-        setTimeout(() => { el.style.backgroundColor = 'var(--bg-app)' }, 400);
+        setTimeout(() => { el.style.backgroundColor = 'transparent' }, 300);
+        el.scrollTop = 0
       }
     }
   }
