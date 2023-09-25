@@ -181,24 +181,24 @@ export default {
     if(!localStorage.removeItem("login") === undefined || !localStorage.getItem("privateKey") === undefined) {
       this.$router.push(this.localePath("/login"))
     }
-
-    if(!localStorage.getItem("loginExternal") !== undefined) {
+    
+    if(localStorage.getItem("loginExternal") !== undefined && localStorage.getItem("loginExternal") !== null) {
       const ruta = localStorage.getItem("loginExternal");
       const json = JSON.stringify({
         wallet: this.address,
         cretaDate: new Date()
       })
       const token = btoa(json)
-
+      localStorage.removeItem("loginExternal");
       // console.log("json: ", json)
       // console.log("token: ", token)
       
       // console.log("ruta1: ", ruta)
-      localStorage.removeItem("loginExternal");
 
       // console.log("ruta2: ", ruta+"?token="+token);
       location.replace(ruta+"?token="+token);
     }
+    
 
     
     
