@@ -1,10 +1,8 @@
 <template>
   <v-app id="default-layout">
     <Alerts ref="alerts" />
-    <!-- <ModalsConfirmMsg ref="confirmMsg" />
-    <ModalsConnect ref="connect" /> -->
-
-    <Navbar ref="navbar"></Navbar>
+    <!-- <ModalConfirmMsg ref="confirmMsg" />
+    <ModalConnect ref="connect" /> -->
 
     <img
       id="default-layout-background"
@@ -15,12 +13,12 @@
     <v-main class="parent">
       <nuxt-child data-nuxt="childs" />
     </v-main>
-    
+
     <Footer ref="footer">
-      <template #content>
-        <span class="text">© 2023 Near p2p LLC. all rights reserved.</span>
-        <a href="#" target="_blank">Terms of Service // Privacy Policy</a>
-      </template>
+      <span class="text" style="--text: var(--text2)">© 2023 Near p2p LLC. all rights reserved.</span>
+      <a class="text" style="--fw: 700; color: var(--primary) !important" href="#" target="_blank">
+        Terms of Service // Privacy Policy
+      </a>
     </Footer>
   </v-app>
 </template>

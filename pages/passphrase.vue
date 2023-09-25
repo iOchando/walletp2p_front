@@ -32,11 +32,9 @@
     </section>
 
     <Footer ref="footer">
-      <template #content>
-        <span class="text" style="--text: var(--text2)">ALREADY HAVE A PASSPHRASE?
-          <a style="--fw: 700" @click="onSignIn()">SIGN IN</a>
-        </span>
-      </template>
+      <span class="text" style="--text: var(--text2)">ALREADY HAVE A PASSPHRASE?
+        <a style="--fw: 700" @click="onSignIn()">SIGN IN</a>
+      </span>
     </Footer>
   </div>
 </template>

@@ -8,7 +8,7 @@
       max-width="284px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"
-      :show-back-btn="showBackBtn"
+      :show-prepend="showPrepend"
     />
 
     <section id="passphrase-word-content">
@@ -48,7 +48,7 @@ export default {
       error: null,
       phraseNumber: 0,
       seedPhraseWord: null,
-      showBackBtn: true,
+      showPrepend: true,
     }
   },
   head() {
@@ -62,7 +62,7 @@ export default {
     this.phraseNumber = Math.floor(Math.random() * 12)
     // console.log(this.$auth.$storage.getState("seedPhraseGenerate"))
     if(localStorage.getItem("seedPhraseLoginNew") !== undefined && localStorage.getItem("seedPhraseLoginNew") !== null) {
-      this.showBackBtn = false
+      this.showPrepend = false
     }
   },
   methods: {

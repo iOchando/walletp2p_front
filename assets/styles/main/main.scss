@@ -20,6 +20,30 @@
 
 //===================================== global ======================================//
 
+
+//- menu select (desplegable menu) -//
+.v-menu__content {
+  overscroll-behavior: contain;
+
+  .v-list-item {
+    &__title {
+      color: #000 !important;
+      font-family: var(--font2);
+      font-size: 11px;
+      font-weight: 700;
+      line-height: normal;
+      letter-spacing: 3.9px;
+      text-transform: uppercase;
+    }
+
+    &--active {
+      
+      .v-list-item__title { color: #fff !important }
+      background-color: var(--primary) !important;
+    }
+  }
+}
+
 .btn-icon {
   --size: 31px;
   --c: #fff !important;
@@ -31,6 +55,22 @@
   min-height: var(--size) !important;
   height: var(--size) !important;
   padding: var(--p, 0) !important;
+  border: var(--b, none);
+}
+
+.btn-icon-shadow {
+  --size: 31px;
+  --c: #fff !important;
+
+  background-color: var(--bg, var(--primary)) !important;
+  border-radius: var(--br, 50%) !important;
+  min-width: var(--size) !important;
+  width: var(--size) !important;
+  min-height: var(--size) !important;
+  height: var(--size) !important;
+  padding: var(--p, 0) !important;
+  border: var(--b, none);
+  filter: var(--f, drop-shadow(0px 4px 1px rgba(0, 0, 0, 0.25))) !important;
 }
 
 .btn {
@@ -61,14 +101,14 @@
   min-height: var(--h);
   background: var(--bg, var(--card)) !important;
   border-radius: var(--br, 40px) !important;
-  border: 1px solid var(--text) !important;
+  border: 1px solid var(--b-color, var(--text)) !important;
   span {
-    color: var(--text) !important;
+    color: var(--c, var(--text)) !important;
     font-family: var(--font2) !important;
     font-weight: var(--fw) !important;
     font-size: var(--fs, 10px);
     line-height: 1 !important;
-    letter-spacing: 3.9px !important;
+    letter-spacing: var(--ls, 3.9px) !important;
     text-transform: var(--tt, uppercase);
   }
 }

@@ -2,32 +2,24 @@
 // // // navbar // // // 
 // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // // /
 #navbar {
-  animation: movedown .5s $ease-return;
-  transition: 0.4s ease-in-out;
-  
-  .v-toolbar__content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+
+  .container-btns {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 12px;
-    @include parent;
-    padding-inline: var(--margin-global);
-    height: var(--h-navbar) !important;
+    gap: 15px;
 
-    .container-btns {
-      display: flex;
-      gap: 15px;
+    [data-avatar] {
+      --size: 31px;
+      --bg: transparent;
+      border: 1px solid var(--primary);
+      overflow: hidden;
 
-      [data-avatar] {
-        --size: 31px;
-        --bg: transparent;
-        border: 1px solid var(--primary);
-        overflow: hidden;
-
-        img {
-          --w: 100%;
-          object-fit: cover;
-        }
+      img {
+        --w: 100%;
+        object-fit: cover;
       }
     }
   }

@@ -8,6 +8,7 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: calc(var(--h-navbar) + 2em);
+  scrollbar-gutter: stable;
 }
 //---------------------------------------------------------------------------------------------//
 //============================== delete-config-default-vuetify ================================//
@@ -30,17 +31,19 @@ div.v-card::before {background: transparent !important}
   ::-webkit-scrollbar {
     width: var(--w-scroll);
     height: var(--w-scroll);
-    background: var(--bg-scroll);
+    background-color: transparent;
     // &:hover {background: var(--bg-scroll)}
   }
   ::-webkit-scrollbar-thumb {
     border-radius: 15px;
-    background: var(--scroll);
+    border: 0.5px solid rgba(124, 123, 127, 0.81);
+    background-color: rgba(124, 123, 127, 0.34);
   }
   body {
     &::-webkit-scrollbar {
       width: calc(var(--w-scroll) + 2px);
-      height: calc(var(--w-scroll) + 2px)
+      height: calc(var(--w-scroll) + 2px);
+      background: var(--bg-scroll);
     }
   }
 }

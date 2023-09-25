@@ -1,6 +1,14 @@
 <template>
   <div id="home" class="divcol center">
-    <section id="section-available">
+    <Header show-append>
+      <template #prepend>
+        <nuxt-link :to="localePath('/')">
+          <img src="@/assets/sources/logos/logo.svg" alt="logo" style="--w: 34px">
+        </nuxt-link>
+      </template>
+    </Header>
+
+    <section id="section-available" style="padding-top: 23px;">
       <div class="space" style="gap: 10px">
         <v-btn
           class="btn-outlined"
@@ -20,8 +28,9 @@
       </div>
 
       <aside class="container-available">
-        <h1 class="p" style="--currency: 'USD'">
-          <span style="--fw: 400">$</span>{{ balance }}
+        <h1 class="p">
+          <span style="--fw: 400">$</span>{{ 'balance' }}
+          <span class="currency">USD</span>
         </h1>
 
         <div class="divcol center" style="margin-top: 25px;">
@@ -53,7 +62,7 @@
 
         <v-btn
           class="btn"
-          @click="sheet=true"
+          to="/explore"
         >
           explore apps
         </v-btn>
@@ -68,36 +77,37 @@
 
 
     <section id="section-recent-activity">
-      <h1 class="p">recent <br>activity</h1>
+      <div id="section-recent-activity__wrapper">
+        <h1 class="p">recent <br>activity</h1>
 
-      <div class="divcol" style="gap: 20px">
-        <ActivityCard
-          v-for="(item, i) in dataActivity" :key="i"
-          :type="item.type"
-          :account="item.account"
-          :coin="item.coin"
-          :amount="item.amount"
-          :date="item.date"
-        />
+        <div class="divcol" style="gap: 20px">
+          <ActivityCard
+            v-for="(item, i) in dataActivity" :key="i"
+            :type="item.type"
+            :account="item.account"
+            :coin="item.coin"
+            :amount="item.amount"
+            :date="item.date"
+          />
+        </div>
+
+        <a :href="linkExplorer" target="_blank">
+          <v-btn
+            class="btn"
+            style="width:335px"
+          >
+            view all
+          </v-btn>
+        </a>
       </div>
-
-      <a :href="linkExplorer" target="_blank">
-        <v-btn
-          class="btn"
-          style="width:335px"
-        >
-          view all
-        </v-btn>
-      </a>
     </section>
+
 
     <div class="text-center">
       <v-bottom-sheet
         v-model="sheet"
         inset
       >
-        <template>
-        </template>
         <v-sheet
           class="text-center"
           height="200px"
@@ -116,11 +126,8 @@
         </v-sheet>
       </v-bottom-sheet>
     </div>
-
   </div>
 </template>
-
-
 
 
 <script>
