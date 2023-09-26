@@ -71,7 +71,7 @@
           Earn, mint, and play! Discover the ecosystem of NEAR applications
         </article>
 
-        <img src="@/assets/sources/images/background-explore.svg" alt="explore background" width="295px">
+        <img src="@/assets/sources/images/background-explore.svg" alt="explore background">
       </div>
     </section>
 
@@ -91,14 +91,12 @@
           />
         </div>
 
-        <a :href="linkExplorer" target="_blank">
-          <v-btn
-            class="btn"
-            style="width:335px"
-          >
-            view all
-          </v-btn>
-        </a>
+        <v-btn
+          :href="linkExplorer" target="_blank"
+          class="btn"
+        >
+          view all
+        </v-btn>
       </div>
     </section>
 

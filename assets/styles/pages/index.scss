@@ -19,6 +19,7 @@
       h1 {
         --ff: var(--font1);
         --fs: 48px;
+        @include media(max, xx-small) { --fs: 38px }
         --fw: 700;
         text-transform: uppercase;
         position: relative;
@@ -96,8 +97,11 @@
       place-items: center;
       position: relative;
 
-      > *:not(img) {
-        position: absolute;
+      > *:not(img) { position: absolute }
+
+      img {
+        width: 295px;
+        @include media(max, xx-small) { width: 280px }
       }
 
       article {

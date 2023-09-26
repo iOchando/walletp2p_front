@@ -72,6 +72,8 @@
   --resizer-mobile: clamp(10px, 1.5vw, 12px);
   --margin-header: 50px;
   --margin-footer: 100px;
+  --margin-global: 37px;
+  @include media(max, xx-small) { --margin-global: 27px }
   --margin-global: 37px; // too can use 6em
   // @include media(max, small) {--margin-global: clamp(37px, 5vw, 4em)}
   --parent: 400px; //1600px;
