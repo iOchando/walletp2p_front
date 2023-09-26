@@ -29,7 +29,7 @@
 
       <aside class="container-available">
         <h1 class="p">
-          <span style="--fw: 400">$</span>{{ 'balance' }}
+          <span style="--fw: 400">$</span>{{ balance }}
           <span class="currency">USD</span>
         </h1>
 
@@ -197,20 +197,8 @@ export default {
       })
       const token = btoa(json)
       localStorage.removeItem("loginExternal");
-      // console.log("json: ", json)
-      // console.log("token: ", token)
-      
-      // console.log("ruta1: ", ruta)
-
-      // console.log("ruta2: ", ruta+"?token="+token);
       location.replace(ruta+"?token="+token);
     }
-    
-
-    
-    
-    
-
     
     this.linkExplorer = process.env.URL_EXPLORER + "/accounts/" + this.address
     this.getBalance()
