@@ -5,6 +5,7 @@
       top-text-dir="rtl"
       bottom-text="WITH NEAR"
       bottom-text-dir="ltr"
+      :show-prepend="false"
       description="AN APPLICATION IS REQUESTING LIMITED ACCESS TO YOUR NEAR ACCOUNT. SELECT THE ACCOUNT YOU WISH TO CONNECT."
     ></Header>
 
@@ -42,7 +43,11 @@
     </v-card>
 
     <aside class="d-flex justify-space-between mt-6" style="gap: 12px;">
-      <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary)">
+      <v-btn
+        class="btn-outlined flex-grow-1"
+        style="--bg: var(--secondary)"
+        @click="cancel()"
+      >
         CANCEL
       </v-btn>
 
@@ -70,6 +75,7 @@ export default {
       domain: null,
       contrcat: null,
       address: null,
+      routeCancel: null,
     }
   },
   head() {
@@ -85,7 +91,7 @@ export default {
     const arrayRes = localStorageUser.getAccounts();
     const arrayMap = arrayRes.map(item => {
       return {
-        wallet: item[0],
+        wallet: item.address,
         pass: "******"
       }
     });
@@ -120,13 +126,12 @@ export default {
         const tokenString = window.atob(this.$route.query.token);
         const tokenJSON = JSON.parse(tokenString);
 
-        localStorage.setItem("token", tokenString);
+        sessionStorage.setItem("token", tokenString);
         
         token = tokenJSON
       } else {
-        token = JSON.parse(localStorage.getItem("token"));
+        token = JSON.parse(sessionStorage.getItem("token"));
       } 
-
 
       if(!token) console.log("error no hay token");
       
@@ -134,35 +139,19 @@ export default {
       if(token.action === "connect") {
         this.domain = token.domain;
         this.contract = token.contract;
-        console.log("contract: ", token.contract)
+        this.routeCancel = token.success; 
       }
-
-      
-
-      console.log("paso login: ", token)
-
-      
-
-
-
-      /* if(localStorage.getItem("loginExternal") !== undefined && localStorage.getItem("loginExternal") !== null) {
-        const ruta = localStorage.getItem("loginExternal");
-        const json = JSON.stringify({
-          wallet: this.address,
-          cretaDate: new Date()
-        })
-        const token = btoa(json)
-        localStorage.removeItem("loginExternal");
-        location.replace(ruta+"?token="+token);
-      } */
     },
     next() {
-      if (!this.address && !this.domain && !this.contrcat) return
+      if (!this.address || !this.domain || !this.contract) return
       
       sessionStorage.setItem("connectAppAddressSelect", this.address);
       
+      this.$router.push({ path: "/limited-permissions" });
       
-      
+    },
+    cancel() {
+      location.replace(this.routeCancel);
     }
 
   }
