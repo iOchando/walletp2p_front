@@ -27,19 +27,19 @@
 
 
     <v-card
-      height="45"
-      class="btn-outlined justify-space-between align-center"
+      min-height="45"
+      class="btn-outlined justify-space-between align-center flex-wrap"
       style="margin-bottom: 12px; padding-right: 15px;"
     >
       <label>CONTRACT</label>
 
-      <a href="" target="_blank" class="center" style="gap: 8px;">
+      <a href="" target="_blank" class="center tend ml-auto" style="gap: 8px;">
         sputnik-p2p.near
         <img src="@/assets/sources/icons/link.svg" alt="link to contract">
       </a>
     </v-card>
 
-    <v-card class="btn-outlined flex-column">
+    <v-card class="btn-outlined flex-column" style="padding-block: 15px;">
       <div class="d-flex space" style="margin-bottom: 8px;">
         <label>NETWORK FEE ALLOWARE</label>
         <span
