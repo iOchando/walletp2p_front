@@ -62,9 +62,12 @@
 <script>
 import axios from 'axios'
 import * as nearAPI from "near-api-js";
+import localStorageUser from '../services/local-storage-user';
 import { CONFIG } from "@/services/nearConfig";
 import { ALERT_TYPE } from '~/plugins/dictionary';
+import utils from '~/services/utils';
 const { keyStores, Account, Near } = nearAPI;
+
 
 
 export default {
@@ -91,9 +94,8 @@ export default {
   },
   mounted() {
     this.$store.commit('validSession')
-    this.address = localStorage.getItem("address"); // this.$auth.$storage.getState("address") ?? " ";
+    this.address = localStorageUser.getCurrentAccount().address; // this.$auth.$storage.getState("address") ?? " ";
     this.network = "."+process.env.Network
-    console.log(localStorage.getItem("publicKey"))
   },
   methods: {
     fnCopie() {
@@ -106,7 +108,7 @@ export default {
     },
     onSignUp() {
       localStorage.setItem("auth", true)
-      this.$router.push(this.localePath("/"))
+      this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
     },
     async verificarAccount(value) {
       const accountInput = value + "." + process.env.Network;
@@ -127,11 +129,11 @@ export default {
             this.successAccount = "This account is valid"
             this.errorAccount = null
           })
-
-      console.log(response)
-      console.log(this.errorAccount)
       
-
+      return response
+      // console.log(response)
+      // console.log(this.errorAccount)
+    
     },
 
     async onCreateName() {
@@ -152,7 +154,8 @@ export default {
           }).then(() => {
             localStorage.setItem("importEmailNickname", newAccount)
             this.loading = false;
-            this.$router.push(this.localePath("/verification"))
+            // this.$router.push(this.localePath("/verification"))
+            this.$router.push(utils.routeAction(this.$route.query.action,"/verification"));
           }).catch(() => {
             throw new Error ("Failed to send the code")
           })
@@ -167,7 +170,18 @@ export default {
             },
           }).then((response) => {
             const data = response.data.data;
+            
+            // remover cuenta antigua para poder agregar nueva cuenta con nicname
+            localStorageUser.removeAccount(localStorageUser.getCurrentAccount().address)
 
+            // agregando nueva cuenta con nicname
+            localStorageUser.addNewAccount({
+              _address: data.address,
+              _publicKey: data.publicKey,
+              _privateKey: data.secretKey
+            })
+
+            /*
             const list = localStorage.getItem("listUser")
             if(list !== undefined && list !== null) {
               const user = new Map(JSON.parse(list))
@@ -181,7 +195,6 @@ export default {
             localStorage.setItem("publicKey", data.publicKey);
             localStorage.setItem("privateKey", data.secretKey);
             
-
             const dataUser = {
               address: data.address,
               publicKey: data.publicKey,
@@ -198,10 +211,11 @@ export default {
             const userMapStr = JSON.stringify(Array.from(user.entries()));
 
             localStorage.setItem("listUser", userMapStr);
-            localStorage.setItem("seedPhrase", data.seedPhrase);
+            localStorage.setItem("seedPhrase", data.seedPhrase); */
             this.loading = false;
 
-            this.$router.push(this.localePath("/passphrase-new"))
+            // this.$router.push(this.localePath("/passphrase-new"))
+            this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-new"));
 
           }).catch((error) => {
             throw new Error ("Error create nickname: " + error)

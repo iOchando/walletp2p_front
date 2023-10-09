@@ -88,7 +88,9 @@
 <script>
 import axios from 'axios';
 // import * as nearAPI from "near-api-js";
-import jwtDecode from 'jwt-decode'
+// import jwtDecode from 'jwt-decode';
+import utils from '~/services/utils';
+import localStorageUser from '~/services/local-storage-user';
 
 export default {
   name: "LoginPage",
@@ -135,51 +137,14 @@ export default {
     localStorage.removeItem("seedPhraseLogin")
     localStorage.removeItem("seedPhrase")
     localStorage.removeItem("login")
-    localStorage.removeItem("loginExternal")
-    
-    if(this.$route.query.redirect !== undefined){
+    localStorage.removeItem("seedPhraseGenerate");
+
+    /* if(this.$route.query.redirect !== undefined){
       localStorage.setItem("loginExternal", this.$route.query.redirect)
       console.log("paso login: ", localStorage.getItem("loginExternal"))
-    }
+    } */
   },
   methods: {
-    prueba() {
-      console.log("paso 1")
-      function receiver(event) {
-        console.log("paso 2 - ", event.origin)
-          if (event.origin === 'http://localhost:8004/') {
-              // if (event.data == 'Hello B') {
-                  event.source.postMessage('Hello A, how are you?', event.origin);
-             /* }
-              else {
-                  console.log(event.data);
-              } */
-          }
-      }
-      console.log("paso 3")
-      window.addEventListener('message', receiver, false);
-      console.log("paso 4")
-      
-      /* console.log("paso 1");
-      parent.postMessage("prueba el resultado", "http://localhost:8004/")
-      console.log("paso 2") */
-      /* window.addEventListener("message", function(event) {
-        console.log("paso 2");
-        if (event.origin !== 'http://localhost:8000') {
-          // algo de un dominio desconocido, ignorémoslo
-          console.log( "Recibí: " + event.origin + " - " + event.data );
-          return;
-        }
-
-        console.log( "Recibí: " + event.origin + " - " + event.data );
-
-        // puedes enviar un mensaje usando event.source.postMessage(...)
-        event.source.postMessage("prueba el resultado", "http://localhost:8004")
-      }); */
-      // window.postMessage("prueba el resultado", "http://localhost:8004/")
-      // window.alert('fgff');
-      // window.close()
-    },
     async onContinue() {
       if(this.$refs.formEmail.validate()) {
         this.loading = true
@@ -192,7 +157,9 @@ export default {
           this.loading = false
           localStorage.setItem("email", this.emailImput);
           localStorage.setItem("login", true);
-          this.$router.push(this.localePath("/verification"))
+          
+          this.$router.push(utils.routeAction(this.$route.query.action,"/verification"));
+          // this.$router.push(this.localePath("/verification"))
         }).catch(() => {
           this.loading = false
         })
@@ -212,6 +179,7 @@ export default {
     }, */
 
     async handleCredentialResponse(response) {
+      /*
       console.log(response)
       console.log("--------------------------------")
       console.log(response.credential)
@@ -224,6 +192,7 @@ export default {
       console.log(`Family Name: ${token.family_name}`)
       console.log(`Image URL: ${token.picture}`)
       console.log(`Email: ${token.email}`)
+      */
 
       await axios.post(process.env.URL_BACKEND +'/wallet/verify-google',
         {token: response.credential}, {
@@ -235,42 +204,29 @@ export default {
 
         this.loading = false
 
-        localStorage.setItem("address", data.address);
-        localStorage.setItem("publicKey", data.publicKey);
-        localStorage.setItem("privateKey", data.secretKey);
-        localStorage.setItem("auth", true)
+        localStorage.setItem("auth", true);
 
-        const dataUser = {
-          address: data.address.toString(),
-          publicKey: data.publicKey.toString(),
-          privateKey: data.secretKey.toString()
-        };
-
-        let user = new Map();
-        if(localStorage.getItem("listUser") !== undefined && localStorage.getItem("listUser") !== null) {
-          const list = localStorage.getItem("listUser")
-          user = new Map(JSON.parse(list))
-        }
-        user.set(data.address.toString(), dataUser)
-        const userMapStr = JSON.stringify(Array.from(user.entries()));
-        localStorage.setItem("listUser", userMapStr);
+        // agregando nueva cuenta
+        localStorageUser.addNewAccount({
+          _address: data.address,
+          _publicKey: data.publicKey,
+          _privateKey: data.secretKey
+        });
 
         // if(data.isExists) {
-          this.$router.push(this.localePath("/"))
+        this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
         // } else {
-          this.$router.push(this.localePath("/pick-username"))
+          // this.$router.push(this.localePath("/pick-username"))
         // }
       }).catch((error) => {
         console.log("error: ", error)
       })
-      // call your backend API here
-
-      // the token can be accessed as: response.credential
     },
 
     onContinuePassphrase() {
       localStorage.setItem("login", true);
-      this.$router.push(this.localePath("/passphrase"))
+      this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase"));
+      // this.$router.push(this.localePath("/passphrase"))
     }
   }
 };

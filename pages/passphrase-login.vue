@@ -35,6 +35,7 @@
 </template>
 
 <script>
+import utils from '~/services/utils';
 
 export default {
   name: "PassphraseLoginPage",
@@ -81,7 +82,8 @@ export default {
       if(counterWord === 12) {
         localStorage.setItem("seedPhraseGenerate", seedPhrase);
         localStorage.setItem("seedPhraseLogin", true);
-        this.$router.push(this.localePath("/passphrase-word"))
+        // this.$router.push(this.localePath("/passphrase-word"))
+        this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-word"));
       }
     },
   }

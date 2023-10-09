@@ -12,7 +12,7 @@
       :class="{'collapsed': collapsed}"
       style="row-gap: 5px; column-gap: 10px"
     >
-      <h5 class="mb-0">{{ wallet }}</h5>
+      <h5 class="mb-0">{{ shortenAddress(wallet) }}</h5>
 
       <p v-if="show" class="mb-0">{{ pass }}</p>
 
@@ -22,11 +22,20 @@
     </aside>
 
     <aside class="d-flex" style="gap: 6px;">
-      <v-btn class="btn-icon">
+      <v-btn
+        class="btn-icon"
+        v-clipboard:copy="wallet"
+        @click.stop
+      >
         <img src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
       </v-btn>
 
-      <v-btn class="btn-icon" style="--bg: var(--secondary); --b: 1px solid var(--primary);">
+      <v-btn 
+        class="btn-icon"
+        style="--bg: var(--secondary);
+        --b: 1px solid var(--primary);"
+        @click.stop="showbalance(wallet)"
+      >
         <img src="@/assets/sources/icons/eye-off.svg" alt="hide password">
       </v-btn>
     </aside>
@@ -34,6 +43,8 @@
 </template>
 
 <script>
+import utils from '~/services/utils';
+
 export default {
   name: "WalletCard",
   props: {
@@ -64,6 +75,15 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    }
+  },
+  methods: {
+    shortenAddress(address) {
+      console.log("algo: ", address)
+      return utils.shortenAddress(address);
+    },
+    showbalance(wallet) {
+      console.log(wallet)
     }
   }
 }

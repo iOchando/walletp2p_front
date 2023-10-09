@@ -37,6 +37,8 @@
 import axios from 'axios';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import * as nearAPI from "near-api-js";
+import localStorageUser from '../services/local-storage-user';
+import utils from '~/services/utils';
 const { KeyPair } = nearAPI;
 
 export default {
@@ -76,7 +78,8 @@ export default {
           this.loading = false
           localStorage.setItem("auth", true)
           localStorage.removeItem("seedPhraseLogin")
-          this.$router.push(this.localePath("/"))
+          // this.$router.push(this.localePath("/"))
+          this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
         } else {
 
 
@@ -91,46 +94,25 @@ export default {
               }
           })
           
-          /* this.$auth.$storage.setState("address", address)
-          this.$auth.$storage.setState("publicKey", publicKey)
-          this.$auth.$storage.setState("privateKey", secretKey) */
+          // agregando nueva cuenta
+          localStorageUser.addNewAccount({
+            _address: address,
+            _publicKey: publicKey,
+            _privateKey: secretKey
+          })
 
-          localStorage.setItem("address", address);
-          localStorage.setItem("publicKey", publicKey);
-          localStorage.setItem("privateKey", secretKey);
           
-          const dataUser = {
-            address: address.toString(),
-            publicKey: publicKey.toString(),
-            privateKey: secretKey
-          };
-
-          let user = new Map();
-          if(localStorage.getItem("listUser") !== undefined && localStorage.getItem("listUser") !== null) {
-            const list = localStorage.getItem("listUser")
-            user = new Map(JSON.parse(list))
-          }
-          user.set(address.toString(), dataUser)
-          const userMapStr = JSON.stringify(Array.from(user.entries()));
-          localStorage.setItem("listUser", userMapStr);
-
-          /* const list = localStorage.getItem("listUser")
-          const map = new Map(JSON.parse(list))
-          
-          console.log(map)
-          console.log(map.get(address.toString())) */
-          
-          // console.log(localStorage.getItem("privateKey") )
-          
-
           this.loading = false
           
           if(localStorage.getItem("seedPhraseLogin") !== undefined && localStorage.getItem("seedPhraseLogin") !== null) {
             localStorage.setItem("auth", true)
             localStorage.removeItem("seedPhraseLogin")
-            this.$router.push(this.localePath("/"))
+
+            // this.$router.push(this.localePath("/"))
+            this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
           } else {
-            this.$router.push(this.localePath("/pick-username"))
+            // this.$router.push(this.localePath("/pick-username"))
+            this.$router.push(utils.routeAction(this.$route.query.action,"/pick-username"));
           }
 
         }

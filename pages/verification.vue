@@ -56,6 +56,8 @@
 
 <script>
 import axios from 'axios';
+import localStorageUser from '../services/local-storage-user';
+import utils from '~/services/utils';
 
 export default {
   name: "VerificationPage",
@@ -133,8 +135,23 @@ export default {
       await axios.post(process.env.URL_BACKEND +'/wallet/'+route, params
       ).then((response) => {
         const data = response.data.data;
+        
+        if(localStorage.getItem("importEmailNickname") !== undefined && localStorage.getItem("importEmailNickname") !== null) {
+          // remover cuenta antigua para poder agregar nueva cuenta con nicname
+          localStorageUser.removeAccount(localStorageUser.getCurrentAccount().address)
+        }
 
-        if(localStorage.getItem("importEmailNickname") !== undefined && localStorage.getItem("importEmailNickname") !== null) {          
+        // agregando nueva cuenta con nicname
+        localStorageUser.addNewAccount({
+          _address: data.address,
+          _publicKey: data.publicKey,
+          _privateKey: data.secretKey
+        });
+
+        this.loading = false
+
+        /*
+        if(localStorage.getItem("importEmailNickname") !== undefined && localStorage.getItem("importEmailNickname") !== null) {
           const list = localStorage.getItem("listUser")
           if(list !== undefined && list !== null) {
             const user = new Map(JSON.parse(list))
@@ -168,13 +185,16 @@ export default {
         localStorage.setItem("listUser", userMapStr);
 
         console.log(data)
+        */
 
         if(data.isExists) {
           localStorage.setItem("auth", true)
-          this.$router.push(this.localePath("/"))
+          // this.$router.push(this.localePath("/"))
+          this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
         } else {
           localStorage.setItem("importEmail", true)
-          this.$router.push(this.localePath("/pick-username"))
+          // this.$router.push(this.localePath("/pick-username"))
+          this.$router.push(utils.routeAction(this.$route.query.action,"/pick-username"));
         }
       }).catch((error) => {
         this.error = error.response.data

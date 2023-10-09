@@ -182,12 +182,13 @@ export default {
     localStorage.removeItem("seedPhraseLogin");
     localStorage.removeItem("seedPhrase");
     localStorage.removeItem("login");
+    localStorage.removeItem("seedPhraseGenerate");
     
     if(!localStorage.removeItem("login") === undefined || !localStorage.getItem("privateKey") === undefined) {
       this.$router.push(this.localePath("/login"))
     }
     
-    if(localStorage.getItem("loginExternal") !== undefined && localStorage.getItem("loginExternal") !== null) {
+    /* if(localStorage.getItem("loginExternal") !== undefined && localStorage.getItem("loginExternal") !== null) {
       const ruta = localStorage.getItem("loginExternal");
       const json = JSON.stringify({
         wallet: this.address,
@@ -196,7 +197,7 @@ export default {
       const token = btoa(json)
       localStorage.removeItem("loginExternal");
       location.replace(ruta+"?token="+token);
-    }
+    } */
     
     this.linkExplorer = process.env.URL_EXPLORER + "/accounts/" + this.address
     this.getBalance()

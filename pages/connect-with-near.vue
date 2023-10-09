@@ -28,13 +28,14 @@
           :disabled="i != 0"
           :show="i == 0"
           clickable
-          @click="$log(item)"
+          @click="selectAccount(item.wallet)"
         />
       </div>
 
       <v-btn
         class="btn-outlined"
         style="--b-color: var(--primary); --bg: var(--secondary); --c: var(--primary); margin-right: calc(var(--p-inside) + var(--p-outside));"
+        @click="$router.push({path: '/login', query: {action: 'connect-with-near'} })"
       >
         IMPORT A DIFFERENT ACCOUNT
       </v-btn>
@@ -53,33 +54,77 @@
 </template>
 
 <script>
+import utils from '../services/utils';
+import localStorageUser from '~/services/local-storage-user';
+
+
 export default {
   name: "ConnectWithNear",
   layout: "default-variant",
   data() {
     return {
-      dataWallets: [
-        {
-          wallet: "fritzwagner.near",
-          pass: "hola hola hola hola hola",
-        },
-        {
-          wallet: "1onduh47886002882hsghwoj asdasdasdas d as das da",
-          pass: "hola hola hola hola hola asdsa asd asd as dasd",
-        },
-        {
-          wallet: "746nwoknnbbllsnnsppmi018",
-          pass: "hola hola hola hola hola",
-        },
-      ]
+      dataWallets: []
     }
   },
   head() {
     const title = 'Connect with NEAR';
     return {
+      utils,
       title,
     }
   },
+  mounted() {
+    this.execute();
+    
+    if(this.$route.query.token){
+      const token = window.atob(this.$route.query.token)
+      console.log(token)
+      const tokenJSON = JSON.stringify(token);
+      localStorage.setItem("token", tokenJSON)
+      console.log("paso login: ", localStorage.getItem("token"))
+    }
+    const arrayRes = localStorageUser.getAccounts();
+    const arrayMap = arrayRes.map(item => {
+      return {
+        wallet: item[0],
+        pass: "******"
+      }
+    });
+    const currentAccount = localStorageUser.getCurrentAccount();
+    this.selectAccount(currentAccount.address, arrayMap);
+    
+
+  },
+  methods: {
+    selectAccount(address, array){
+      const list = array === undefined ? this.dataWallets : array;
+
+      const arrayRet = [];
+      let indexCount = 1;
+      for(let index = 0; index < list.length; index++) {
+        if(list[index].wallet === address) {
+          arrayRet[0] = list[index];
+        } else {
+          arrayRet[indexCount] = list[index];
+          indexCount += 1;
+        }
+      }
+
+      this.dataWallets = arrayRet;
+    },
+    execute() {
+      if(localStorage.getItem("loginExternal") !== undefined && localStorage.getItem("loginExternal") !== null) {
+        const ruta = localStorage.getItem("loginExternal");
+        const json = JSON.stringify({
+          wallet: this.address,
+          cretaDate: new Date()
+        })
+        const token = btoa(json)
+        localStorage.removeItem("loginExternal");
+        location.replace(ruta+"?token="+token);
+      } 
+    }
+  }
 }
 </script>
 

@@ -36,6 +36,7 @@
 </template>
 
 <script>
+import utils from '~/services/utils';
 
 export default {
   name: "PassphraseNewPage",
@@ -68,7 +69,8 @@ export default {
     },
 
     onContinue() {
-      this.$router.push(this.localePath("/passphrase-word"))
+      // this.$router.push(this.localePath("/passphrase-word"))
+      this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-word"));
     },
     generatePhrase() {
       const seedPhrase = localStorage.getItem("seedPhrase");

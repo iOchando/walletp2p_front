@@ -42,6 +42,7 @@
 <script>
 
 import { generateSeedPhrase } from 'near-seed-phrase';
+import utils from '~/services/utils';
 
 export default {
   name: "PassphrasePage",
@@ -74,10 +75,12 @@ export default {
     },
 
     onContinue() {
-      this.$router.push(this.localePath("/passphrase-word"))
+      // this.$router.push(this.localePath("/passphrase-word"))
+      this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-word"));
     },
     onSignIn() {
-      this.$router.push(this.localePath("/passphrase-login"))
+      // this.$router.push(this.localePath("/passphrase-login"))
+      this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-login"));
     },
     async generatePhrase() {
       const { seedPhrase } = await generateSeedPhrase();
