@@ -9,11 +9,17 @@
 
     <v-btn
       class="btn-outlined mx-auto"
-      style="--bg: var(--secondary); --h: 34px; margin-bottom: 19px;"
+      style="--bg: var(--secondary); --h: 34px; margin-top: 3px;"
     >
       <img src="@/assets/sources/icons/language-blue.svg">
       <h5 class="mb-0">app.nea--ramper.com</h5>
     </v-btn>
+
+
+    <section class="d-flex flex-column center" style="height: 245px; margin-block: 25px;">
+      <h2 class="ma-0">0 <span>NEAR</span></h2>
+      <span>$4.45</span>
+    </section>
 
 
     <v-card
@@ -81,7 +87,7 @@ import utils from '../services/utils';
 
 export default {
   name: "LimitedPermissions",
-  layout: "default-variant",
+  layout: "default-variant-2",
   data() {
     return {
       checks: [
