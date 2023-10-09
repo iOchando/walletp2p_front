@@ -61,7 +61,10 @@
         CANCEL
       </v-btn>
 
-      <v-btn class="btn flex-grow-1">
+      <v-btn
+        class="btn flex-grow-1"
+        @click="connect()"
+      >
         CONNECT
       </v-btn>
     </aside>
@@ -70,6 +73,8 @@
 
 <script>
 import utils from '../services/utils';
+import localStorageUser from '~/services/local-storage-user';
+
 
 export default {
   name: "LimitedPermissions",
@@ -81,7 +86,10 @@ export default {
         { text: "View  the balance of your permited account", check: true },
         { text: "Call methods on the smart contract on behalf of your permited account", check: true },
         { text: "This does not allow the app to transfer tokens", check: false },
-      ]
+      ],
+      domain: null,
+      contract: null,
+      address: sessionStorage.getItem("connectAppAddressSelect"),
     }
   },
   head() {
@@ -92,17 +100,29 @@ export default {
     }
   },
   mounted() {
+    const token = sessionStorage.getItem("token");
+    const tokenJSON = JSON.parse(token);
+    this.domain = tokenJSON.domain;
+    this.contract = tokenJSON.contract;
   },
   methods: {
     connect(){
+      if (!this.address || !this.contract || this.domain) return
+
+      
+
+      console.log(this.address)
+      console.log(this.contract)
+      console.log(this.domain)
+
       /* localStorageUser.addApp({
-          _address: this.address, 
-          _contract: this.contrcat, 
-          _domain: this.domain
+          _address: address, 
+          _contract: token.contrcat, 
+          _domain: token.domain
       }); */
 
-      console.log(sessionStorage.getItem("connectAppAddressSelect"));
-      // console.log(localStorageUser.getAccount(this.address));
+      
+      console.log(localStorageUser.getAccount(this.address));
     }
   }
 }

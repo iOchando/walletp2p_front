@@ -120,11 +120,11 @@ export default {
         const tokenString = window.atob(this.$route.query.token);
         const tokenJSON = JSON.parse(tokenString);
 
-        localStorage.setItem("token", tokenString);
+        sessionStorage.setItem("token", tokenString);
         
         token = tokenJSON
       } else {
-        token = JSON.parse(localStorage.getItem("token"));
+        token = JSON.parse(sessionStorage.getItem("token"));
       } 
 
 
@@ -157,11 +157,12 @@ export default {
       } */
     },
     next() {
-      if (!this.address && !this.domain && !this.contrcat) return
+      console.log(this.address, this.domain, this.contract)
+      if (!this.address || !this.domain || !this.contract) return
       
       sessionStorage.setItem("connectAppAddressSelect", this.address);
       
-      
+      this.$router.push({ path: "/limited-permissions" });
       
     }
 
