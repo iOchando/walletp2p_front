@@ -4,8 +4,10 @@ function addNewAccount({_address, _publicKey, _privateKey}) {
     const dataUser = {
       address: _address,
       publicKey: _publicKey,
-      privateKey: _privateKey
+      privateKey: _privateKey,
+      apps: null,
     };
+
 
     let user = new Map();
     if(localStorage.getItem("listUser") !== undefined && localStorage.getItem("listUser") !== null) {
@@ -51,6 +53,39 @@ function removeAccount(address) {
   }
 }
 
+function addApp({_address, _contract, _domain}) {
+  try {
+    if(localStorage.getItem("listUser")) {
+      const dataApp = {
+        contract: _contract,
+        domain: _domain,
+      };
+      console.log("paso 1")
+      const list = localStorage.getItem("listUser");
+      const users = new Map(JSON.parse(list));
+      const dataUser = users.get(_address);
+      console.log("paso 2")
+      if(!dataUser) throw new Error ("Error addApp: address not found");
+      
+      const apps = dataUser.apps ? new Map(dataUser.apps) : new Map();
+      console.log("paso 3")
+      apps.set(_contract, dataApp);
+      
+      dataUser.apps = apps;
+      console.log("paso 4")
+      users.set(_address, dataUser)
+      console.log(users)
+      localStorage.setItem("listUser", JSON.stringify(Array.from(users.entries())));
+      console.log("paso 5")
+      return true
+    }
+    throw new Error ("Error addApp: address not found");
+    
+  } catch (error) {
+   throw new Error ("Error addApp: " + error.toString()) 
+  }
+}
+
 
 function getCurrentAccount() {
   try {
@@ -80,10 +115,29 @@ function getAccounts() {
   }
 }
 
+function getAccount(address) {
+  try {
+    if(localStorage.getItem("listUser")) {
+      const list = localStorage.getItem("listUser");
+      const users = new Map(JSON.parse(list));
+      const dataUser = users.get(address);
+
+      if(!dataUser) throw new Error ("Error getAccount: address not found");
+
+      return dataUser
+    }
+    throw new Error ("Error getAccount: address not found");
+    
+  } catch (error) {
+   throw new Error ("Error getAccount: " + error.toString()) 
+  }
+}
 
 export default {
   addNewAccount,
   removeAccount,
+  addApp,
   getCurrentAccount,
-  getAccounts
+  getAccounts,
+  getAccount
 }

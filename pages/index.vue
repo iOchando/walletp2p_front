@@ -183,6 +183,7 @@ export default {
     localStorage.removeItem("seedPhrase");
     localStorage.removeItem("login");
     localStorage.removeItem("seedPhraseGenerate");
+    localStorage.removeItem("token");
     
     if(!localStorage.removeItem("login") === undefined || !localStorage.getItem("privateKey") === undefined) {
       this.$router.push(this.localePath("/login"))

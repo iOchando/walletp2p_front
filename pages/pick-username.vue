@@ -181,6 +181,8 @@ export default {
               _privateKey: data.secretKey
             })
 
+            localStorage.setItem("seedPhrase", data.seedPhrase);
+
             /*
             const list = localStorage.getItem("listUser")
             if(list !== undefined && list !== null) {

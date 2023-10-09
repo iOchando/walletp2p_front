@@ -79,7 +79,6 @@ export default {
   },
   methods: {
     shortenAddress(address) {
-      console.log("algo: ", address)
       return utils.shortenAddress(address);
     },
     showbalance(wallet) {

@@ -13,7 +13,7 @@
       style="--bg: var(--secondary); --h: 34px"
     >
       <img src="@/assets/sources/icons/language-blue.svg">
-      <h5 class="mb-0">app.nea--ramper.com</h5>
+      <h5 class="mb-0">{{ domain }}</h5>
     </v-btn>
 
 
@@ -46,7 +46,10 @@
         CANCEL
       </v-btn>
 
-      <v-btn class="btn flex-grow-1">
+      <v-btn
+        class="btn flex-grow-1"
+        @click="next()"
+      >
         NEXT
       </v-btn>
     </aside>
@@ -63,7 +66,10 @@ export default {
   layout: "default-variant",
   data() {
     return {
-      dataWallets: []
+      dataWallets: [],
+      domain: null,
+      contrcat: null,
+      address: null,
     }
   },
   head() {
@@ -76,13 +82,6 @@ export default {
   mounted() {
     this.execute();
     
-    if(this.$route.query.token){
-      const token = window.atob(this.$route.query.token)
-      console.log(token)
-      const tokenJSON = JSON.stringify(token);
-      localStorage.setItem("token", tokenJSON)
-      console.log("paso login: ", localStorage.getItem("token"))
-    }
     const arrayRes = localStorageUser.getAccounts();
     const arrayMap = arrayRes.map(item => {
       return {
@@ -104,6 +103,7 @@ export default {
       for(let index = 0; index < list.length; index++) {
         if(list[index].wallet === address) {
           arrayRet[0] = list[index];
+          this.address = list[index].wallet;
         } else {
           arrayRet[indexCount] = list[index];
           indexCount += 1;
@@ -113,7 +113,39 @@ export default {
       this.dataWallets = arrayRet;
     },
     execute() {
-      if(localStorage.getItem("loginExternal") !== undefined && localStorage.getItem("loginExternal") !== null) {
+      let token
+      
+      if(this.$route.query.token){
+
+        const tokenString = window.atob(this.$route.query.token);
+        const tokenJSON = JSON.parse(tokenString);
+
+        localStorage.setItem("token", tokenString);
+        
+        token = tokenJSON
+      } else {
+        token = JSON.parse(localStorage.getItem("token"));
+      } 
+
+
+      if(!token) console.log("error no hay token");
+      
+      
+      if(token.action === "connect") {
+        this.domain = token.domain;
+        this.contract = token.contract;
+        console.log("contract: ", token.contract)
+      }
+
+      
+
+      console.log("paso login: ", token)
+
+      
+
+
+
+      /* if(localStorage.getItem("loginExternal") !== undefined && localStorage.getItem("loginExternal") !== null) {
         const ruta = localStorage.getItem("loginExternal");
         const json = JSON.stringify({
           wallet: this.address,
@@ -122,8 +154,22 @@ export default {
         const token = btoa(json)
         localStorage.removeItem("loginExternal");
         location.replace(ruta+"?token="+token);
-      } 
+      } */
+    },
+    next() {
+      if (!this.address && !this.domain && !this.contrcat) return
+      
+      localStorageUser.addApp({
+          _address: this.address, 
+          _contract: this.contrcat, 
+          _domain: this.domain
+      });
+
+      console.log(localStorageUser.getAccount(this.address));
+      
+      
     }
+
   }
 }
 </script>
