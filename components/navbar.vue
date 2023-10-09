@@ -4,7 +4,7 @@
     
     <div id="navbar" color="transparent">
       <slot name="prepend">
-        <v-btn :style="`visibility: ${showPrepend ? 'visible' : 'hidden'}`" class="btn-icon" @click="onPressBackBtn ?? $router.go(-1)">
+        <v-btn :style="`visibility: ${showPrepend ? 'visible' : 'hidden'}`" class="btn-icon" @click="onPressBackBtn ? onPressBackBtn() : $router.go(-1)">
           <img src="~/assets/sources/icons/arrow.svg" alt="go back">
         </v-btn>
       </slot>

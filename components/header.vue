@@ -3,7 +3,7 @@
     <Navbar
       :show-append="showAppend"
       :show-prepend="showPrepend"
-      :on-press-back-btn="onPressBackBtn"
+      :on-press-back-btn="onPressBackBtn ? () => onPressBackBtn() : null"
     >
       <template #prepend>
         <slot name="prepend" />
