@@ -13,6 +13,37 @@
 
     &::first-letter { text-transform: none !important }
   }
+  
+
+  h2 {
+    --fw: 700;
+    --fs: 48px;
+    color: #000;
+    text-align: center;
+    line-height: 1.15ch;
+    display: flex;
+    flex-direction: column;
+
+
+    span {
+      --fw: 700;
+      font-size: 16px !important;
+      color: #000;
+      text-align: center;
+      line-height: normal;
+      letter-spacing: 1.76px !important;
+      text-transform: uppercase;
+    }
+
+    + span {
+      --fw: 700 !important;
+      color: #333 !important;
+      text-align: center;
+      font-family: var(--font2);
+      font-size: 12px !important;
+      line-height: normal;
+    }
+  }
 
 
   .v-card {
