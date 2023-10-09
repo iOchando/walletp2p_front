@@ -213,6 +213,8 @@ export default {
           _privateKey: data.secretKey
         });
 
+        console.log("paso aqui aqui")
+
         // if(data.isExists) {
         this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
         // } else {
