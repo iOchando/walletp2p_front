@@ -3,8 +3,6 @@
     <Header
       top-text="CONNECT"
       top-text-center
-      :show-prepend="true"
-      :on-press-back-btn="() => $router.push({ path: '/connect-with-near' })"
     ></Header>
 
     <v-btn
@@ -35,7 +33,7 @@
     >
       <label>CONTRACT</label>
 
-      <a href="" target="_blank" class="center tend ml-auto" style="gap: 8px;">
+      <a :href="'https://explorer.testnet.near.org/accounts/'+contract" target="_blank" class="center tend ml-auto" style="gap: 8px;">
         {{ contract }}
         <img src="@/assets/sources/icons/link.svg" alt="link to contract">
       </a>
