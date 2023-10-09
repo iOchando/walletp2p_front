@@ -3,18 +3,20 @@
     <Header
       top-text="CONNECT"
       top-text-center
+      :show-prepend="true"
+      :on-press-back-btn="() => $router.push({ path: '/connect-with-near' })"
     ></Header>
 
     <v-btn
       class="btn-outlined mx-auto"
       style="--bg: var(--secondary); --h: 34px; margin-block: 20px 19px;"
     >
-      <h5 class="mb-0">app.nea--ramper.com</h5>
+      <h5 class="mb-0">{{ shortenAddress(address) }}</h5>
     </v-btn>
 
     <p class="mb-0" style="--fw: 400">
       only connect to sites that you trust. once connected, 
-      <a href="" target="_blank">app.p2pwallet.com</a> will have 
+      <a href="" target="_blank">{{ domain }}</a> will have 
       <b style="font-weight: 700 !important">limited permissions</b>:
     </p>
 
@@ -34,7 +36,7 @@
       <label>CONTRACT</label>
 
       <a href="" target="_blank" class="center tend ml-auto" style="gap: 8px;">
-        sputnik-p2p.near
+        {{ contract }}
         <img src="@/assets/sources/icons/link.svg" alt="link to contract">
       </a>
     </v-card>
@@ -57,7 +59,11 @@
 
 
     <aside class="d-flex justify-space-between mt-6" style="gap: 12px;">
-      <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary)">
+      <v-btn
+        class="btn-outlined flex-grow-1"
+        style="--bg: var(--secondary)"
+        @click="cancel()"
+      >
         CANCEL
       </v-btn>
 
@@ -89,6 +95,7 @@ export default {
       ],
       domain: null,
       contract: null,
+      token: null,
       address: sessionStorage.getItem("connectAppAddressSelect"),
     }
   },
@@ -104,26 +111,41 @@ export default {
     const tokenJSON = JSON.parse(token);
     this.domain = tokenJSON.domain;
     this.contract = tokenJSON.contract;
+    this.token = tokenJSON;
   },
   methods: {
     connect(){
-      if (!this.address || !this.contract || this.domain) return
+      if (!this.address || !this.contract || !this.domain || !this.token) return
 
-      
-
-      console.log(this.address)
-      console.log(this.contract)
-      console.log(this.domain)
-
-      /* localStorageUser.addApp({
-          _address: address, 
-          _contract: token.contrcat, 
-          _domain: token.domain
-      }); */
+      localStorageUser.addApp({
+          _address: this.address, 
+          _contract: this.contract, 
+          _domain: this.domain
+      });
 
       
       console.log(localStorageUser.getAccount(this.address));
+
+      
+      const ruta = this.token.success;
+      const json = JSON.stringify({
+        wallet: this.address,
+        cretaDate: new Date()
+      })
+      const token = window.btoa(json)
+      
+      sessionStorage.removeItem("token");
+      sessionStorage.removeItem("connectAppAddressSelect")
+
+      location.replace(ruta+"?token="+token);
+    },
+    shortenAddress(address) {
+      return utils.shortenAddress(address);
+    },
+    cancel(){
+      location.replace(this.token.success);
     }
+
   }
 }
 </script>

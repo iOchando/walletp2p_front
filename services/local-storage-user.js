@@ -60,23 +60,23 @@ function addApp({_address, _contract, _domain}) {
         contract: _contract,
         domain: _domain,
       };
-      console.log("paso 1")
+      
       const list = localStorage.getItem("listUser");
       const users = new Map(JSON.parse(list));
       const dataUser = users.get(_address);
-      console.log("paso 2")
+      
       if(!dataUser) throw new Error ("Error addApp: address not found");
       
-      const apps = dataUser.apps ? new Map(dataUser.apps) : new Map();
-      console.log("paso 3")
+      const apps = dataUser.apps ? new Map(JSON.parse(dataUser.apps)) : new Map();
+      
       apps.set(_contract, dataApp);
       
-      dataUser.apps = apps;
-      console.log("paso 4")
+      dataUser.apps = JSON.stringify(Array.from(apps.entries()));
+      
       users.set(_address, dataUser)
-      console.log(users)
+      
       localStorage.setItem("listUser", JSON.stringify(Array.from(users.entries())));
-      console.log("paso 5")
+      
       return true
     }
     throw new Error ("Error addApp: address not found");
@@ -109,7 +109,15 @@ function getAccounts() {
   try {
     const accounts = localStorage.getItem("listUser");
     
-    return JSON.parse(accounts);
+    console.log(JSON.parse(accounts))
+    const result = JSON.parse(accounts).map(item => {
+      return {
+        address: item[1].address,
+      }
+    });
+    console.log(result)
+
+    return result
   } catch (error) {
    throw new Error ("Error getAccounts: " + error.toString()) 
   }
@@ -124,7 +132,11 @@ function getAccount(address) {
 
       if(!dataUser) throw new Error ("Error getAccount: address not found");
 
-      return dataUser
+      return  {
+          address: dataUser.address,
+          publicKey: dataUser.publicKey,
+          privateKey: dataUser.privateKey
+        }
     }
     throw new Error ("Error getAccount: address not found");
     
