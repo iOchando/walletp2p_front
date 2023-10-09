@@ -159,13 +159,8 @@ export default {
     next() {
       if (!this.address && !this.domain && !this.contrcat) return
       
-      localStorageUser.addApp({
-          _address: this.address, 
-          _contract: this.contrcat, 
-          _domain: this.domain
-      });
-
-      console.log(localStorageUser.getAccount(this.address));
+      sessionStorage.setItem("connectAppAddressSelect", this.address);
+      
       
       
     }

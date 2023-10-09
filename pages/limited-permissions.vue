@@ -94,6 +94,16 @@ export default {
   mounted() {
   },
   methods: {
+    connect(){
+      /* localStorageUser.addApp({
+          _address: this.address, 
+          _contract: this.contrcat, 
+          _domain: this.domain
+      }); */
+
+      console.log(sessionStorage.getItem("connectAppAddressSelect"));
+      // console.log(localStorageUser.getAccount(this.address));
+    }
   }
 }
 </script>
