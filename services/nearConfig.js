@@ -3,7 +3,7 @@
 // const BASE_URL = process.env.NODE_ENV === 'production' ? process.env.VUE_APP_API_BASE_URL : API_PROXY_PREFIX
 
 
-export function CONFIG(keyStores) {
+export function configNear(keyStores) {
   const network = process.env.Network
   const enviroment = false
   const NETWORK = (enviroment) ? network : network;
