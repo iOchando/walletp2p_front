@@ -155,6 +155,9 @@ export default {
         { text: "Call methods on the smart contract on behalf of your permited account", check: true },
         { text: "This does not allow the app to transfer tokens", check: false },
       ],
+      from: null,
+      attachedDeposit: "0",
+      token: JSON.parse(sessionStorage.getItem("token")),
       transactionDetails: {
         network: undefined,
         contract: [
