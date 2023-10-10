@@ -12,12 +12,12 @@
       style="--bg: var(--secondary); --h: 34px; margin-top: 3px;"
     >
       <img src="@/assets/sources/icons/language-blue.svg">
-      <h5 class="mb-0">app.nea--ramper.com</h5>
+      <h5 class="mb-0">{{ token.domain }}</h5>
     </v-btn>
 
 
     <section class="d-flex flex-column center" style="height: 245px; margin-block: 25px;">
-      <h2 class="ma-0">0 <span>NEAR</span></h2>
+      <h2 class="ma-0">{{ attachedDeposit }} <span>NEAR</span></h2>
       <span>$4.45</span>
     </section>
 
@@ -32,7 +32,7 @@
       <div class="d-flex flex-column tend">
         <span
           style="--fw: 700"
-        >andresdom.near</span>
+        >{{ from }}</span>
 
         <span
           class="ml-auto"
@@ -83,7 +83,13 @@
 </template>
 
 <script>
+// import * as nearAPI from "near-api-js";
+import { NearConfig } from 'near-api-js/lib/near';
 import utils from '../services/utils';
+const nearAPI = require("near-api-js");
+const { KeyPair, keyStores, connect } = nearAPI;
+
+
 
 export default {
   name: "LimitedPermissions",
@@ -95,19 +101,55 @@ export default {
         { text: "View  the balance of your permited account", check: true },
         { text: "Call methods on the smart contract on behalf of your permited account", check: true },
         { text: "This does not allow the app to transfer tokens", check: false },
-      ]
+      ],
+      from: null,
+      attachedDeposit: "0",
+      token: JSON.parse(sessionStorage.getItem("token")),
     }
   },
   head() {
     const title = 'Connect with NEAR';
     return {
-      utils,
       title,
     }
   },
   mounted() {
+    this.attachedDeposit = this.token.attachedDeposit ? (Number(this.token.attachedDeposit) / 1000000000000000000000000).toString() : "0";
+    this.from = utils.shortenAddress(this.token.from);
+    console.log(JSON.parse(sessionStorage.getItem("token")))
   },
   methods: {
+    async approved() {
+      // const token = JSON.parse(sessionStorage.getItem("token"));
+
+      const privateKey = process.env.CREATE_NICKNAME_PRIVATEKEY;
+      const address =  process.env.CREATE_NICKNAME_ADDRESS;
+      
+
+      // creates a public / private key pair using the provided private key
+      // adds the keyPair you created to keyStore
+      const myKeyStore = new keyStores.InMemoryKeyStore();
+      const keyPairNew = KeyPair.fromString(privateKey);
+      await myKeyStore.setKey(process.env.Network, address, keyPairNew);
+
+      const nearConnection = await connect(NearConfig(myKeyStore));
+      const account = await nearConnection.account(address);
+
+      const response = await account.functionCall( /* {
+        contractId: process.env.NETWORK,
+        methodName: "create_account",
+        args: {
+          new_account_id: nickname,
+          new_public_key: publicKey,
+        },
+        gas: "300000000000000",
+        attachedDeposit: "10000000000000000000",
+      } */);
+
+      console.log(response.receipts_outcome[1].outcome)
+
+      console.log(response.receipts_outcome)
+    },
   }
 }
 </script>

@@ -62,7 +62,6 @@
 </template>
 
 <script>
-import utils from '../services/utils';
 import localStorageUser from '~/services/local-storage-user';
 
 
@@ -81,13 +80,10 @@ export default {
   head() {
     const title = 'Connect with NEAR';
     return {
-      utils,
       title,
     }
   },
   mounted() {
-    this.execute();
-    
     const arrayRes = localStorageUser.getAccounts();
     const arrayMap = arrayRes.map(item => {
       return {
@@ -118,31 +114,15 @@ export default {
 
       this.dataWallets = arrayRet;
     },
-    execute() {
-      let token
+    next() {
+      const  token = JSON.parse(sessionStorage.getItem("token"));
       
-      if(this.$route.query.token){
-
-        const tokenString = window.atob(this.$route.query.token);
-        const tokenJSON = JSON.parse(tokenString);
-
-        sessionStorage.setItem("token", tokenString);
-        
-        token = tokenJSON
-      } else {
-        token = JSON.parse(sessionStorage.getItem("token"));
-      } 
-
       if(!token) console.log("error no hay token");
       
-      
-      if(token.action === "connect") {
-        this.domain = token.domain;
-        this.contract = token.contract;
-        this.routeCancel = token.success; 
-      }
-    },
-    next() {
+      this.domain = token.domain;
+      this.contract = token.contract;
+      this.routeCancel = token.success; 
+
       if (!this.address || !this.domain || !this.contract) return
       
       sessionStorage.setItem("connectAppAddressSelect", this.address);
