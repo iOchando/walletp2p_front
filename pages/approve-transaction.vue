@@ -127,7 +127,11 @@
 
 
     <aside class="d-flex justify-space-between" style="gap: 12px;">
-      <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary)">
+      <v-btn
+        class="btn-outlined flex-grow-1"
+        style="--bg: var(--secondary)"
+        @click="cancel()"
+      >
         CANCEL
       </v-btn>
 
@@ -182,7 +186,7 @@ export default {
                   listFunctions: ['accept_offer', 'other']
               },
           ]
-      }
+      },
     };
   },
   head() {
@@ -230,6 +234,7 @@ export default {
         
         sessionStorage.removeItem("token");
         
+        console.log("response: ", response);
 
         location.replace(ruta+"?token="+token);
       }
@@ -237,6 +242,10 @@ export default {
         this.error = error.toString();
           console.log("error error: ", error.toString());
       }
+    },
+
+    cancel() {
+      location.replace(this.token.success);
     },
   },
     

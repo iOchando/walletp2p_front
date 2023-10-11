@@ -75,6 +75,7 @@ export default {
       contrcat: null,
       address: null,
       routeCancel: null,
+      token: JSON.parse(sessionStorage.getItem("token")),
     }
   },
   head() {
@@ -84,6 +85,10 @@ export default {
     }
   },
   mounted() {
+    this.domain = this.token.domain;
+    this.contract = this.token.contract;
+    this.routeCancel = this.token.success; 
+
     const arrayRes = localStorageUser.getAccounts();
     const arrayMap = arrayRes.map(item => {
       return {
@@ -115,13 +120,8 @@ export default {
       this.dataWallets = arrayRet;
     },
     next() {
-      const  token = JSON.parse(sessionStorage.getItem("token"));
       
-      if(!token) console.log("error no hay token");
-      
-      this.domain = token.domain;
-      this.contract = token.contract;
-      this.routeCancel = token.success; 
+      if(!this.token) console.log("error no hay token");
 
       if (!this.address || !this.domain || !this.contract) return
       
