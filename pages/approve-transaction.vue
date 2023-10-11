@@ -135,7 +135,7 @@
         class="btn flex-grow-1"
         @click="approved()"
       >
-        CONNECT
+        APPROVE
       </v-btn>
     </aside>
     
