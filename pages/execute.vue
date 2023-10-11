@@ -4,7 +4,7 @@
 
 export default {
   name: "ExecuteAction",
-  layout: "default-variant",
+  // layout: "default-variant",
   data() {
     return {
       domain: null,
