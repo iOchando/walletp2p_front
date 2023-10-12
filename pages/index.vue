@@ -131,7 +131,7 @@
 <script>
 import axios from 'axios';
 import * as nearAPI from "near-api-js";
-import { CONFIG } from "@/services/nearConfig";
+import { configNear } from "@/services/nearConfig";
 const { connect, keyStores, KeyPair, utils } = nearAPI;
 
 export default {
@@ -221,8 +221,8 @@ export default {
       const keyPair = KeyPair.fromString(PRIVATE_KEY);
       // adds the keyPair you created to keyStore
       await myKeyStore.setKey(process.env.Network, this.address, keyPair);
-
-      const nearConnection = await connect(CONFIG(myKeyStore));
+      
+      const nearConnection = await connect(configNear(myKeyStore));
       const account = await nearConnection.account(this.address);
 
       const result = await account.getAccountBalance();
