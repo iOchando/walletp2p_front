@@ -130,6 +130,7 @@
       <v-btn
         class="btn-outlined flex-grow-1"
         style="--bg: var(--secondary)"
+        :loading="loading"
         @click="cancel()"
       >
         CANCEL
@@ -137,6 +138,7 @@
 
       <v-btn
         class="btn flex-grow-1"
+        :loading="loading"
         @click="approved()"
       >
         APPROVE
@@ -162,6 +164,7 @@ export default {
   layout: "default-variant-2",
   data() {
     return {
+      loading: false,
       checks: [
           { text: "View  the address of your permited account", check: true },
           { text: "View  the balance of your permited account", check: true },
@@ -203,6 +206,7 @@ export default {
   methods: {
     async approved() {
       try {
+        this.loading = true
         // const token = JSON.parse(sessionStorage.getItem("token"));
         const dataUser = localStorageUser.getAccount(this.token.from);
         const privateKey = dataUser.privateKey;
@@ -234,13 +238,14 @@ export default {
         
         sessionStorage.removeItem("token");
         
-        console.log("response: ", response);
+        // console.log("response: ", response);
 
         location.replace(ruta+"?token="+token);
       }
       catch (error) {
+        this.loading = false
         this.error = error.toString();
-          console.log("error error: ", error.toString());
+        // console.log("error error: ", error.toString());
       }
     },
 
