@@ -150,8 +150,8 @@
 
 <script>
 // import * as nearAPI from "near-api-js";
+import moment from 'moment';
 import utils from '../services/utils';
-
 import localStorageUser from '~/services/local-storage-user';
 import { configNear }  from '~/services/nearConfig';
 const nearAPI = require("near-api-js");
@@ -201,7 +201,6 @@ export default {
   mounted() {
     this.attachedDeposit = this.token.attachedDeposit ? (Number(this.token.attachedDeposit) / 1000000000000000000000000).toString() : "0";
     this.from = utils.shortenAddress(this.token.from);
-    console.log(JSON.parse(sessionStorage.getItem("token")));
   },
   methods: {
     async approved() {
@@ -233,12 +232,17 @@ export default {
         */
         
         const ruta = this.token.success;
-        const json = JSON.stringify(response)
+        const json = JSON.stringify(
+          {
+            data: response,
+            date_time: moment().unix()
+          }
+        )
         const token = window.btoa(json)
         
         sessionStorage.removeItem("token");
         
-        // console.log("response: ", response);
+        // console.log("response: ", json);
 
         location.replace(ruta+"?response="+token);
       }

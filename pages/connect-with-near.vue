@@ -121,7 +121,7 @@ export default {
     },
     next() {
       
-      if(!this.token) console.log("error no hay token");
+      if(!this.token) alert("error no hay token");
 
       if (!this.address || !this.domain || !this.contract) return
       
