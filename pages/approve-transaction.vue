@@ -240,7 +240,7 @@ export default {
         
         // console.log("response: ", response);
 
-        location.replace(ruta+"?token="+token);
+        location.replace(ruta+"?response="+token);
       }
       catch (error) {
         this.loading = false
