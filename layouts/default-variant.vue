@@ -16,9 +16,9 @@
     </v-main>
 
     <Footer ref="footer">
-      <span class="text" style="--text: var(--text2)">© 2023 Near p2p LLC. all rights reserved.</span>
+      <span class="text tcenter" style="--text: var(--text2)">© 2023 Near p2p LLC. reservados todos los derechos.</span>
       <a class="text" style="--fw: 700; color: var(--primary) !important" href="#" target="_blank">
-        Terms of Service // Privacy Policy
+        Términos de política y privacidad del servicio
       </a>
     </Footer>
   </v-app>

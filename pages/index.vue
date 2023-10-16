@@ -23,7 +23,7 @@
           style="flex: 1 1"
           @click="sheet=true"
         >
-          COLLECTIBLES
+          COLECCIONABLES
         </v-btn>
       </div>
 
@@ -34,7 +34,7 @@
         </h1>
 
         <div class="divcol center" style="margin-top: 25px;">
-          <h3 class="p">AVAILABLE BALANCE</h3>
+          <h3 class="p">SALDO DISPONIBLE</h3>
           <img src="../assets/sources/icons/warning-blue.svg" alt="warning icon" style="--w: 25px; --h: 25px; margin-top: 6px">
         </div>
       </aside>
@@ -57,18 +57,18 @@
           class="btn-outlined"
           @click="sheet=true"
         >
-          explore <span data-inner>near</span>
+        explorar <span data-inner>near</span>
         </v-btn>
 
         <v-btn
           class="btn"
           to="/explore"
         >
-          explore apps
+        explorar apps
         </v-btn>
 
         <article class="btn-outlined">
-          Earn, mint, and play! Discover the ecosystem of NEAR applications
+          ¡Gana, acuña y juega! Descubre el ecosistema de aplicaciones NEAR
         </article>
 
         <img src="@/assets/sources/images/background-explore.svg" alt="explore background">
@@ -78,7 +78,7 @@
 
     <section id="section-recent-activity">
       <div id="section-recent-activity__wrapper">
-        <h1 class="p">recent <br>activity</h1>
+        <h1 class="p">actividad <br>reciente</h1>
 
         <div class="divcol" style="gap: 20px">
           <ActivityCard
@@ -95,7 +95,7 @@
           :href="linkExplorer" target="_blank"
           class="btn"
         >
-          view all
+          ver todos
         </v-btn>
       </div>
     </section>
@@ -116,10 +116,10 @@
             color="error"
             @click="sheet = !sheet"
           >
-            close
+            cerrar
           </v-btn>
           <div class="my-3" style="font-size:20px; font-weight: 900;">
-            This option will be available coming soon
+            Esta opción estará disponible próximamente
           </div>
         </v-sheet>
       </v-bottom-sheet>
@@ -145,22 +145,22 @@ export default {
       dataBtns: [
         {
           icon: require("@/assets/sources/icons/arrow-up.svg"),
-          text: "send",
+          text: "enviar",
           action: () => {this.sheet = true;},
         },
         {
           icon: require("@/assets/sources/icons/arrow-down.svg"),
-          text: "receive",
+          text: "recibir",
           action: () => {this.sheet = true;},
         },
         {
           icon: require("@/assets/sources/icons/plus.svg"),
-          text: "top up",
+          text: "recargar",
           action: () => {this.sheet = true;},
         },
         {
           icon: require("@/assets/sources/icons/swap.svg"),
-          text: "swap",
+          text: "cambiar",
           action: () => {this.sheet = true;},
         },
       ],

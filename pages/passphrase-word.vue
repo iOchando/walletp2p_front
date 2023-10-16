@@ -2,9 +2,9 @@
   <div id="passphrase-word" class="divcol center">
     <Header
       ref="header"
-      top-text="PASSPHRASE"
-      bottom-text="SIGN UP"
-      description="ENTER THE FOLLOWING WORD FROM YOUR RECOVERY PHRASE TO COMPLETE THE SETUP PROCESS"
+      top-text="FRASE DE CONTRASEÑA"
+      bottom-text="REGISTRARSE"
+      description="INGRESE LA SIGUIENTE PALABRA DE SU FRASE DE RECUPERACIÓN PARA COMPLETAR EL PROCESO DE CONFIGURACIÓN"
       max-width="284px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"
@@ -25,10 +25,10 @@
         :loading="loading"
         @click="onVerify()"
       >
-        verify
+        verificar
       </v-btn>
 
-      <v-btn class="btn-outlined" @click="$router.go(-1)">go back</v-btn>
+      <v-btn class="btn-outlined" @click="$router.go(-1)">atrás</v-btn>
     </section>
   </div>
 </template>

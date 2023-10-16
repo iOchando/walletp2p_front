@@ -4,7 +4,7 @@
       show-append
       top-text="STAKING"
       top-text-center
-      description="STAKE YOUR NEAR TOKENS WITH A VALIDATOR"
+      description="STAKE TUS TOKENS NEAR CON UN VALIDADOR"
     ></Header>
     
 
@@ -13,7 +13,7 @@
         <span style="--fw: 700">patriciasilvab.near</span>
 
         <div class="space" style="margin-top: 4px;">
-          <span style="--fw: 700; --fs: 12px">AVAILABLE BALANCE</span>
+          <span style="--fw: 700; --fs: 12px">SALDO DISPONIBLE</span>
           <span style="--fs: 12px">0.94732 NEAR</span>
         </div>
 
@@ -25,7 +25,7 @@
 
       <v-btn
         class="btn"
-      >STAKE MY TOKENS</v-btn>
+      >STAKE MIS TOKENS</v-btn>
     </section>
 
 
@@ -57,16 +57,16 @@
     </section>
 
 
-    <h1 class="mb-0">CURRENT</h1>
-    <h1 style="direction: rtl;">VALIDATORS</h1>
+    <h1 class="mb-0">VALIDADORES</h1>
+    <h1 style="direction: rtl;">ACTUALES</h1>
 
 
     <v-card id="staking-stake" class="btn-outlined d-flex flex-column" style="gap: 12px;">
-      <p class="mb-0">You are not currently staking with any validators</p>
+      <p class="mb-0">Actualmente no estás haciendo staking con ningún validador.</p>
       <v-btn
       class="btn-outlined"
       style="min-height: 34px;"
-      >stake my tokens</v-btn>
+      >stake mis tokens</v-btn>
     </v-card>
   </div>
 </template>
@@ -79,12 +79,12 @@ export default {
     return {
       dataTokens: [
         {
-          title: "TOTAL AMOUNT STAKED",
+          title: "SALDO TOTAL STAKED",
           amount: 0,
           currency: 0,
         },
         {
-          title: "REWARDS EARNED",
+          title: "RECOMPENSAS OBTENIDAS",
           amount: 0,
           currency: 0,
         },

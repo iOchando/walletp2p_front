@@ -3,8 +3,8 @@
     <Header
       ref="header"
       top-text="otp"
-      bottom-text="verification"
-      description="ENTER THE VERIFICATION CODE WE JUST SENT ON YOUR EMAIL ADDRESS"
+      bottom-text="verificación"
+      description="INGRESE EL CÓDIGO DE VERIFICACIÓN QUE ACABAMOS DE ENVIAR A SU DIRECCIÓN DE CORREO ELECTRÓNICO"
       max-width="279px"
       top-text-dir="rtl"
       top-text-indent="2.8ch"
@@ -21,7 +21,7 @@
       <span :v-show="error" style="color: red;">{{error}}</span>
       
       <div v-show="minutes > 0" class="space">
-        <span class="text">resend code in</span>
+        <span class="text">reenviar código en</span>
 
         <span
           class="text"
@@ -33,7 +33,7 @@
         <a
           :disabled="disabledResend"
           @click="resendCode()"
-        ><span class="text" style="color: blue !important;" >resend code</span></a>
+        ><span class="text" style="color: blue !important;" >reenviar código</span></a>
       </div>
 
       <v-btn
@@ -42,13 +42,13 @@
         :loading="loading"
         @click="onVerify()"
       >
-        verify
+        verificar
       </v-btn>
     </section>
 
     <Footer ref="footer">
-      <span class="text" style="--text: var(--text2)">NEED HELP? 
-        <a style="--fw: 700" href="#" target="_blank">SUPPORT</a>
+      <span class="text" style="--text: var(--text2)">¿NECESITAS AYUDA? 
+        <a style="--fw: 700" href="#" target="_blank">SOPORTE</a>
       </span>
     </Footer>
   </div>

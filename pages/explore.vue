@@ -2,9 +2,9 @@
   <div id="explore">
     <Header
       show-append
-      top-text="EXPLORE"
+      top-text="EXPLORAR"
       top-text-dir="rtl"
-      description="TRENDING PROJECTS"
+      description="PROYECTOS TENDENCIA"
       description-align="left"
     ></Header>
 
@@ -30,7 +30,7 @@
     <!-- explore__actions -->
     <aside id="explore__actions" class="d-flex flex-column" style="gap: 15px; margin-block: 23px">
       <v-btn class="btn">
-        TOP UP YOUR WALLET
+        RECARGA TU BILLETERA
       </v-btn>
 
       <div class="d-flex" style="gap: 13px">
@@ -43,7 +43,7 @@
         ></v-select>
 
         <v-btn class="btn-outlined">
-          ALL
+          TODOS
         </v-btn>
       </div>
     </aside>
@@ -120,42 +120,42 @@ export default {
           img: require("@/assets/sources/logos/ref-finance.svg"),
           name: "REF FINANCE",
           color: "#000",
-          description: "Multi-purpose DeFi plataform built on NEAR Protocol",
+          description: "Plataforma DeFi multipropósito construida sobre el protocolo NEAR",
         },
         {
           tag: "Cross-chain Bridge",
           img: require("@/assets/sources/logos/rainbow-bridge.svg"),
           name: "RAINBOW BRIDGE",
           color: "#fff",
-          description: "Transfer tokens between Ethereum and NEAR",
+          description: "Transferir tokens entre Ethereum y NEAR",
         },
         {
           tag: "AMM DEX",
           img: require("@/assets/sources/logos/ref-finance.svg"),
           name: "REF FINANCE",
           color: "#000",
-          description: "Multi-purpose DeFi plataform built on NEAR Protocol",
+          description: "Plataforma DeFi multipropósito construida sobre el protocolo NEAR",
         },
         {
           tag: "Cross-chain Bridge",
           img: require("@/assets/sources/logos/rainbow-bridge.svg"),
           name: "RAINBOW BRIDGE",
           color: "#fff",
-          description: "Transfer tokens between Ethereum and NEAR",
+          description: "Transferir tokens entre Ethereum y NEAR",
         },
         {
           tag: "AMM DEX",
           img: require("@/assets/sources/logos/ref-finance.svg"),
           name: "REF FINANCE",
           color: "#000",
-          description: "Multi-purpose DeFi plataform built on NEAR Protocol",
+          description: "Plataforma DeFi multipropósito construida sobre el protocolo NEAR",
         },
         {
           tag: "Cross-chain Bridge",
           img: require("@/assets/sources/logos/rainbow-bridge.svg"),
           name: "RAINBOW BRIDGE",
           color: "#fff",
-          description: "Transfer tokens between Ethereum and NEAR",
+          description: "Transferir tokens entre Ethereum y NEAR",
         },
       ]
     }

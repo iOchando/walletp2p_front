@@ -1,7 +1,7 @@
 <template>
   <div id="limited-permissions" class="d-flex flex-column">
     <Header
-      top-text="CONNECT"
+      top-text="CONECTAR"
       top-text-center
     ></Header>
 
@@ -13,9 +13,9 @@
     </v-btn>
 
     <p class="mb-0" style="--fw: 400">
-      only connect to sites that you trust. once connected, 
-      <a href="" target="_blank">{{ domain }}</a> will have 
-      <b style="font-weight: 700 !important">limited permissions</b>:
+      Conéctese únicamente a sitios en los que confíe. una vez conectado,
+      <a href="" target="_blank">{{ domain }}</a> tendrá
+      <b style="font-weight: 700 !important">permisos limitados</b>:
     </p>
 
 
@@ -31,7 +31,7 @@
       class="btn-outlined justify-space-between align-center flex-wrap"
       style="margin-bottom: 12px; padding-right: 15px;"
     >
-      <label>CONTRACT</label>
+      <label>CONTRATO</label>
 
       <a :href="'https://explorer.testnet.near.org/accounts/'+contract" target="_blank" class="center tend ml-auto" style="gap: 8px;">
         {{ contract }}
@@ -41,7 +41,7 @@
 
     <v-card class="btn-outlined flex-column" style="padding-block: 15px;">
       <div class="d-flex space" style="margin-bottom: 8px;">
-        <label>NETWORK FEE ALLOWARE</label>
+        <label>ASIGNACIÓN DE TARIFA DE RED</label>
         <span
           class="tcenter"
           style="--c: #7C7B7F; --fw: 700; --ls: normal; text-align: right; font-size: 12px;"
@@ -49,9 +49,9 @@
       </div>
 
       <p class="mb-0" style="--fw: 500">
-        The application will begiven permission to spend up to 
+        La aplicación recibirá permiso para gastar hasta 
         <b style="font-weight: 700 !important">0.25 NEAR</b> 
-        towards network fees incurred during use.
+        hacia las tarifas de red incurridas durante el uso.
       </p>
     </v-card>
 
@@ -62,14 +62,14 @@
         style="--bg: var(--secondary)"
         @click="cancel()"
       >
-        CANCEL
+        CANCELAR
       </v-btn>
 
       <v-btn
         class="btn flex-grow-1"
         @click="connect()"
       >
-        CONNECT
+        CONECTAR
       </v-btn>
     </aside>
   </div>
@@ -86,10 +86,10 @@ export default {
   data() {
     return {
       checks: [
-        { text: "View  the address of your permited account", check: true },
-        { text: "View  the balance of your permited account", check: true },
-        { text: "Call methods on the smart contract on behalf of your permited account", check: true },
-        { text: "This does not allow the app to transfer tokens", check: false },
+        { text: "Ver la dirección de su cuenta permitida", check: true },
+        { text: "Ver el saldo de su cuenta permitida", check: true },
+        { text: "Métodos de llamada en el contrato inteligente en nombre de su cuenta permitida", check: true },
+        { text: "Esto no permite que la aplicación transfiera tokens.", check: false },
       ],
       domain: null,
       contract: null,

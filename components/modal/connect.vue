@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="modalConnect" content-class="modal-connect divcol relative isolate">
     <aside class="space">
-      <span class="h9_em">Connect Wallet</span>
+      <span class="h9_em">Conectar billetera</span>
       
       <v-btn icon @click="modalConnect = false">
         <v-icon size="1.5em">mdi-close</v-icon>
@@ -31,7 +31,7 @@
         <img src="~/assets/sources/logos/sender-icon.svg" alt="near">
         
         <div class="divcol astart" style="gap: 5px">
-          <span class="h12_em bold">Sender</span>
+          <span class="h12_em bold">Remitente</span>
           <span class="h13_em">sender.org</span>
         </div>
       </v-btn>

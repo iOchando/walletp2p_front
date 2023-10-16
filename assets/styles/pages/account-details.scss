@@ -35,6 +35,10 @@
       line-height: normal;
     }
 
+    .min-width-span{
+      min-width: 130px!important;
+    }
+
     span + span, span:only-child {
       --fw: 500;
       font-size: 10px;

@@ -5,26 +5,26 @@
     </v-alert>
     <modalInfo
       activator="#more-information-btn"
-      title="Transaction Details"
+      title="Detalles de la transacción"
       content-class="approve-transaction-info-modal"
     >
       <v-card class="btn-outlined mb-4 px-4 py-2" style="--bg: var(--secondary); --br: 15px; --ls: normal; --fs: 12px; --fw: 600">
-        <h6 class="mb-3" style="--fs: 15px">Network Fees</h6>
+        <h6 class="mb-3" style="--fs: 15px">Tarifas de red</h6>
 
         <div class="space" style="gap: 20px;">
-          <span>Estimated Fees</span>
+          <span>Tarifas estimadas</span>
           <span style="--fw: 400">&lt; 0.00001 NEAR</span>
         </div>
 
         <div class="space" style="gap: 20px;">
-          <span>Fee limit</span>
+          <span>Límite de tarifa</span>
           <span style="--fw: 400">600 Tgas</span>
         </div>
       </v-card>
 
 
       <v-card class="btn-outlined px-4 py-2" style="--bg: var(--secondary); --br: 15px; --ls: normal; --fs: 12px; --fw: 600">
-        <h6 class="mb-3" style="--fs: 15px">Contract Details</h6>
+        <h6 class="mb-3" style="--fs: 15px">Detalles del contrato</h6>
 
         <section class="d-flex flex-column" style="gap: 20px;">
           <aside
@@ -33,7 +33,7 @@
             style="gap: 10px;"
           >
             <div class="space" style="gap: 20px;">
-              <span>For Contract</span>
+              <span>Para contrato</span>
               <a
                 href="" target="_blank"
                 class="center"
@@ -44,7 +44,7 @@
             </div>
 
             <div class="space" style="gap: 20px;">
-              <span>Function:</span>
+              <span>Función:</span>
               <v-select
                 v-model="item.function"
                 :items="item.listFunctions"
@@ -58,9 +58,9 @@
     </modalInfo>
 
     <Header
-      top-text="APPROVE"
+      top-text="APROBAR"
       top-text-dir="rtl"
-      bottom-text="TRANSACTION"
+      bottom-text="TRANSACCIÓN"
       bottom-text-dir="ltr"
     ></Header>
 
@@ -84,7 +84,7 @@
       class="btn-outlined justify-space-between align-center flex-wrap"
       style="margin-bottom: 12px;"
     >
-      <label>FROM</label>
+      <label>DE</label>
 
       <div class="d-flex flex-column tend">
         <span
@@ -103,7 +103,7 @@
       class="btn-outlined justify-space-between align-center flex-wrap"
     >
       <div class="acenter" style="gap: 8px;">
-        <label>ESTIMATED FEES</label>
+        <label>TARIFA ESTIMADA</label>
         <img src="@/assets/sources/icons/warning-blue.svg" alt="info icon">
       </div>
 
@@ -123,7 +123,7 @@
         font-size: 9px;
         letter-spacing: 0.27px;
       "
-    >+ MORE INFORMATION</a>
+    >+ MÁS INFORMACIÓN</a>
 
 
     <aside class="d-flex justify-space-between" style="gap: 12px;">
@@ -133,7 +133,7 @@
         :loading="loading"
         @click="cancel()"
       >
-        CANCEL
+        CANCELAR
       </v-btn>
 
       <v-btn
@@ -141,7 +141,7 @@
         :loading="loading"
         @click="approved()"
       >
-        APPROVE
+        APROBAR
       </v-btn>
     </aside>
     
@@ -166,10 +166,10 @@ export default {
     return {
       loading: false,
       checks: [
-          { text: "View  the address of your permited account", check: true },
-          { text: "View  the balance of your permited account", check: true },
-          { text: "Call methods on the smart contract on behalf of your permited account", check: true },
-          { text: "This does not allow the app to transfer tokens", check: false },
+          { text: "Ver la dirección de su cuenta permitida", check: true },
+          { text: "Ver el saldo de su cuenta permitida", check: true },
+          { text: "Métodos de llamada en el contrato inteligente en nombre de su cuenta permitida", check: true },
+          { text: "Esto no permite que la aplicación transfiera tokens.", check: false },
       ],
       from: null,
       attachedDeposit: "0",

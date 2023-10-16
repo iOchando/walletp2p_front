@@ -2,9 +2,9 @@
   <div id="login-with-gmail" class="divcol center">
     <Header
       ref="header"
-      top-text="SELECT"
-      bottom-text="ACCOUNT"
-      description="LOGIN WITH GMAIL"
+      top-text="SELECCIONA"
+      bottom-text="UNA CUENTA"
+      description="LOGIN CON GMAIL"
       max-width="283px"
       top-text-dir="ltr"
       bottom-text-dir="rtl"
@@ -47,7 +47,7 @@
             cover
           />
 
-          <span>use another account</span>
+          <span>usar otra cuenta</span>
         </div>
 
         <img src="@/assets/sources/icons/arrow-right.svg" alt="arrow right">
@@ -57,7 +57,7 @@
         <img src="@/assets/sources/icons/warning.svg" alt="warning icon" style="width: 49px;">
 
         <p class="p">
-          <span>NOTE:</span> 
+          <span>NOTA:</span> 
           Para continuar, google compartirá tu nombre, tu dirección de correo electrónico, tu preferencia de idioma y tu foto de perfil con ramper.xyz. 
           Antes de usar esta aplicación puedes leer la <a href="" target="_blank">política de privacidad</a> y los 
           <a href="" target="_blank">términos del servicio</a> de ramper.xyz
@@ -67,11 +67,11 @@
 
     <Footer ref="footer">
       <div class="text d-flex" style="--text: var(--text2); gap: 20px;">
-        <a style="--fw: 700" href="#" target="_blank">HELP</a>
+        <a style="--fw: 700" href="#" target="_blank">AYUDA</a>
 
-        <a style="--fw: 700" href="#" target="_blank">PRIVACY</a>
+        <a style="--fw: 700" href="#" target="_blank">PRIVACIDAD</a>
         
-        <a style="--fw: 700" href="#" target="_blank">TERMS</a>
+        <a style="--fw: 700" href="#" target="_blank">TÉRMINOS</a>
       </div>
     </Footer>
 

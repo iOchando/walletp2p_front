@@ -1,12 +1,12 @@
 <template>
   <div id="connect-with-near" class="d-flex flex-column">
     <Header
-      top-text="CONNECT"
+      top-text="CONECTAR"
       top-text-dir="rtl"
-      bottom-text="WITH NEAR"
+      bottom-text="CON NEAR"
       bottom-text-dir="ltr"
       :show-prepend="false"
-      description="AN APPLICATION IS REQUESTING LIMITED ACCESS TO YOUR NEAR ACCOUNT. SELECT THE ACCOUNT YOU WISH TO CONNECT."
+      description="UNA APLICACIÓN SOLICITA ACCESO LIMITADO A SU NUEVA CUENTA. SELECCIONE LA CUENTA QUE DESEA CONECTAR."
     ></Header>
 
     <v-btn
@@ -38,7 +38,7 @@
         style="--b-color: var(--primary); --bg: var(--secondary); --c: var(--primary); margin-right: calc(var(--p-inside) + var(--p-outside));"
         @click="$router.push({path: '/login', query: {action: 'connect-with-near'} })"
       >
-        IMPORT A DIFFERENT ACCOUNT
+        IMPORTAR CUENTA DIFERENTE
       </v-btn>
     </v-card>
 
@@ -48,14 +48,14 @@
         style="--bg: var(--secondary)"
         @click="cancel()"
       >
-        CANCEL
+        CANCELAR
       </v-btn>
 
       <v-btn
         class="btn flex-grow-1"
         @click="next()"
       >
-        NEXT
+        SIGUIENTE
       </v-btn>
     </aside>
   </div>
