@@ -234,7 +234,7 @@ export default {
         const ruta = this.token.success;
         const json = JSON.stringify(
           {
-            data: response,
+            hash: response?.transaction?.hash,
             date_time: moment().unix()
           }
         )

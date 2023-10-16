@@ -63,7 +63,7 @@
 import axios from 'axios'
 import * as nearAPI from "near-api-js";
 import localStorageUser from '../services/local-storage-user';
-import { CONFIG } from "@/services/nearConfig";
+import { configNear } from "@/services/nearConfig";
 import { ALERT_TYPE } from '~/plugins/dictionary';
 import utils from '~/services/utils';
 const { keyStores, Account, Near } = nearAPI;
@@ -115,7 +115,7 @@ export default {
       console.log(accountInput)
 
       const keyStore = new keyStores.InMemoryKeyStore()
-      const near = new Near(CONFIG(keyStore))
+      const near = new Near(configNear(keyStore))
       const account = new Account(near.connection, accountInput)
       
       let response = null
