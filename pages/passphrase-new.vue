@@ -2,9 +2,9 @@
   <div id="passphrase" class="divcol center">
     <Header
       ref="header"
-      top-text="NEW PASSPHRASE"
-      bottom-text="FOR SIGN IN"
-      description="SECURELY STORE YOUR NEW PASSPHRASE"
+      top-text="NUEVA FRASE"
+      bottom-text="PARA INICIAR SESIÓN"
+      description="GUARDE DE FORMA SEGURA SU NUEVA CONTRASEÑA"
       max-width="284px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"
@@ -19,7 +19,7 @@
       </div>
 
       <div class="space" style="gap: 15px">
-        <v-btn class="btn" style="flex-grow: 1" @click="onContinue()">continue</v-btn>
+        <v-btn class="btn" style="flex-grow: 1" @click="onContinue()">continuar</v-btn>
         <v-btn
           class="btn-icon"
           style="--size: 45px"

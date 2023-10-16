@@ -2,15 +2,15 @@
   <div id="account-details">
     <Header
       show-append
-      top-text="ACCOUNT"
-      bottom-text="DETAILS"
+      top-text="DETALLES DE"
+      bottom-text="LA CUENTA"
     ></Header>
 
 
     <!-- details -->
     <section id="account-details-detail" class="d-flex flex-column" style="gap: 15px;">
       <div class="space">
-        <h5 class="mb-0">WALLET ID</h5>
+        <h5 class="mb-0">ID DE BILLETERA</h5>
 
         <div class="d-flex" style="gap: 12px;">
           <span class="center">patriciasilvab.near</span>
@@ -25,7 +25,7 @@
       </div>
 
       <div class="jspace">
-        <h5 class="mb-0">wallet balance</h5>
+        <h5 class="mb-0">balance de billetera</h5>
 
         <div class="d-flex flex-column tend">
           <span>0.9999996 NEAR</span>
@@ -36,7 +36,7 @@
       <v-card class="btn-outlined">
         <aside v-for="(value, key, i) in details" :key="i" class="space">
           <div class="center">
-            <h5 class="mb-0">{{ key }}</h5>
+            <h5 class="mb-0 min-width-span">{{ key }}</h5>
             <img src="@/assets/sources/icons/warning-blue.svg" alt="info">
           </div>
 
@@ -49,15 +49,15 @@
     </section>
 
 
-    <h1 class="mb-0" style="direction: rtl;">security &</h1>
-    <h1 style="margin-bottom: 22px;">recovery</h1>
+    <h1 class="mb-0" style="direction: rtl;">seguridad y</h1>
+    <h1 style="margin-bottom: 22px;">recuperación</h1>
 
 
     <h5
       class="acenter"
       style="margin-bottom: 19px; gap: 5px;"
     >
-      most secure (recomemmended)
+      Más seguro (recomendado)
       <img src="@/assets/sources/icons/warning-blue.svg" alt="info">
     </h5>
 
@@ -67,13 +67,13 @@
       style="--br: 20px; padding: 22px 17px; gap: 19px; background-color: var(--secondary) !important; margin-bottom: 41px;"
     >
       <div class="d-flex flex-column" style="gap: 5px; max-width: 126px;">
-        <h5 class="mb-0">ledger hardware wallet</h5>
+        <h5 class="mb-0">billetera de hardware de libro mayor</h5>
 
-        <p class="mb-0">Improve the security of your account by using a hardware wallet.</p>
+        <p class="mb-0">Mejore la seguridad de su cuenta utilizando una billetera de hardware.</p>
       </div>
 
       <v-btn style="border-radius: 50px !important; max-width: 134px; min-height: 34.26px;" class="btn flex-grow-1">
-        <span style="color: #fff !important;">ENABLE</span>
+        <span style="color: #fff !important;">HABILITAR</span>
       </v-btn>
     </v-card>
 
@@ -84,16 +84,16 @@
     >
       <div class="d-flex" style="gap: 5px;">
         <div class="d-flex flex-column" style="max-width: 126px;">
-          <h5 class="mb-0">send phrase</h5>
+          <h5 class="mb-0">enviar frase</h5>
 
-          <p class="mb-0">Enable jul 19 2023</p>
+          <p class="mb-0">Habilitar jul 19 2023</p>
         </div>
 
         <img src="@/assets/sources/icons/warning-blue.svg" alt="info">
       </div>
 
       <v-btn style="border-radius: 50px !important; max-width: 134px; min-height: 34.26px;" class="btn flex-grow-1">
-        <span style="color: #fff !important;">DISABLE</span>
+        <span style="color: #fff !important;">DESACTIVADO</span>
       </v-btn>
     </v-card>
 
@@ -103,11 +103,11 @@
         class="btn-outlined"
         style="--b-color: var(--primary); --bg: var(--secondary)"
       >
-        <span style="color: var(--primary) !important;">export local private key</span>
+        <span style="color: var(--primary) !important;">exportar clave privada local</span>
       </v-btn>
 
       <v-btn class="btn">
-        remove account form wallet
+        eliminar cuenta de la billetera
       </v-btn>
     </div>
   </div>
@@ -120,15 +120,15 @@ export default {
   data() {
     return {
       details: {
-        'reserved for storage': {
+        'reservado para almacenamiento': {
           amount: "0.000264",
           currency: "0.01"
         },
-        'reserved for transactions': {
+        'reservado para transacciones': {
           amount: "0.005",
           currency: "0.01"
         },
-      'available balance': {
+      'Saldo disponible': {
           amount: "0.98275",
           currency: "1.31"
         }

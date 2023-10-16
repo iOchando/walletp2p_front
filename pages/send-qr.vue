@@ -7,11 +7,11 @@
 
     <aside class="d-flex" style="gap: 12px; margin-top: 26px;">
       <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);">
-        SEND
+        ENVIAR
       </v-btn>
 
       <v-btn class="btn flex-grow-1">
-        RECEIVE
+        RECIBIR
       </v-btn>
     </aside>
 
@@ -51,7 +51,7 @@
 
     <section class="d-flex flex-column" style="gap: 14px;">
       <div class="d-flex flex-column" style="gap: 6px;">
-        <label>ACCOUNT ID</label>
+        <label>ID DE CUENTA</label>
         <v-card
           class="btn-outlined space"
           style="--bg: var(--secondary); padding: 0 8px 0 23px;"
@@ -66,11 +66,11 @@
 
       <aside class="d-flex" style="gap: 12px">
         <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);" @click="$router.go(-1)">
-          CANCEL
+          CANCELAR
         </v-btn>
 
         <v-btn class="btn flex-grow-1" to="/send-details">
-          CONTINUE
+          CONTINUAR
         </v-btn>
       </aside>
     </section>

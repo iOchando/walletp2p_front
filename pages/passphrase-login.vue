@@ -3,9 +3,9 @@
   <div id="passphrase-login" class="divcol center">
     <Header
       ref="header"
-      top-text="PASSPHRASE"
-      bottom-text="LOG IN"
-      description="SECURELY LOG IN WITH YOUR EXCLUSIVE PASSPHRASE"
+      top-text="FRASE DE CONTRASEÑA"
+      bottom-text="ACCESO"
+      description="INICIA SESIÓN CON TU CONTRASEÑA EXCLUSIVA"
       max-width="284px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"
@@ -28,7 +28,7 @@
         <img width="10px" src="@/assets/sources/icons/scroll-down.svg" alt="scroll down">
       </v-btn>
 
-      <v-btn v-else class="btn" @click="onTap()">Continue</v-btn>
+      <v-btn v-else class="btn" @click="onTap()">Continuar</v-btn>
     </section>
   </div>
   </v-form>
@@ -45,7 +45,7 @@ export default {
       scrollEnd: false,
       seedPhraseSplit: {},
       valid: false,
-      required: [(v) => !!v || "Field required"],
+      required: [(v) => !!v || "Campo requerido"],
     }
   },
   head() {

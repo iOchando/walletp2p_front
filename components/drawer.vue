@@ -22,16 +22,16 @@
 
       <section class="d-flex flex-column" style="gap: 16px;">
         <div class="d-flex flex-column" style="gap: 9px;">
-          <label>ACCOUNT</label>
+          <label>CUENTA</label>
           <WalletCard wallet="patriciasilvab.near" pass="hola hola hola" />
         </div>
 
-        <v-btn class="btn">IMPORT ACCOUNT</v-btn>
+        <v-btn class="btn">IMPORTAR CUENTA</v-btn>
 
         <v-btn
           class="btn-outlined"
           style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary)"
-        >CREATE NEW ACCOUNT</v-btn>
+        >CREAR CUENTA NUEVA</v-btn>
       </section>
     </div>
   </nav>
@@ -49,7 +49,7 @@ export default {
           action: () => { this.model = false },
         },
         {
-          name: "wallet",
+          name: "billetera",
           icon: require("@/assets/sources/drawer/wallet.svg"),
           action: () => {},
         },
@@ -59,22 +59,22 @@ export default {
           action: () => {},
         },
         {
-          name: "explore",
+          name: "explorar",
           icon: require("@/assets/sources/drawer/explore.svg"),
           action: () => {},
         },
         {
-          name: "account",
+          name: "cuenta",
           icon: require("@/assets/sources/drawer/account.svg"),
           action: () => {},
         },
         {
-          name: "support",
+          name: "soporte",
           icon: require("@/assets/sources/drawer/support.svg"),
           action: () => {},
         },
         {
-          name: "eng",
+          name: "es",
           icon: require("@/assets/sources/drawer/language.svg"),
           action: () => {},
         },

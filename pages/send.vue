@@ -12,11 +12,11 @@
 
     <aside class="d-flex" style="gap: 12px; margin-top: 26px;">
       <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);">
-        SEND
+        ENVIAR
       </v-btn>
 
       <v-btn class="btn flex-grow-1">
-        RECEIVE
+        RECIBIR
       </v-btn>
     </aside>
 
@@ -31,7 +31,7 @@
       <v-btn
         class="btn-outlined mx-auto"
         style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary); --fs: 12px; --fw: 700; --ls: 0.36px; --h: 34px; width: 121px;"
-      >USE MAX</v-btn>
+      >USAR MÁXIMO</v-btn>
     </section>
 
 
@@ -41,7 +41,7 @@
         style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
         @click="$refs.cryptos.model = true"
       >
-        <h5 class="mb-0">SELECT ASSET</h5>
+        <h5 class="mb-0">SELECCIONAR RECURSO</h5>
         
         <div class="center" style="gap: 6px;">
           <img src="@/assets/sources/logos/near-icon.svg" alt="near icon" style="width: 29px;">
@@ -54,18 +54,18 @@
         class="btn-outlined space"
         style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
       >
-        <h5 class="mb-0">AVAILABLE TO SEND</h5>
+        <h5 class="mb-0">DISPONIBLE PARA ENVIAR</h5>
         
         <span style="--fs: 12px; --ls: normal">25.74794 NEAR</span>
       </v-card>
 
       <aside class="d-flex" style="gap: 12px">
         <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);" @click="$router.go(-1)">
-          CANCEL
+          CANCELAR
         </v-btn>
 
         <v-btn class="btn flex-grow-1" to="/send-details">
-          CONTINUE
+          CONTINUAR
         </v-btn>
       </aside>
     </section>

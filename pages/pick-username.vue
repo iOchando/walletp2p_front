@@ -3,9 +3,9 @@
   <div id="pick-username" class="divcol center">
     <Header
       ref="header"
-      top-text="PICK A"
-      bottom-text="USERNAME"
-      description="THIS WILL BE YOUR LEGIBLE WALLET ADDRESS"
+      top-text="ESCOGE UN"
+      bottom-text="NOMBRE DE USUARIO"
+      description="ESTA SERÁ SU DIRECCIÓN LEGIBLE DE BILLETERA"
       max-width="283px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"
@@ -15,7 +15,7 @@
     <section id="pick-username-content">
       <v-text-field
         v-model="accountNear"
-        label="username / wallet" solo
+        label="usuario / billetera" solo
         style="--margin-message: 1px"
         :error-messages="errorAccount"
         :success-messages="successAccount"
@@ -37,21 +37,21 @@
         </v-btn>
       </p>
       <p>must have <strong>0.5</strong> NEAR available, to be able to assign a name</p>-->
-      <v-btn :loading="loading" class="btn" @click="onCreateName()">sign up</v-btn>
-      <v-btn :loading="loading" class="btn-outlined mt-5" @click="onSignUp()">Skip</v-btn>
+      <v-btn :loading="loading" class="btn" @click="onCreateName()">registrarse</v-btn>
+      <v-btn :loading="loading" class="btn-outlined mt-5" @click="onSignUp()">saltar</v-btn>
 
       <article class="btn-outlined">
         <img width="36px" src="@/assets/sources/icons/warning.svg" alt="warning icon">
 
         <p class="p">
-          <span>NOTE:</span> Your username will serve as your wallet address, allowing seamless transfers with just a few keystrokes.
+          <span>NOTA:</span> Su nombre de usuario servirá como dirección de su billetera, lo que permitirá transferencias fluidas con solo presionar unas pocas teclas.
         </p>
       </article>
     </section>
 
     <Footer ref="footer">
-      <span class="text" style="--text: var(--text2)">NEED HELP? 
-        <a style="--fw: 700" href="#" target="_blank">SUPPORT</a>
+      <span class="text" style="--text: var(--text2)">¿NECESITAS AYUDA?
+        <a style="--fw: 700" href="#" target="_blank">SOPORTE</a>
       </span>
     </Footer>
 
@@ -78,7 +78,7 @@ export default {
       valid:false,
       address: "",
       accountNear: null,
-      required: [(v) => !!v || "Field required"],
+      required: [(v) => !!v || "Campo requerido"],
       copie: false,
       errorAccount: null,
       successAccount: null,

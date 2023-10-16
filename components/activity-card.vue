@@ -13,7 +13,7 @@
 
     <div class="divcol">
       <span style="color: var(--primary)">{{amount}} {{coin}}</span>
-      <span style="text-align: right">{{date}} ago</span>
+      <span style="text-align: right">{{date}} atrás</span>
     </div>
   </div>
 </template>

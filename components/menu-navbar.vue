@@ -12,7 +12,7 @@
           v-if="!$parent.isLogged" :ripple="false"
           class="btn" style="--w: 75%; --min-h: 30px; --p: .5em 2em"
           @click="$store.dispatch('modalConnect')"
-        >Connect</v-btn>
+        >Conectar</v-btn>
         
         <!-- menu login -->
         <v-menu v-else bottom offset-y nudge-bottom="10px">
@@ -62,7 +62,7 @@
 
 
       <template #footer>
-        <span class="h10_em" style="--c: #fff">Join us on:</span>
+        <span class="h10_em" style="--c: #fff">Únete a nosotros en:</span>
 
         <div class="center">
           <v-btn v-for="(item,i) in dataSocial" :key="i" icon :href="item.url" target="_blank">

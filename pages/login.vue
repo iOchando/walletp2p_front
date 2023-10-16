@@ -4,9 +4,8 @@
     <Header
       ref="header"
       :show-back-btn="false"
-      top-text="GET"
-      bottom-text="STARTED"
-      description="SIGN IN OR REGISTER TO JOIN THE FUN"
+      top-text="EMPEZAR"
+      description="INICIAR SESIÓN O REGÍSTRESE PARA UNIRSE A LA DIVERSIÓN"
       max-width="251px"
     />
 
@@ -26,11 +25,11 @@
           :loading="loading"
           @click="onContinue()"
         >
-          continue
+          continuar
         </v-btn>
 
 
-      <p class="p tcenter">or</p>
+      <p class="p tcenter">o</p>
 
       <!--<v-btn
         class="btn-outlined"
@@ -61,7 +60,7 @@
         :loading="loading"
         @click="onContinuePassphrase()"
       >
-        CONTINUE WITH PASSPHRASE
+        CONTINUAR CON CONTRASEÑA
       </v-btn>
 
 
@@ -79,7 +78,7 @@
       <span
         class="text tcenter"
         style="--fw: 700; --text: var(--text2); margin-top: 22px"
-      >PRIVACY POLICY</span>
+      >POLÍTICA DE PRIVACIDAD</span>
     </Footer>
   </div>
 </v-form>
@@ -99,7 +98,7 @@ export default {
     return {
       loading: false,
       validEmail: false,
-      requiredEmail: [(v) => !!v || "Field required", (v) => /.+@.+/.test(v) || 'E-mail must be valid'],
+      requiredEmail: [(v) => !!v || "Campo requerido", (v) => /.+@.+/.test(v) || 'E-mail inválido'],
       emailImput: null,
     }
   },

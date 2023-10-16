@@ -2,9 +2,9 @@
   <div id="passphrase" class="divcol center">
     <Header
       ref="header"
-      top-text="PASSPHRASE"
-      bottom-text="SIGN UP"
-      description="GENERATE AND SAFELY STORE A UNIQUE PASSPHRASE"
+      top-text="FRASE DE CONTRASEÑA"
+      bottom-text="REGISTRARSE"
+      description="GENERAR Y ALMACENAR DE FORMA SEGURA UNA CONTRASEÑA ÚNICA"
       max-width="284px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"
@@ -18,7 +18,7 @@
       </div>
 
       <div class="space" style="gap: 15px">
-        <v-btn class="btn" style="flex-grow: 1" @click="onContinue()">continue</v-btn>
+        <v-btn class="btn" style="flex-grow: 1" @click="onContinue()">continuar</v-btn>
         <v-btn
           class="btn-icon"
           style="--size: 45px"
@@ -32,8 +32,8 @@
     </section>
 
     <Footer ref="footer">
-      <span class="text" style="--text: var(--text2)">ALREADY HAVE A PASSPHRASE?
-        <a style="--fw: 700" @click="onSignIn()">SIGN IN</a>
+      <span class="text" style="--text: var(--text2)">¿YA TIENE UNA FRASE DE CONTRASEÑA?
+        <a style="--fw: 700" @click="onSignIn()">REGISTRARSE</a>
       </span>
     </Footer>
   </div>

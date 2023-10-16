@@ -12,26 +12,26 @@
 
     <section class="d-flex flex-column" style="margin-bottom: 43px;">
       <v-text-field
-        placeholder="ACCOUNT ID" solo
+        placeholder="ID DE CUENTA" solo
         style="--bg: var(--secondary); --p: 0 15px 0 23px"
       >
         <template #prepend-inner>
-          <h5 class="mb-0" style="color: var(--primary)">SEND TO</h5>
+          <h5 class="mb-0" style="color: var(--primary)">ENVIAR A</h5>
         </template>
       </v-text-field>
 
       <aside class="d-flex" style="gap: 12px">
         <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);" @click="$router.go(-1)">
-          CANCEL
+          CANCELAR
         </v-btn>
 
         <v-btn class="btn flex-grow-1">
-          CONTINUE
+          CONTINUAR
         </v-btn>
       </aside>
     </section>
 
-    <h5 style="margin-bottom: 12px;">COMMON PAYEE</h5>
+    <h5 style="margin-bottom: 12px;">BENEFICIARIO COMÚN</h5>
     <section class="d-flex flex-column" style="gap: 12px;">
       <v-card
         v-for="(item, i) in commonPayee" :key="i"
