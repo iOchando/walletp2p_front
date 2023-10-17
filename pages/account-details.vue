@@ -13,13 +13,16 @@
         <h5 class="mb-0">ID DE BILLETERA</h5>
 
         <div class="d-flex" style="gap: 12px;">
-          <span class="center">patriciasilvab.near</span>
+          <span class="center">{{ account_id.address }}</span>
 
           <v-btn
             class="btn-icon"
             style="--size: 29px"
+            @click="fnCopie()"
+            v-clipboard:copy="account_id.address"
           >
-            <img src="@/assets/sources/icons/copy.svg" alt="copy to clipboard" style="--w: 15px">
+            <v-icon v-if="copie">mdi-check</v-icon>
+            <img v-if="!copie" src="@/assets/sources/icons/copy.svg" alt="copy to clipboard" style="--w: 15px">
           </v-btn>
         </div>
       </div>
@@ -28,8 +31,8 @@
         <h5 class="mb-0">balance de billetera</h5>
 
         <div class="d-flex flex-column tend">
-          <span>0.9999996 NEAR</span>
-          <span>$1.38</span>
+          <span>{{ balanceWallet.near }} NEAR</span>
+          <span>${{ balanceWallet.usd }}</span>
         </div>
       </div>
 
@@ -49,7 +52,7 @@
     </section>
 
 
-    <h1 class="mb-0" style="direction: rtl;">seguridad y</h1>
+    <!--<h1 class="mb-0" style="direction: rtl;">seguridad y</h1>
     <h1 style="margin-bottom: 22px;">recuperación</h1>
 
 
@@ -75,10 +78,10 @@
       <v-btn style="border-radius: 50px !important; max-width: 134px; min-height: 34.26px;" class="btn flex-grow-1">
         <span style="color: #fff !important;">HABILITAR</span>
       </v-btn>
-    </v-card>
+    </v-card>-->
 
 
-    <v-card
+    <!--<v-card
       class="btn-outlined d-flex align-center justify-space-between"
       style="--br: 20px; padding: 22px 17px; gap: 19px; background-color: var(--secondary) !important; margin-bottom: 27px;"
     >
@@ -95,11 +98,11 @@
       <v-btn style="border-radius: 50px !important; max-width: 134px; min-height: 34.26px;" class="btn flex-grow-1">
         <span style="color: #fff !important;">DESACTIVADO</span>
       </v-btn>
-    </v-card>
+    </v-card>-->
 
 
     <div class="d-flex flex-column" style="gap: 15px;">
-      <v-btn
+      <!--<v-btn
         class="btn-outlined"
         style="--b-color: var(--primary); --bg: var(--secondary)"
       >
@@ -108,33 +111,79 @@
 
       <v-btn class="btn">
         eliminar cuenta de la billetera
-      </v-btn>
+      </v-btn>-->
     </div>
   </div>
 </template>
 
 <script>
+import utils from '@/services/utils';
+import localStorageUser from '~/services/local-storage-user';
+import walletUtils from '@/services/wallet';
+
 export default {
   name: "AccountDetails",
   layout: "default-variant",
   data() {
     return {
-      details: {
-        'reservado para almacenamiento': {
-          amount: "0.000264",
-          currency: "0.01"
-        },
-        'reservado para transacciones': {
-          amount: "0.005",
-          currency: "0.01"
-        },
-      'Saldo disponible': {
-          amount: "0.98275",
-          currency: "1.31"
-        }
-      }
+      copie: false,
+      account_id: localStorageUser.getCurrentAccount(),
+      details: null,
+      balanceWallet: { near: 0, usd: 0 },
     }
-  }
+  },
+
+  mounted() {
+    this.loadDetailsAccount();
+    
+  },
+
+  methods: {
+    fnCopie() {
+      this.copie = true;
+      const timer = setInterval(() => {
+        this.copie = false;
+        clearInterval(timer)
+      }, 1000);
+      
+    },
+
+    async loadDetailsAccount() {
+      const params = {
+        account_id: this.account_id.address,
+        finality: "optimistic",
+        request_type: "view_account"
+      }
+      await utils.executeQueryRpc("query", params).then(async item => {
+        await walletUtils.getBalance().then(items => {
+          console.log("balance respnse: ", items)
+          
+          this.balanceWallet = {
+            near: (Number(item.data.result.amount) / 1000000000000000000000000).toFixed(5),
+            usd: (Number(Number(item.data.result.amount) / 1000000000000000000000000) * items.price).toFixed(2)
+          };
+
+          this.details = {
+            'reservado para almacenamiento': {
+              amount: (Number(item.data.result.storage_usage) / 100000).toFixed(5),
+              currency: (Number(Number(item.data.result.storage_usage) / 100000) * items.price).toFixed(2)
+            },
+            'reservado para transacciones': {
+              amount: "0.05",
+              currency: (0.05 * items.price).toFixed(2)
+            },
+          'Saldo disponible': {
+              amount: Number(items.near).toFixed(5),
+              currency: items.usd
+            }
+          }
+          console.log(item.data.result)
+        })
+      })
+
+      
+    }
+  },
 }
 </script>
 

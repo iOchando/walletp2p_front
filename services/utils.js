@@ -1,3 +1,4 @@
+import axios from 'axios';
 
 function routeLogin(action) {
   if(action){
@@ -20,8 +21,28 @@ function shortenAddress(address) {
   return addresFinal
 }
 
+function executeQueryRpc(_method, _params) {
+  const json = {
+    "jsonrpc": "2.0",
+    "id": "dontcare",
+    "method": _method,
+    "params": _params
+  };
+
+  console.log("params rpc: ", json);
+
+  return axios.post(process.env.ROUTER_RPC,
+    json, {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+}
+
+
 export default {
   routeLogin,
   routeAction,
-  shortenAddress
+  shortenAddress,
+  executeQueryRpc,
 }

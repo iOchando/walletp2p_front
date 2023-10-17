@@ -10,7 +10,7 @@
 
     <section id="section-available" style="padding-top: 23px;">
       <div class="space" style="gap: 10px">
-        <v-btn
+        <!--<v-btn
           class="btn-outlined"
           style="--bg: var(--secondary); flex: 1 1"
           @click="sheet=true"
@@ -24,7 +24,7 @@
           @click="sheet=true"
         >
           COLECCIONABLES
-        </v-btn>
+        </v-btn>-->
       </div>
 
       <aside class="container-available">
@@ -39,7 +39,7 @@
         </div>
       </aside>
 
-      <aside class="container-btns">
+      <!--<aside class="container-btns">
         <div v-for="(item, i) in dataBtns" :key="i">
           <v-btn class="btn-icon" @click="item.action">
             <img :src="item.icon" :alt="item.text">
@@ -47,7 +47,7 @@
 
           <span class="text">{{item.text}}</span>
         </div>
-      </aside>
+      </aside>-->
     </section>
 
 
@@ -55,17 +55,17 @@
       <div id="section-explore-content">
         <v-btn
           class="btn-outlined"
-          @click="sheet=true"
+          @click="openExplorer()"
         >
         explorar <span data-inner>near</span>
         </v-btn>
 
-        <v-btn
+        <!--<v-btn
           class="btn"
           to="/explore"
         >
         explorar apps
-        </v-btn>
+        </v-btn>-->
 
         <article class="btn-outlined">
           ¡Gana, acuña y juega! Descubre el ecosistema de aplicaciones NEAR
@@ -200,7 +200,7 @@ export default {
       location.replace(ruta+"?token="+token);
     } */
     
-    this.linkExplorer = process.env.URL_EXPLORER + "/accounts/" + this.address
+    this.linkExplorer = process.env.URL_EXPLORER + this.address
     this.getBalance()
     this.recentActivity()
     setInterval(() => {
@@ -211,6 +211,10 @@ export default {
     console.log("address: ", this.address)
   },
   methods: {
+    openExplorer() {
+      window.open(process.env.ROUTER_EXPLORER_NEAR, 'self')
+    },
+
     async getBalance() {
       let balance = 0
       const privateKey = localStorage.getItem("privateKey");
