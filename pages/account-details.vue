@@ -107,11 +107,14 @@
         style="--b-color: var(--primary); --bg: var(--secondary)"
       >
         <span style="color: var(--primary) !important;">exportar clave privada local</span>
-      </v-btn>
-
-      <v-btn class="btn">
-        eliminar cuenta de la billetera
       </v-btn>-->
+
+      <v-btn
+        class="btn"
+        @click="logout()"
+      >
+        eliminar cuenta de la billetera
+      </v-btn>
     </div>
   </div>
 </template>
@@ -123,12 +126,25 @@ import walletUtils from '@/services/wallet';
 
 export default {
   name: "AccountDetails",
-  layout: "default-variant",
+  layout: "default",
   data() {
     return {
       copie: false,
       account_id: localStorageUser.getCurrentAccount(),
-      details: null,
+      details: {
+        'reservado para almacenamiento': {
+          amount: "0",
+          currency: "0"
+        },
+        'reservado para transacciones': {
+          amount: "0",
+          currency: "0"
+        },
+        'Saldo disponible': {
+          amount: "0",
+          currency: "0"
+        },
+      },
       balanceWallet: { near: 0, usd: 0 },
     }
   },
@@ -139,6 +155,10 @@ export default {
   },
 
   methods: {
+    logout() {
+      localStorageUser.removeAccountWallet();
+    },
+
     fnCopie() {
       this.copie = true;
       const timer = setInterval(() => {
@@ -156,8 +176,6 @@ export default {
       }
       await utils.executeQueryRpc("query", params).then(async item => {
         await walletUtils.getBalance().then(items => {
-          console.log("balance respnse: ", items)
-          
           this.balanceWallet = {
             near: (Number(item.data.result.amount) / 1000000000000000000000000).toFixed(5),
             usd: (Number(Number(item.data.result.amount) / 1000000000000000000000000) * items.price).toFixed(2)
@@ -177,7 +195,6 @@ export default {
               currency: items.usd
             }
           }
-          console.log(item.data.result)
         })
       })
 

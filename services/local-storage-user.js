@@ -53,6 +53,24 @@ function removeAccount(address) {
   }
 }
 
+function removeAccountWallet() {
+  try {
+    const currentAccount = getCurrentAccount();
+    removeAccount(currentAccount.address)
+
+    localStorage.removeItem("address");
+    localStorage.removeItem("publicKey");
+    localStorage.removeItem("privateKey");
+    localStorage.removeItem("login")
+    localStorage.removeItem("auth");
+
+    window.location.reload();
+    
+  } catch (error) {
+   throw new Error ("Error removeAccountWallet: " + error.toString()) 
+  }
+}
+
 function addApp({_address, _contract, _domain}) {
   try {
     if(localStorage.getItem("listUser")) {
@@ -148,6 +166,7 @@ function getAccount(address) {
 export default {
   addNewAccount,
   removeAccount,
+  removeAccountWallet,
   addApp,
   getCurrentAccount,
   getAccounts,
