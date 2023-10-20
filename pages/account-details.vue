@@ -120,7 +120,6 @@
 </template>
 
 <script>
-import utils from '@/services/utils';
 import localStorageUser from '~/services/local-storage-user';
 import walletUtils from '@/services/wallet';
 
@@ -169,34 +168,28 @@ export default {
     },
 
     async loadDetailsAccount() {
-      const params = {
-        account_id: this.account_id.address,
-        finality: "optimistic",
-        request_type: "view_account"
-      }
-      await utils.executeQueryRpc("query", params).then(async item => {
-        await walletUtils.getBalance().then(items => {
+        await walletUtils.getBalance(this.account_id.address).then(items => {
           this.balanceWallet = {
-            near: (Number(item.data.result.amount) / 1000000000000000000000000).toFixed(5),
-            usd: (Number(Number(item.data.result.amount) / 1000000000000000000000000) * items.price).toFixed(2)
+            near: items.wallet.toFixed(5),
+            usd: (items.wallet * items.price).toFixed(2)
           };
 
           this.details = {
             'reservado para almacenamiento': {
-              amount: (Number(item.data.result.storage_usage) / 100000).toFixed(5),
-              currency: (Number(Number(item.data.result.storage_usage) / 100000) * items.price).toFixed(2)
+              amount: items.storage.toFixed(5),
+              currency: (items.storage * items.price).toFixed(2)
             },
             'reservado para transacciones': {
               amount: "0.05",
               currency: (0.05 * items.price).toFixed(2)
             },
           'Saldo disponible': {
-              amount: Number(items.near).toFixed(5),
-              currency: items.usd
+              amount: items.near.toFixed(5),
+              currency: items.usd.toFixed(2)
             }
           }
-        })
-      })
+        });
+      
 
       
     }

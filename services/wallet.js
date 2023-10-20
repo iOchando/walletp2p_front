@@ -1,8 +1,11 @@
 import axios from 'axios';
-import * as nearAPI from "near-api-js";
-import { configNear } from "@/services/nearConfig";
+// import * as nearAPI from "near-api-js";
+// import { configNear } from "@/services/nearConfig";
+import utils from './utils';
 import localStorageUser from '~/services/local-storage-user';
-const { connect, keyStores, KeyPair, utils } = nearAPI;
+// const { connect, keyStores, KeyPair, utils } = nearAPI;
+
+
 
 
 function executeQueryRpc(_method, _params) {
@@ -23,40 +26,56 @@ function executeQueryRpc(_method, _params) {
     });
 }
 
-async function getBalance() {
-  let balance = 0
-  const privateKey = localStorage.getItem("privateKey");
+function getBalance(_address) {
+  const address = !_address ? localStorageUser.getCurrentAccount().address : _address
 
-  const myKeyStore = new keyStores.InMemoryKeyStore();
-  const PRIVATE_KEY = privateKey;
-  // creates a public / private key pair using the provided private key
-  const keyPair = KeyPair.fromString(PRIVATE_KEY);
-  // adds the keyPair you created to keyStore
-  await myKeyStore.setKey(process.env.Network, localStorageUser.getCurrentAccount().address, keyPair);
-  
-  const nearConnection = await connect(configNear(myKeyStore));
-  const account = await nearConnection.account(localStorageUser.getCurrentAccount().address);
+  const params = {
+    account_id: address,
+    finality: "optimistic",
+    request_type: "view_account"
+  }
+  return  utils.executeQueryRpc("query", params).then(async item => {
+    const balanceWallet = Number(item.data.result.amount) / 1000000000000000000000000;
+    const reservedStorage = Number(item.data.result.storage_usage) / 100000;
+    const reservedTransaction = 0.05;
+    const balanceAvalible = balanceWallet - reservedStorage - reservedTransaction;
+    let _price = 0;
 
-  const result = await account.getAccountBalance();
+    await axios.post(process.env.URL_APIP_PRICE,
+      {fiat: "USD", crypto: "NEAR"})
+    .then((response) => {
+      _price = Number(response.data[0].value);
+    })
 
-  balance = Number(utils.format.formatNearAmount(result.available));
+    return { 
+      near: balanceAvalible,
+      usd: balanceAvalible * _price,
+      price: _price,
+      wallet: balanceWallet,
+      storage: reservedStorage,
+      transaction: reservedTransaction
+    }
+    
+    
+  })
+}
+
+function getPrice(fiat, crypto) {
+  const _fiat = !fiat ? "USD" : fiat;
+  const _crypto = !crypto ? "NEAR" : crypto;
   
   return axios.post(process.env.URL_APIP_PRICE,
-    {fiat: "USD", crypto: "NEAR"})
+    {fiat: _fiat, crypto: _crypto})
   .then((response) => {
-    const balanceNear = isNaN(balance) ? 0 : balance
-    const balanceUsd = (balanceNear * response.data[0].value).toFixed(2)
-
-    return { near: balanceNear, usd: balanceUsd, price: response.data[0].value }
+    return response.data[0].value
 
   }).catch((error) => {
     return error
   })
-
-
 }
 
 export default {
   executeQueryRpc,
   getBalance,
+  getPrice,
 }

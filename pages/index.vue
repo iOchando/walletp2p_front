@@ -131,8 +131,10 @@
 <script>
 import axios from 'axios';
 import * as nearAPI from "near-api-js";
-import { configNear } from "@/services/nearConfig";
-const { connect, keyStores, KeyPair, utils } = nearAPI;
+// import { configNear } from "@/services/nearConfig";
+import walletUtils from '@/services/wallet';
+const { utils } = nearAPI;
+
 
 export default {
   name: "HomePage",
@@ -217,30 +219,14 @@ export default {
 
     async getBalance() {
       let balance = 0
-      const privateKey = localStorage.getItem("privateKey");
 
-      const myKeyStore = new keyStores.InMemoryKeyStore();
-      const PRIVATE_KEY = privateKey;
-      // creates a public / private key pair using the provided private key
-      const keyPair = KeyPair.fromString(PRIVATE_KEY);
-      // adds the keyPair you created to keyStore
-      await myKeyStore.setKey(process.env.Network, this.address, keyPair);
-      
-      const nearConnection = await connect(configNear(myKeyStore));
-      const account = await nearConnection.account(this.address);
+      const { near } = await walletUtils.getBalance();
 
-      const result = await account.getAccountBalance();
+      if(near) {
+        balance = near
+      }
 
-      balance = Number(utils.format.formatNearAmount(result.available));
-      
-      await axios.post(process.env.URL_APIP_PRICE,
-        {fiat: "USD", crypto: "NEAR"})
-      .then((response) => {
-        const balanceNear = isNaN(balance) ? 0 : balance
-        this.balance = (balanceNear * response.data[0].value).toFixed(2)
-      }).catch((error) => {
-        console.log("error balane: ", error)
-      })
+      this.balance = balance.toFixed(2);
 
     },
 

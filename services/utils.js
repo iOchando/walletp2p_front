@@ -29,8 +29,6 @@ function executeQueryRpc(_method, _params) {
     "params": _params
   };
 
-  console.log("params rpc: ", json);
-
   return axios.post(process.env.ROUTER_RPC,
     json, {
       headers: {

@@ -18,7 +18,7 @@
 
         <div class="space" style="gap: 20px;">
           <span>Límite de tarifa</span>
-          <span style="--fw: 400">600 Tgas</span>
+          <span style="--fw: 400">300 Tgas</span>
         </div>
       </v-card>
 
@@ -75,7 +75,7 @@
 
     <section class="d-flex flex-column center" style="height: 245px; margin-block: 25px;">
       <h2 class="ma-0">{{ attachedDeposit }} <span>NEAR</span></h2>
-      <span>$4.45</span>
+      <span>${{ deposit_usd }}</span>
     </section>
 
 
@@ -94,7 +94,7 @@
         <span
           class="ml-auto"
           style="--fw: 500; color: #7C7B7F !important"
-        >5.866717 near</span>
+        >{{ balance }} near</span>
       </div>
     </v-card>
 
@@ -154,8 +154,10 @@ import moment from 'moment';
 import utils from '../services/utils';
 import localStorageUser from '~/services/local-storage-user';
 import { configNear }  from '~/services/nearConfig';
+import walletUtils from '@/services/wallet';
 const nearAPI = require("near-api-js");
 const { KeyPair, keyStores, connect } = nearAPI;
+
 
 
 
@@ -172,23 +174,14 @@ export default {
           { text: "Esto no permite que la aplicación transfiera tokens.", check: false },
       ],
       from: null,
-      attachedDeposit: "0",
+      attachedDeposit: 0,
+      deposit_usd: 0,
+      balance: 0,
       token: JSON.parse(sessionStorage.getItem("token")),
       error: null,
       transactionDetails: {
-          network: undefined,
-          contract: [
-              {
-                  account: 'v4.nearp2pdex.near ',
-                  function: 'deposit',
-                  listFunctions: ['deposit', 'other']
-              },
-              {
-                  account: 'v4.nearp2pdex.near ',
-                  function: 'accept_offer',
-                  listFunctions: ['accept_offer', 'other']
-              },
-          ]
+          network: "",
+          contract: []
       },
     };
   },
@@ -199,10 +192,38 @@ export default {
     };
   },
   mounted() {
-    this.attachedDeposit = this.token.attachedDeposit ? (Number(this.token.attachedDeposit) / 1000000000000000000000000).toString() : "0";
-    this.from = utils.shortenAddress(this.token.from);
+    this.loadData();
   },
   methods: {
+    async loadData(){
+      const from = this.token.from;
+      const attachedDeposit = this.token.attachedDeposit ? (Number(this.token.attachedDeposit) / 1000000000000000000000000) : 0;
+      let depositUsd = 0;
+      let balance = 0;
+
+      const { near, usd, price } = await walletUtils.getBalance(from);
+
+      if(near && usd && price) {
+        depositUsd = price;
+        balance = near
+      }
+
+      this.attachedDeposit = attachedDeposit.toFixed(5);
+      this.deposit_usd = (attachedDeposit * depositUsd).toFixed(2);
+      this.from = utils.shortenAddress(from);
+      this.balance = balance.toFixed(5);
+      this.transactionDetails = {
+          network: this.token.domain,
+          contract: [
+              {
+                  account: this.token.contract,
+                  function: this.token.json.methodName,
+                  listFunctions: [this.token.json.methodName]
+              },
+          ]
+      }
+    },
+
     async approved() {
       try {
         this.loading = true
