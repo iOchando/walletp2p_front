@@ -17,7 +17,7 @@ function routeAction(_action, route) {
 }
 
 function shortenAddress(address) {
-  const addresFinal = address === undefined ? "" : address.length > 20 ? address.substring(0,6)+"..."+address.substring((address.length - process.env.Network.length - 7), address.length) : address;
+  const addresFinal = address === undefined ? "" : address.length > 25 ? address.substring(0,9)+"..."+address.substring((address.length - process.env.Network.length - 7), address.length) : address;
   return addresFinal
 }
 

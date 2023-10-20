@@ -39,7 +39,7 @@
         </div>
       </aside>
 
-      <!--<aside class="container-btns">
+      <aside class="container-btns">
         <div v-for="(item, i) in dataBtns" :key="i">
           <v-btn class="btn-icon" @click="item.action">
             <img :src="item.icon" :alt="item.text">
@@ -47,7 +47,7 @@
 
           <span class="text">{{item.text}}</span>
         </div>
-      </aside>-->
+      </aside>
     </section>
 
 
@@ -124,6 +124,71 @@
         </v-sheet>
       </v-bottom-sheet>
     </div>
+
+
+
+    <v-row justify="center">
+    <v-dialog
+      v-model="transfer"
+      scrollable
+      width="400"
+    >
+      <v-card class="rounded-xl">
+        <v-card-title>Enviar</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text style="height: 230px;">
+          <div class="mt-8">
+            <v-text-field
+              v-model="accountNear"
+              label="usuario / billetera" solo
+              style="--margin-message: 1px"
+              :error-messages="errorAccount"
+              :success-messages="successAccount"
+              :suffix="network"
+              :rules="required"
+              @keyup="verificarAccount(accountNear)"
+            ></v-text-field>
+          </div>
+          <div class="mt-5">
+            Balance: {{ balance_near }}
+            <v-text-field
+              v-model="amount"
+              label="" solo
+              style="--margin-message: 1px"
+              suffix="NEAR"
+
+            ></v-text-field>
+          </div>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions class="pt-3 pb-3">
+          <v-spacer></v-spacer>
+          <v-btn
+            class="btn-outlined"
+            width="100"
+            style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary)"
+            variant="text"
+            @click="transfer = false"
+          >
+            Cerrar
+          </v-btn>
+          
+          <v-btn 
+            class="btn"
+            width="100"
+            @click="transfer = false"
+          >
+            Enviar
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+
+
+
+    
   </div>
 </template>
 
@@ -131,24 +196,32 @@
 <script>
 import axios from 'axios';
 import * as nearAPI from "near-api-js";
+import { configNear } from "@/services/nearConfig";
 // import { configNear } from "@/services/nearConfig";
 import walletUtils from '@/services/wallet';
-const { utils } = nearAPI;
+import utils from '~/services/utils';
+const { keyStores, Account, Near } = nearAPI;
 
 
 export default {
   name: "HomePage",
   data() {
     return {
+      network: process.env.Network,
+      required: [(v) => !!v || "Campo requerido"],
+      errorAccount: null,
+      successAccount: null,
       linkExplorer: "",
       sheet: false,
+      transfer: false,
       balance: "0.00",
+      balance_near: 0.00,
       address: "",
       dataBtns: [
-        {
+        /* {
           icon: require("@/assets/sources/icons/arrow-up.svg"),
           text: "enviar",
-          action: () => {this.sheet = true;},
+          action: () => {this.transfer = true;},
         },
         {
           icon: require("@/assets/sources/icons/arrow-down.svg"),
@@ -164,7 +237,7 @@ export default {
           icon: require("@/assets/sources/icons/swap.svg"),
           text: "cambiar",
           action: () => {this.sheet = true;},
-        },
+        }, */
       ],
       dataActivity: [],
     }
@@ -218,16 +291,43 @@ export default {
     },
 
     async getBalance() {
-      let balance = 0
+      let balance = 0.00;
+      let balanceNear = 0.00;
 
-      const { near } = await walletUtils.getBalance();
+      const { near, usd } = await walletUtils.getBalance();
 
       if(near) {
-        balance = near
+        balance = usd;
+        balanceNear = near;
       }
 
       this.balance = balance.toFixed(2);
+      this.balance_near = balanceNear.toFixed(5);
 
+    },
+
+    async verificarAccount(value) {
+      const accountInput = value + "." + process.env.Network;
+      console.log(accountInput)
+
+      const keyStore = new keyStores.InMemoryKeyStore()
+      const near = new Near(configNear(keyStore))
+      const account = new Account(near.connection, accountInput)
+      
+      let response = null
+      await account.state()
+          .then(() => {
+            response = true
+            this.successAccount = null
+            this.errorAccount = "Account already exists"
+          }).catch(() => {
+            response = false
+            this.successAccount = "This account is valid"
+            this.errorAccount = null
+          })
+      
+      return response
+    
     },
 
     async recentActivity() {

@@ -23,14 +23,20 @@
       <section class="d-flex flex-column" style="gap: 16px;">
         <div class="d-flex flex-column" style="gap: 9px;">
           <label>CUENTA</label>
-          <WalletCard wallet="patriciasilvab.near" pass="hola hola hola" />
+          <WalletCard2 :wallet="account.address" />
         </div>
 
-        <v-btn class="btn">IMPORTAR CUENTA</v-btn>
+        <v-btn 
+          class="btn"
+          @click="importAccount()"
+        >
+          IMPORTAR CUENTA
+        </v-btn>
 
         <v-btn
           class="btn-outlined"
           style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary)"
+          @click="$router.push({ path: '/login' })"
         >CREAR CUENTA NUEVA</v-btn>
       </section>
     </div>
@@ -38,11 +44,14 @@
 </template>
 
 <script>
+import localStorageUser from '~/services/local-storage-user'
+
 export default {
   name: "DrawerComponent",
   data() {
     return {
       model: false,
+      account: localStorageUser.getCurrentAccount(),
       dataButtons: [
         {
           icon: require("@/assets/sources/drawer/close.svg"),
@@ -51,33 +60,33 @@ export default {
         {
           name: "billetera",
           icon: require("@/assets/sources/drawer/wallet.svg"),
-          action: () => {},
+          action: () => { this.model = false },
         },
-        {
+        /* {
           name: "staking",
           icon: require("@/assets/sources/drawer/staking.svg"),
           action: () => {},
-        },
+        }, */
         {
           name: "explorar",
           icon: require("@/assets/sources/drawer/explore.svg"),
-          action: () => {},
+          action: () => { this.openExplorer() },
         },
         {
           name: "cuenta",
           icon: require("@/assets/sources/drawer/account.svg"),
-          action: () => {},
+          action: () => { this.$router.push({ path: "/account-details" }) },
         },
-        {
+        /* {
           name: "soporte",
           icon: require("@/assets/sources/drawer/support.svg"),
           action: () => {},
-        },
-        {
+        }, */
+        /* {
           name: "es",
           icon: require("@/assets/sources/drawer/language.svg"),
           action: () => {},
-        },
+        }, */
       ]
     }
   },
@@ -91,7 +100,19 @@ export default {
         el.scrollTop = 0
       }
     }
-  }
+  },
+
+  methods: {
+    openExplorer() {
+      window.open(process.env.ROUTER_EXPLORER_NEAR, 'self')
+    },
+
+    importAccount() {
+      localStorage.setItem("login", true); 
+      this.$router.push({ path: '/passphrase-login' });
+    }
+  },
+
 }
 </script>
 

@@ -14,9 +14,9 @@
           <img src="@/assets/sources/avatars/person.png" alt="avatar">
         </v-btn>
 
-        <!--<v-btn class="btn-icon" style="--bg: var(--primary);" @click="showDrawer()">
+            <v-btn class="btn-icon" style="--bg: var(--primary);" @click="showDrawer()">
           <img src="@/assets/sources/icons/options.svg" alt="settings">
-        </v-btn>-->
+        </v-btn>
       </aside>
     </div>
   </div>
