@@ -150,7 +150,7 @@
             ></v-text-field>
           </div>
           <div class="mt-5">
-            Balance: {{ balance_near }}
+            Balance: {{ balance_near }} NEAR
             <v-text-field
               v-model="amount"
               label="" solo
@@ -186,6 +186,52 @@
     </v-dialog>
   </v-row>
 
+  <v-row justify="center">
+    <v-dialog
+      v-model="revived"
+      scrollable
+      width="400"
+    >
+      <v-card class="rounded-xl">
+        <v-card-title>Recibir</v-card-title>
+        <v-divider></v-divider>
+        <v-card-text style="height: 300px;">
+          <v-row
+            class="mt-3"
+            justify="center"
+          >
+            <p>
+              <vue-qr :text="address" :logoSrc="logoWallet" qid="addressQr"></vue-qr>
+            </p>
+            <p>
+              <span class="mr-4">Dirección: <strong>{{ address }}</strong></span>
+              <v-btn
+                class="btn-icon"
+                v-clipboard:copy="address"
+              >
+                <img src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
+              </v-btn>
+            </p>
+          </v-row>
+        </v-card-text>
+        <v-divider></v-divider>
+        <v-card-actions class="pt-3 pb-3">
+          <v-spacer></v-spacer>
+          <v-btn
+            class="btn-outlined"
+            width="100"
+            style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary)"
+            variant="text"
+            @click="revived = false"
+          >
+            Cerrar
+          </v-btn>
+          <v-spacer></v-spacer>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+
 
 
     
@@ -196,29 +242,33 @@
 <script>
 import axios from 'axios';
 import * as nearAPI from "near-api-js";
+import VueQr from 'vue-qr'
+import logoWallet from "~/assets/sources/logos/logo.svg";
 import { configNear } from "@/services/nearConfig";
 // import { configNear } from "@/services/nearConfig";
 import walletUtils from '@/services/wallet';
-import utils from '~/services/utils';
-const { keyStores, Account, Near } = nearAPI;
+const { keyStores, Account, Near, utils } = nearAPI;
 
 
 export default {
   name: "HomePage",
+  components: {VueQr},
   data() {
     return {
       network: process.env.Network,
+      logoWallet,
       required: [(v) => !!v || "Campo requerido"],
       errorAccount: null,
       successAccount: null,
       linkExplorer: "",
       sheet: false,
       transfer: false,
+      revived: false,
       balance: "0.00",
       balance_near: 0.00,
       address: "",
       dataBtns: [
-        /* {
+        {
           icon: require("@/assets/sources/icons/arrow-up.svg"),
           text: "enviar",
           action: () => {this.transfer = true;},
@@ -226,9 +276,9 @@ export default {
         {
           icon: require("@/assets/sources/icons/arrow-down.svg"),
           text: "recibir",
-          action: () => {this.sheet = true;},
+          action: () => {this.revived = true;},
         },
-        {
+        /* {
           icon: require("@/assets/sources/icons/plus.svg"),
           text: "recargar",
           action: () => {this.sheet = true;},
@@ -283,7 +333,6 @@ export default {
       this.recentActivity()
     }, 1000*10); // se ejecuta cada 10 segundos
     // eliminando variables de inicio de session
-    console.log("address: ", this.address)
   },
   methods: {
     openExplorer() {
@@ -335,8 +384,8 @@ export default {
       await axios.get(process.env.URL_API_INDEXER + "/account/" + wallet +'/activity')
       .then((response) => {
         const data = response.data;
-
-        this.dataActivity = data.map((items) => {
+        
+        const dataActivity = data.map((items) => {
           let typeParam = "";
           let amountParam = "";
           let coinParam = "";
@@ -371,9 +420,11 @@ export default {
           return res
         })
 
-        if(this.dataActivity.length >= 10) {
+        this.dataActivity = dataActivity.slice(0, 9);
+
+        /* if(this.dataActivity.length >= 10) {
           this.dataActivity.pop()
-        }
+        } */
 
       })
     }
