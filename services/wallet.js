@@ -1,9 +1,9 @@
 import axios from 'axios';
-// import * as nearAPI from "near-api-js";
-// import { configNear } from "@/services/nearConfig";
+import * as nearAPI from "near-api-js";
 import utils from './utils';
+import { configNear } from "@/services/nearConfig";
 import localStorageUser from '~/services/local-storage-user';
-// const { connect, keyStores, KeyPair, utils } = nearAPI;
+const { connect } = nearAPI;
 
 
 
@@ -74,8 +74,29 @@ function getPrice(fiat, crypto) {
   })
 }
 
+async function nearConnection() {
+  const { address, privateKey } = localStorageUser.getCurrentAccount();
+
+  console.log("key: ", privateKey);
+
+  const { keyStores, KeyPair } = nearAPI;
+  const myKeyStore = new keyStores.InMemoryKeyStore();
+  const PRIVATE_KEY = privateKey;
+  // creates a public / private key pair using the provided private key
+  const keyPair = KeyPair.fromString(PRIVATE_KEY);
+  // adds the keyPair you created to keyStore
+  await myKeyStore.setKey(process.env.Network, address, keyPair);
+  const nearConnection = await connect(configNear(myKeyStore));
+  const account = await nearConnection.account(address);
+  return account
+
+  
+}
+
+
 export default {
   executeQueryRpc,
   getBalance,
   getPrice,
+  nearConnection,
 }

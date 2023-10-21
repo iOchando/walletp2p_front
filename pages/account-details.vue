@@ -16,10 +16,11 @@
           <span class="center">{{ account_id.address }}</span>
 
           <v-btn
+            v-clipboard:copy="account_id.address"  
             class="btn-icon"
             style="--size: 29px"
             @click="fnCopie()"
-            v-clipboard:copy="account_id.address"
+            
           >
             <v-icon v-if="copie">mdi-check</v-icon>
             <img v-if="!copie" src="@/assets/sources/icons/copy.svg" alt="copy to clipboard" style="--w: 15px">

@@ -1,5 +1,17 @@
 <template>
   <div id="home" class="divcol center">
+    <v-alert
+      v-model="alert"
+      class="mt-3"
+      close-text="Close Alert"
+      shaped
+      prominent
+      :type="alertType"
+      dismissible
+    >
+      <a :href="hashUrl" target="_blank">{{ hash }}</a>
+    </v-alert>
+
     <Header show-append>
       <template #prepend>
         <nuxt-link :to="localePath('/')">
@@ -132,33 +144,42 @@
       v-model="transfer"
       scrollable
       width="400"
+      persistent
     >
       <v-card class="rounded-xl">
         <v-card-title>Enviar</v-card-title>
         <v-divider></v-divider>
-        <v-card-text style="height: 230px;">
-          <div class="mt-8">
-            <v-text-field
-              v-model="accountNear"
-              label="usuario / billetera" solo
-              style="--margin-message: 1px"
-              :error-messages="errorAccount"
-              :success-messages="successAccount"
-              :suffix="network"
-              :rules="required"
-              @keyup="verificarAccount(accountNear)"
-            ></v-text-field>
-          </div>
-          <div class="mt-5">
-            Balance: {{ balance_near }} NEAR
-            <v-text-field
-              v-model="amount"
-              label="" solo
-              style="--margin-message: 1px"
-              suffix="NEAR"
+        <v-card-text style="height: 240px;">
+          <v-form
+            ref="formEnvio"
+            v-model="validEnvio"
+          >
+            <div class="mt-8">
+              <v-text-field
+                v-model="accountNear"
+                label="usuario / billetera" solo
+                style="--margin-message: 1px"
+                :error-messages="errorAccount"
+                :success-messages="successAccount"
+                suffix="Enviar a"
+                :rules="required"
+                required
+              ></v-text-field>
+            </div>
+            <div class="mt-5">
+              Balance: {{ balance_near }} NEAR
+              <v-text-field
+                v-model="amountSend"
+                type="number"
+                label="" solo
+                style="--margin-message: 1px"
+                :rules="requiredAmount"
+                suffix="NEAR"
+                required
 
-            ></v-text-field>
-          </div>
+              ></v-text-field>
+            </div>
+          </v-form>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions class="pt-3 pb-3">
@@ -168,6 +189,7 @@
             width="100"
             style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary)"
             variant="text"
+            :loading="envioLoading"
             @click="transfer = false"
           >
             Cerrar
@@ -176,7 +198,8 @@
           <v-btn 
             class="btn"
             width="100"
-            @click="transfer = false"
+            :loading="envioLoading"
+            @click="SendNear()"
           >
             Enviar
           </v-btn>
@@ -207,9 +230,10 @@
               <span class="mr-4">Dirección: <strong>{{ address }}</strong></span>
               <v-btn
                 class="btn-icon"
-                v-clipboard:copy="address"
+                @click="fnCopie(address)"
               >
-                <img src="@/assets/sources/icons/copy.svg" alt="copy to clipboard">
+              <v-icon v-if="copie">mdi-check</v-icon>
+              <img v-if="!copie" src="@/assets/sources/icons/copy.svg" alt="copy to clipboard" style="--w: 15px">
               </v-btn>
             </p>
           </v-row>
@@ -255,11 +279,21 @@ export default {
   components: {VueQr},
   data() {
     return {
+      alert: false,
+      envioLoading: false,
+      alertType: "success",
+      hash: null,
+      hashUrl: null,
+      validEnvio: true,
       network: process.env.Network,
+      copie: false,
       logoWallet,
-      required: [(v) => !!v || "Campo requerido"],
+      required: [(v) => !!v || "Campo requerido", (v) => this.verificarAccount(v) || "Account already exists" ],
+      requiredAmount: [(v) => !!v || "Campo requerido", (v) => v <= Number(this.balance_near) || "Balance insuficiente" ],
+      accountNear: null,
       errorAccount: null,
       successAccount: null,
+      amountSend: null,
       linkExplorer: "",
       sheet: false,
       transfer: false,
@@ -271,7 +305,7 @@ export default {
         {
           icon: require("@/assets/sources/icons/arrow-up.svg"),
           text: "enviar",
-          action: () => {this.transfer = true;},
+          action: () => { this.alert = false; this.transfer = true; this.$refs.formEnvio.resetValidation(); this.$refs.formEnvio.reset(); },
         },
         {
           icon: require("@/assets/sources/icons/arrow-down.svg"),
@@ -339,6 +373,16 @@ export default {
       window.open(process.env.ROUTER_EXPLORER_NEAR, 'self')
     },
 
+    fnCopie(copy) {
+      this.copie = true;
+      navigator.clipboard.writeText(copy);
+      const timer = setInterval(() => {
+        this.copie = false;
+        clearInterval(timer)
+      }, 1000);
+      
+    },
+
     async getBalance() {
       let balance = 0.00;
       let balanceNear = 0.00;
@@ -356,27 +400,52 @@ export default {
     },
 
     async verificarAccount(value) {
-      const accountInput = value + "." + process.env.Network;
-      console.log(accountInput)
+      // const accountInput = value + "." + process.env.Network;
+
+      this.successAccount = null
+      this.errorAccount = null
 
       const keyStore = new keyStores.InMemoryKeyStore()
       const near = new Near(configNear(keyStore))
-      const account = new Account(near.connection, accountInput)
+      const account = new Account(near.connection, value)
       
-      let response = null
-      await account.state()
+      let response = false
+      if(value) {
+        await account.state()
           .then(() => {
             response = true
-            this.successAccount = null
-            this.errorAccount = "Account already exists"
+            this.successAccount = "La wallet es valida"
           }).catch(() => {
             response = false
-            this.successAccount = "This account is valid"
-            this.errorAccount = null
+            this.errorAccount = "la wallet no existe"
           })
+      }
       
       return response
     
+    },
+
+    async SendNear() {
+      if(this.$refs.formEnvio.validate()) {
+        this.envioLoading = true;
+
+        const account = await walletUtils.nearConnection();
+        const result = await account.sendMoney(
+          this.accountNear, // receiver account
+          utils.format.parseNearAmount(this.amountSend).toString() // amount in yoctoNEAR
+        );
+
+        this.hash = !result?.transaction.hash ? result : result?.transaction.hash;
+        this.hashUrl = process.env.ROUTER_EXPLORER_NEAR + 'es/txns/' + this.hash;
+        this.alertType = result?.status?.SuccessValue === "" ? "success" : "error";
+
+        this.alert = true;
+
+        this.$refs.formEnvio.reset();
+        this.envioLoading = false;
+        this.transfer = false;
+
+      }
     },
 
     async recentActivity() {
