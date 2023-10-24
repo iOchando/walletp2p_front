@@ -197,7 +197,7 @@ export default {
   methods: {
     async loadData(){
       const from = this.token.from;
-      const attachedDeposit = this.token.attachedDeposit ? (Number(this.token.attachedDeposit) / 1000000000000000000000000) : 0;
+      const attachedDeposit = this.token.json.attachedDeposit ? (Number(this.token.json.attachedDeposit) / 1000000000000000000000000) : 0;
       let depositUsd = 0;
       let balance = 0;
 
