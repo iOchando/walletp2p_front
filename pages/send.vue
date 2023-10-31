@@ -1,83 +1,100 @@
 <template>
-  <div id="send" class="d-flex flex-column">
-    <ModalCryptos
-      ref="cryptos"
-      @on-selected-coin="coin => $log(coin)"
-    ></ModalCryptos>
+  <v-form ref="form" v-model="validForm">
+    <div id="send" class="d-flex flex-column">
+      <ModalCryptos
+        ref="cryptos"
+        @on-selected-coin="coin => $log(coin)"
+      ></ModalCryptos>
 
-    <Header
-      :show-prepend="false"
-      show-append
-    ></Header>
+      <Header
+        :show-prepend="false"
+        show-append
+      ></Header>
 
-    <aside class="d-flex" style="gap: 12px; margin-top: 26px;">
-      <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);">
-        ENVIAR
-      </v-btn>
-
-      <v-btn class="btn flex-grow-1">
-        RECIBIR
-      </v-btn>
-    </aside>
-
-
-    <section class="d-flex flex-column" style="height: 248px;">
-      <v-text-field
-        v-model="amount"
-        placeholder="0.0"
-        type="number"
-      ></v-text-field>
-
-      <v-btn
-        class="btn-outlined mx-auto"
-        style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary); --fs: 12px; --fw: 700; --ls: 0.36px; --h: 34px; width: 121px;"
-      >USAR MÁXIMO</v-btn>
-    </section>
-
-
-    <section class="d-flex flex-column" style="gap: 14px;">
-      <v-card
-        class="btn-outlined space"
-        style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
-        @click="$refs.cryptos.model = true"
-      >
-        <h5 class="mb-0">SELECCIONAR RECURSO</h5>
-        
-        <div class="center" style="gap: 6px;">
-          <img src="@/assets/sources/logos/near-icon.svg" alt="near icon" style="width: 29px;">
-          <span style="--fs: 12px; --c: var(--primary); --ls: normal">NEAR</span>
-          <img src="@/assets/sources/icons/double-chevron-right.svg" alt="arrow right">
-        </div>
-      </v-card>
-
-      <v-card
-        class="btn-outlined space"
-        style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
-      >
-        <h5 class="mb-0">DISPONIBLE PARA ENVIAR</h5>
-        
-        <span style="--fs: 12px; --ls: normal">25.74794 NEAR</span>
-      </v-card>
-
-      <aside class="d-flex" style="gap: 12px">
-        <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);" @click="$router.go(-1)">
-          CANCELAR
+      <!--<aside class="d-flex" style="gap: 12px; margin-top: 26px;">
+        <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);">
+          ENVIAR
         </v-btn>
 
-        <v-btn class="btn flex-grow-1" to="/send-details">
-          CONTINUAR
+        <v-btn class="btn flex-grow-1">
+          RECIBIR
         </v-btn>
-      </aside>
-    </section>
-  </div>
+      </aside>-->
+
+
+      <section class="d-flex flex-column" style="height: 248px;">
+        <v-text-field
+          v-model="amount"
+          placeholder="0.0"
+          type="number"
+          :rules="required"
+          required
+        ></v-text-field>
+
+        <v-btn
+          class="btn-outlined mx-auto"
+          style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary); --fs: 12px; --fw: 700; --ls: 0.36px; --h: 34px; width: 121px;"
+          @click="maxBalance()"
+        >USAR MÁXIMO</v-btn>
+      </section>
+
+
+      <section class="d-flex flex-column" style="gap: 14px;">
+        <!--<v-card
+          class="btn-outlined space"
+          style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
+          @click="$refs.cryptos.model = true"
+        >-->
+        <v-card
+          class="btn-outlined space"
+          style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
+        >
+          <h5 class="mb-0">SELECCIONAR RECURSO</h5>
+          
+          <div class="center" style="gap: 6px;">
+            <img src="@/assets/sources/logos/near-icon.svg" alt="near icon" style="width: 29px;">
+            <span style="--fs: 12px; --c: var(--primary); --ls: normal">NEAR</span>
+            <!--<img src="@/assets/sources/icons/double-chevron-right.svg" alt="arrow right">-->
+          </div>
+        </v-card>
+
+        <v-card
+          class="btn-outlined space"
+          style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
+        >
+          <h5 class="mb-0">DISPONIBLE PARA ENVIAR</h5>
+          
+          <span style="--fs: 12px; --ls: normal">{{ balance }} NEAR</span>
+        </v-card>
+
+        <aside class="d-flex" style="gap: 12px">
+          <v-btn class="btn-outlined flex-grow-1" style="--bg: var(--secondary);" @click="$router.go(-1)">
+            CANCELAR
+          </v-btn>
+
+          <v-btn
+            class="btn flex-grow-1"
+            @click="next()"
+          >
+            CONTINUAR
+          </v-btn>
+        </aside>
+      </section>
+    </div>
+  </v-form>
 </template>
 
 <script>
+import walletUtils from '@/services/wallet';
+
 export default {
   name: "SendPage",
   data() {
     return {
-      amount: ""
+      validForm: true,
+      amount: "",
+      balance: 0.00,
+      required: [(v) => !!v || "Campo requerido", (v) => Number(v) < Number(this.balance) || "Saldo insuficiente" ],
     }
   },
   head() {
@@ -85,6 +102,36 @@ export default {
     return {
       title,
     }
+  },
+
+  mounted() {
+    this.getBalance();
+  },
+
+  methods: {
+    next() {
+      if(this.$refs.form.validate()) {
+        sessionStorage.setItem("send-amount", this.amount);
+        this.$router.push({ path: "/send-details" });
+      }
+    },
+
+    async getBalance() {
+      let balanceNear = 0.00;
+
+      const { near } = await walletUtils.getBalance();
+
+      if(near) {
+        balanceNear = near;
+      }
+
+      this.balance = balanceNear.toFixed(5);
+
+    },
+
+    maxBalance() {
+      this.amount = this.balance;
+    },
   },
 }
 </script>

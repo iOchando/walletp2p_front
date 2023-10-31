@@ -72,12 +72,12 @@
         explorar <span data-inner>near</span>
         </v-btn>
 
-        <!--<v-btn
+        <v-btn
           class="btn"
           to="/explore"
         >
         explorar apps
-        </v-btn>-->
+        </v-btn>
 
         <article class="btn-outlined">
           ¡Gana, acuña y juega! Descubre el ecosistema de aplicaciones NEAR
@@ -138,77 +138,6 @@
     </div>
 
 
-
-    <v-row justify="center">
-    <v-dialog
-      v-model="transfer"
-      scrollable
-      width="400"
-      persistent
-    >
-      <v-card class="rounded-xl">
-        <v-card-title>Enviar</v-card-title>
-        <v-divider></v-divider>
-        <v-card-text style="height: 240px;">
-          <v-form
-            ref="formEnvio"
-            v-model="validEnvio"
-          >
-            <div class="mt-8">
-              <v-text-field
-                v-model="accountNear"
-                label="usuario / billetera" solo
-                style="--margin-message: 1px"
-                :error-messages="errorAccount"
-                :success-messages="successAccount"
-                suffix="Enviar a"
-                :rules="required"
-                required
-              ></v-text-field>
-            </div>
-            <div class="mt-5">
-              Balance: {{ balance_near }} NEAR
-              <v-text-field
-                v-model="amountSend"
-                type="number"
-                label="" solo
-                style="--margin-message: 1px"
-                :rules="requiredAmount"
-                suffix="NEAR"
-                required
-
-              ></v-text-field>
-            </div>
-          </v-form>
-        </v-card-text>
-        <v-divider></v-divider>
-        <v-card-actions class="pt-3 pb-3">
-          <v-spacer></v-spacer>
-          <v-btn
-            class="btn-outlined"
-            width="100"
-            style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary)"
-            variant="text"
-            :loading="envioLoading"
-            @click="transfer = false"
-          >
-            Cerrar
-          </v-btn>
-          
-          <v-btn 
-            class="btn"
-            width="100"
-            :loading="envioLoading"
-            @click="SendNear()"
-          >
-            Enviar
-          </v-btn>
-          <v-spacer></v-spacer>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
-
   <v-row justify="center">
     <v-dialog
       v-model="revived"
@@ -268,10 +197,9 @@ import axios from 'axios';
 import * as nearAPI from "near-api-js";
 import VueQr from 'vue-qr'
 import logoWallet from "~/assets/sources/logos/logo.svg";
-import { configNear } from "@/services/nearConfig";
 // import { configNear } from "@/services/nearConfig";
 import walletUtils from '@/services/wallet';
-const { keyStores, Account, Near, utils } = nearAPI;
+const { utils } = nearAPI;
 
 
 export default {
@@ -280,23 +208,14 @@ export default {
   data() {
     return {
       alert: false,
-      envioLoading: false,
       alertType: "success",
       hash: null,
       hashUrl: null,
-      validEnvio: true,
       network: process.env.Network,
       copie: false,
       logoWallet,
-      required: [(v) => !!v || "Campo requerido", (v) => this.verificarAccount(v) || "Account already exists" ],
-      requiredAmount: [(v) => !!v || "Campo requerido", (v) => v <= Number(this.balance_near) || "Balance insuficiente" ],
-      accountNear: null,
-      errorAccount: null,
-      successAccount: null,
-      amountSend: null,
       linkExplorer: "",
       sheet: false,
-      transfer: false,
       revived: false,
       balance: "0.00",
       balance_near: 0.00,
@@ -305,12 +224,12 @@ export default {
         {
           icon: require("@/assets/sources/icons/arrow-up.svg"),
           text: "enviar",
-          action: () => { this.alert = false; this.transfer = true; this.$refs.formEnvio.resetValidation(); this.$refs.formEnvio.reset(); },
+          action: () => { this.$router.push({ path: "/send" }) } ,// { this.alert = false; this.transfer = true; this.$refs.formEnvio.resetValidation(); this.$refs.formEnvio.reset(); },
         },
         {
           icon: require("@/assets/sources/icons/arrow-down.svg"),
           text: "recibir",
-          action: () => {this.revived = true;},
+          action: () => { this.$router.push({ path: "/send-qr" }) },// {this.revived = true;},
         },
         /* {
           icon: require("@/assets/sources/icons/plus.svg"),
@@ -367,8 +286,25 @@ export default {
       this.recentActivity()
     }, 1000*10); // se ejecuta cada 10 segundos
     // eliminando variables de inicio de session
+    this.alertSend();
   },
   methods: {
+    alertSend() {
+      const result = sessionStorage.getItem("send-result");
+
+      if(result) {
+        console.log(result)
+        const resultSend = JSON.parse(result);
+
+        this.hash = resultSend.hash;
+        this.hashUrl = resultSend.hashUrl;
+        this.alertType = resultSend.alertType;
+
+        this.alert = true;
+
+        sessionStorage.removeItem("send-result");
+      }
+    },
     openExplorer() {
       window.open(process.env.ROUTER_EXPLORER_NEAR, 'self')
     },
@@ -399,55 +335,6 @@ export default {
 
     },
 
-    async verificarAccount(value) {
-      // const accountInput = value + "." + process.env.Network;
-
-      this.successAccount = null
-      this.errorAccount = null
-
-      const keyStore = new keyStores.InMemoryKeyStore()
-      const near = new Near(configNear(keyStore))
-      const account = new Account(near.connection, value)
-      
-      let response = false
-      if(value) {
-        await account.state()
-          .then(() => {
-            response = true
-            this.successAccount = "La wallet es valida"
-          }).catch(() => {
-            response = false
-            this.errorAccount = "la wallet no existe"
-          })
-      }
-      
-      return response
-    
-    },
-
-    async SendNear() {
-      if(this.$refs.formEnvio.validate()) {
-        this.envioLoading = true;
-
-        const account = await walletUtils.nearConnection();
-        const result = await account.sendMoney(
-          this.accountNear, // receiver account
-          utils.format.parseNearAmount(this.amountSend).toString() // amount in yoctoNEAR
-        );
-
-        this.hash = !result?.transaction.hash ? result : result?.transaction.hash;
-        this.hashUrl = process.env.ROUTER_EXPLORER_NEAR + 'es/txns/' + this.hash;
-        this.alertType = result?.status?.SuccessValue === "" ? "success" : "error";
-
-        this.alert = true;
-
-        this.$refs.formEnvio.reset();
-        this.envioLoading = false;
-        this.transfer = false;
-
-      }
-    },
-
     async recentActivity() {
       const wallet = this.address;
       await axios.get(process.env.URL_API_INDEXER + "/account/" + wallet +'/activity')
@@ -464,7 +351,7 @@ export default {
             case "TRANSFER":
               typeParam = items.signer_id === wallet ? "sent" : "receive";
               accountParam = items.signer_id === wallet ? items.receiver_id : items.signer_id;
-              amountParam = (items.signer_id === wallet ? "-" : "+")+Number(utils.format.formatNearAmount(items.args.deposit)).toFixed(2);
+              amountParam = (items.signer_id === wallet ? "-" : "+")+Number(utils.format.formatNearAmount(items.args.deposit)).toFixed(5);
               coinParam = "NEAR"
               break;
             case "CREATE_ACCOUNT":
