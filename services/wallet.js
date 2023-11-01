@@ -6,7 +6,10 @@ import localStorageUser from '~/services/local-storage-user';
 const { connect } = nearAPI;
 
 
-
+function shortenAddress(address) {
+  const addresFinal = address === undefined ? "" : address.length > 25 ? address.substring(0,9)+"..."+address.substring((address.length - process.env.Network.length - 7), address.length) : address;
+  return addresFinal
+}
 
 function executeQueryRpc(_method, _params) {
   const json = {
@@ -95,6 +98,7 @@ async function nearConnection() {
 
 
 export default {
+  shortenAddress,
   executeQueryRpc,
   getBalance,
   getPrice,

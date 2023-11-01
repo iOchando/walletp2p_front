@@ -39,6 +39,10 @@ export default {
       type: String,
       default: undefined
     },
+    copie: {
+      type: String,
+      default: undefined
+    },
     pass: {
       type: String,
       default: undefined

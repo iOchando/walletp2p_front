@@ -367,7 +367,7 @@ export default {
 
           const res = {
             type: typeParam,
-            account: accountParam,
+            account: walletUtils.shortenAddress(accountParam),
             coin: coinParam,
             amount: amountParam,
             date: "1d",

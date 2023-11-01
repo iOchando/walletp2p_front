@@ -18,7 +18,7 @@
     <section class="d-flex flex-column" style="height: 248px;">
       <vue-qr
         id="qr-code"
-        :text="address"
+        :text="account.address"
         :bg-src="require('@/assets/sources/images/transparent.png')"
         :logo-src="require('@/assets/sources/logos/logo-qr.svg')"
         :logo-corner-radius="20"
@@ -55,12 +55,12 @@
           class="btn-outlined space"
           style="--bg: var(--secondary); padding: 0 8px 0 23px;"
         >
-          <h5 class="mb-0">{{ address }}</h5>
+          <h5 class="mb-0">{{ account.shortenAddress }}</h5>
 
           <v-btn
             class="btn-icon"
             style="--bg: var(--primary); --size: 29px"
-            @click="fnCopie(address)"
+            @click="fnCopie(account.address)"
           >
             <v-icon v-if="copie">mdi-check</v-icon>
             <img v-if="!copie" src="@/assets/sources/icons/copy.svg" alt="copy to clipboard" style="--w: 15px">
@@ -91,7 +91,7 @@ export default {
   data() {
     return {
       copie: false,
-      address: localStorageUser.getCurrentAccount().address,
+      account: localStorageUser.getCurrentAccount(),
     }
   },
   head() {

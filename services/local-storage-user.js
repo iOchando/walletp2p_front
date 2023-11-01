@@ -1,3 +1,4 @@
+import utils from "./utils";
 
 function addNewAccount({_address, _publicKey, _privateKey}) {
   try {
@@ -114,7 +115,8 @@ function getCurrentAccount() {
     return {
       address: _address,
       publicKey: _publicKey,
-      privateKey: _privateKey
+      privateKey: _privateKey,
+      shortenAddress: utils.shortenAddress(_address)
     }
 
   } catch (error) {

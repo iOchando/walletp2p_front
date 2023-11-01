@@ -13,7 +13,7 @@
         <h5 class="mb-0">ID DE BILLETERA</h5>
 
         <div class="d-flex" style="gap: 12px;">
-          <span class="center">{{ account_id.address }}</span>
+          <span class="center">{{ account_id.shortenAddress }}</span>
 
           <v-btn
             v-clipboard:copy="account_id.address"  
