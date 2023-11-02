@@ -68,7 +68,7 @@ async function getListTokensBalance() {
     try {
       await getTokenMetadata(listContract[i]).then( async (metadata) => {
         let { balance, price } = { balance: 0, price: 0};
-        const getBalance = await getTokenBalance({ contract: listContract[i], address, metadata })
+        const getBalance = await getTokenBalance({ contract: listContract[i], address, symbol: metadata.symbol })
         
         if(getBalance) {
           balance = getBalance.balance;
