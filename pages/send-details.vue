@@ -10,7 +10,7 @@
 
 
       <section class="d-flex flex-column" style="height: 248px;">
-        <h2>{{ amount }} <span>NEAR</span></h2>
+        <h2>{{ amount }} <span>{{ tokenSymbol }}</span></h2>
       </section>
 
 
@@ -42,7 +42,7 @@
           <v-btn 
             class="btn flex-grow-1"
             :loading="envioLoading"
-            @click="SendNear()"
+            @click="send()"
           >
             CONTINUAR
           </v-btn>
@@ -92,7 +92,9 @@ export default {
   data() {
     return {
       validEnvio: true,
-      amount: sessionStorage.getItem("send-amount"),
+      amount: 0,
+      tokenSymbol: "",
+      dataToken: null,
       accountNear: null,
       required: [(v) => !!v || "Campo requerido", (v) => this.verificarAccount(v) || "Account already exists" ],
       errorAccount: null,
@@ -132,6 +134,17 @@ export default {
   },
   mounted() {
     // localStorage.removeItem("common-beneficiary");
+    const data = sessionStorage.getItem("send-json");
+    if(data){
+      const json = JSON.parse(data);
+      this.amount = json.amount
+      if(json.dataToken){
+        this.dataToken = json.dataToken;
+        this.tokenSymbol = json.dataToken.symbol;
+      } else {
+        this.tokenSymbol = "NEAR";
+      }
+    }
     this.recentBeneficiary();
   },
 
@@ -165,8 +178,6 @@ export default {
     },
 
     async verificarAccount(value) {
-      // const accountInput = value + "." + process.env.Network;
-
       this.successAccount = null
       this.errorAccount = null
 
@@ -190,10 +201,42 @@ export default {
     
     },
 
-    async SendNear() {
+    async send() {
       if(this.$refs.formEnvio.validate()) {
         this.envioLoading = true;
 
+        if(this.tokenSymbol === "NEAR"){
+          await this.sendNear();
+        } else {
+          await this.sendToken();
+        }
+
+        this.$refs.formEnvio.reset();
+        this.envioLoading = false;
+
+        this.$router.push({ path: "/" });
+      }
+    },
+
+    addRecentBaneficiary(address) {
+      let beneficiary = [];
+      const commonBeneficiary = localStorage.getItem("common-beneficiary");
+      if(commonBeneficiary) {
+        beneficiary = JSON.parse(commonBeneficiary);
+      }
+      
+      const isExistBeneficiary = beneficiary.find(item => item.wallet === address);
+
+      if(isExistBeneficiary) {
+        beneficiary.find(item => item.wallet === address).count += 1;
+      } else {
+        beneficiary.push({wallet: address, count: 1});
+      }
+
+      localStorage.setItem("common-beneficiary", JSON.stringify(beneficiary));
+    },
+
+    async sendNear() {
         const account = await walletUtils.nearConnection();
         const result = await account.sendMoney(
           this.accountNear, // receiver account
@@ -206,31 +249,52 @@ export default {
           alertType: result?.status?.SuccessValue === "" ? "success" : "error",
         })
 
-        console.log(sendResult)
         sessionStorage.setItem("send-result", sendResult)
+        this.addRecentBaneficiary(this.accountNear)
+    },
+
+    async sendToken() {
+      const account = await walletUtils.nearConnection();
+      const isActiveToken = await account.viewFunctionV1(
+        this.dataToken.contract,
+        "storage_balance_of",
+        { account_id: this.accountNear }
+      );
+
+      if(!isActiveToken) {
+        const storageDepositResult = await account.functionCall({
+          contractId: this.dataToken.contract,
+          methodName: "storage_deposit",
+          args: { account_id: this.accountNear },
+          attachedDeposit: "1250000000000000000000"
+        });
         
-        let beneficiary = [];
-        const commonBeneficiary = localStorage.getItem("common-beneficiary");
-        if(commonBeneficiary) {
-          beneficiary = JSON.parse(commonBeneficiary);
+        if(!storageDepositResult || !storageDepositResult.status?.SuccessValue) {
+          console.log("error al activar token");
+          return
         }
-        
-        const isExistBeneficiary = beneficiary.find(item => item.wallet === this.accountNear);
-
-        if(isExistBeneficiary) {
-          beneficiary.find(item => item.wallet === this.accountNear).count += 1;
-        } else {
-          beneficiary.push({wallet: this.accountNear, count: 1});
-        }
-
-        localStorage.setItem("common-beneficiary", JSON.stringify(beneficiary))
-
-        this.$refs.formEnvio.reset();
-        this.envioLoading = false;
-
-        this.$router.push({ path: "/" });
-
       }
+
+      const result = await account.functionCall({
+        contractId: this.dataToken.contract,
+        methodName: "ft_transfer",
+        args: { 
+          receiver_id: this.accountNear,
+          amount: walletUtils.parseTokenAmount(this.amount, this.dataToken.decimals)
+        },
+        attachedDeposit: "1"
+      });
+
+      const hash = !result?.transaction.hash ? result : result?.transaction.hash;
+      const sendResult = JSON.stringify({
+        hash,
+        hashUrl: process.env.ROUTER_EXPLORER_NEAR + 'es/txns/' + hash,
+        alertType: result?.status?.SuccessValue === "" ? "success" : "error",
+      })
+
+      sessionStorage.setItem("send-result", sendResult)
+
+      this.addRecentBaneficiary(this.accountNear)
     },
 
 

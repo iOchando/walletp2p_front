@@ -3,7 +3,7 @@
     <div id="send" class="d-flex flex-column">
       <ModalCryptos
         ref="cryptos"
-        @on-selected-coin="coin => $log(coin)"
+        @on-selected-coin="coin => selectToken(coin)"
       ></ModalCryptos>
 
       <Header
@@ -48,13 +48,14 @@
         <v-card
           class="btn-outlined space"
           style="--bg: var(--secondary); --b-color: #D1C4E8; padding: 0 23px;"
+          @click="$refs.cryptos.model = true"
         >
           <h5 class="mb-0">SELECCIONAR RECURSO</h5>
           
           <div class="center" style="gap: 6px;">
-            <img src="@/assets/sources/logos/near-icon.svg" alt="near icon" style="width: 29px;">
-            <span style="--fs: 12px; --c: var(--primary); --ls: normal">NEAR</span>
-            <!--<img src="@/assets/sources/icons/double-chevron-right.svg" alt="arrow right">-->
+            <img :src="tokenImg" alt="near icon" style="width: 29px;">
+            <span style="--fs: 12px; --c: var(--primary); --ls: normal">{{ tokenSymbol }}</span>
+            <img src="@/assets/sources/icons/double-chevron-right.svg" alt="arrow right">
           </div>
         </v-card>
 
@@ -64,7 +65,7 @@
         >
           <h5 class="mb-0">DISPONIBLE PARA ENVIAR</h5>
           
-          <span style="--fs: 12px; --ls: normal">{{ balance }} NEAR</span>
+          <span style="--fs: 12px; --ls: normal">{{ balance }} {{ tokenSymbol }}</span>
         </v-card>
 
         <aside class="d-flex" style="gap: 12px">
@@ -87,14 +88,18 @@
 <script>
 import walletUtils from '@/services/wallet';
 
+
 export default {
   name: "SendPage",
   data() {
     return {
       validForm: true,
       amount: "",
+      tokenImg: require('@/assets/sources/logos/near-icon.svg'),
+      tokenSymbol: "NEAR",
       balance: 0.00,
-      required: [(v) => !!v || "Campo requerido", (v) => Number(v) < Number(this.balance) || "Saldo insuficiente" ],
+      required: [(v) => !!v || "Campo requerido", (v) => Number(v) <= Number(this.balance) || "Saldo insuficiente" ],
+      dataToken: null,
     }
   },
   head() {
@@ -111,7 +116,11 @@ export default {
   methods: {
     next() {
       if(this.$refs.form.validate()) {
-        sessionStorage.setItem("send-amount", this.amount);
+        const json = JSON.stringify({
+          amount: this.amount,
+          dataToken: this.dataToken,
+        })
+        sessionStorage.setItem("send-json", json);
         this.$router.push({ path: "/send-details" });
       }
     },
@@ -132,6 +141,14 @@ export default {
     maxBalance() {
       this.amount = this.balance;
     },
+
+    selectToken(token) {
+      console.log(token)
+      this.balance = Number(token.balance);
+      this.tokenImg = token.icon;
+      this.tokenSymbol = token.symbol;
+      this.dataToken = token.name !== "NEAR" ? token : null;
+    }
   },
 }
 </script>

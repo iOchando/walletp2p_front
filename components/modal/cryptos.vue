@@ -5,7 +5,7 @@
     :overlay-opacity=".9"
     content-class="modal-cryptos"
   >
-    <aside class="d-flex justify-end mb-5">
+    <!--<aside class="d-flex justify-end mb-5">
       <v-text-field
         v-model="search"
         hide-details solo
@@ -14,7 +14,7 @@
           <img src="@/assets/sources/icons/magnify.svg" alt="search icon">
         </template>
       </v-text-field>
-    </aside>
+    </aside>-->
 
 
     <v-card class="cryptos-card">
@@ -23,12 +23,12 @@
           v-for="(item, i) in dataTokens" :key="i"
           color="transparent"
           class="cryptos-card-coin space"
-          :class="{active: selectedCoin?.coin === item.coin}"
+          :class="{active: selectedCoin?.coin === item.symbol}"
           @click="model = false; $emit('on-selected-coin', item)"
         >
           <div class="center" style="gap: 14px;">
             <v-img-load
-              :src="item.img"
+              :src="item.icon"
               :alt="`${item.name}s' coin`"
               sizes="29px"
               cover
@@ -38,8 +38,8 @@
           </div>
 
           <div class="d-flex flex-column">
-            <span>{{ item.amount }} {{ item.coin }}</span>
-            <span>${{ item.currency }}</span>
+            <span>{{ item.balance }} {{ item.coin }}</span>
+            <span>${{ item.balance_usd }}</span>
           </div>
         </v-card>
       </div>
@@ -48,6 +48,8 @@
 </template>
 
 <script>
+import tokens from '@/services/tokens';
+
 export default {
   name: "ModalCryptos",
   data() {
@@ -56,76 +58,23 @@ export default {
       search: '',
       selectedCoin: undefined,
       dataTokens: [
+        /* {
+          contract: ,
+          balance: walletUtils.formatTokenAmount(balance, metadata.decimals, 5),
+          name: metadata.name,
+          symbol: metadata.symbol,
+          decimals: metadata.decimals,
+          icon: metadata.icon,
+          balance_usd: Number(walletUtils.formatTokenAmount(balance, metadata.decimals, 5)) * Number(price),
+          price
+        }*
         {
           img: require('@/assets/sources/tokens/eth.svg'),
           coin: "ETH",
           name: "ETHEREUM",
           amount: "59.744",
           currency: "79.379"
-        },
-        {
-          img: require('@/assets/sources/tokens/btc.svg'),
-          coin: "BTC",
-          name: "BITCOIN",
-          amount: "59.744",
-          currency: "79.379"
-        },
-        {
-          img: require('@/assets/sources/tokens/usdt.svg'),
-          coin: "USDT",
-          name: "TETHER",
-          amount: "59.744",
-          currency: "79.379"
-        },
-        {
-          img: require('@/assets/sources/tokens/sol.svg'),
-          coin: "SOL",
-          name: "SOLANA",
-          amount: "59.744",
-          currency: "79.379"
-        },
-        {
-          img: require('@/assets/sources/tokens/matic.svg'),
-          coin: "MATIC",
-          name: "POLYGON",
-          amount: "59.744",
-          currency: "79.379"
-        },
-        {
-          img: require('@/assets/sources/tokens/usdc.svg'),
-          coin: "USDC",
-          name: "USD COIN",
-          amount: "59.744",
-          currency: "79.379"
-        },
-        {
-          img: require('@/assets/sources/tokens/dai.svg'),
-          coin: "DAI",
-          name: "DAI",
-          amount: "59.744",
-          currency: "79.379"
-        },
-        {
-          img: require('@/assets/sources/tokens/klay.svg'),
-          coin: "KLAY",
-          name: "KLAYTN",
-          amount: "59.744",
-          currency: "79.379"
-        },
-        {
-          img: require('@/assets/sources/tokens/shib.svg'),
-          coin: "SHIB",
-          name: "SHIBA INU",
-          amount: "59.744",
-          currency: "79.379"
-        },
-        {
-          img: require('@/assets/sources/tokens/snx.svg'),
-          coin: "SNX",
-          name: "SYNTHETIX",
-          amount: "59.744",
-          currency: "79.379"
-        },
+        }, */
       ]
     }
   },
@@ -133,7 +82,18 @@ export default {
     model(value) {
       if (!value) this.search = ''
     }
-  }
+  },
+
+  mounted() {
+    this.loadTokens();
+  },
+
+  methods: {
+    async loadTokens() {
+      this.dataTokens = await tokens.getListTokensBalance()
+    }
+  },
+
 }
 </script>
 
