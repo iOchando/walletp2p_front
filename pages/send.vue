@@ -143,7 +143,6 @@ export default {
     },
 
     selectToken(token) {
-      console.log(token)
       this.balance = Number(token.balance);
       this.tokenImg = token.icon;
       this.tokenSymbol = token.symbol;

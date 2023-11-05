@@ -1,12 +1,13 @@
 import utils from "./utils";
 
-function addNewAccount({_address, _publicKey, _privateKey}) {
+function addNewAccount({_address, _publicKey, _privateKey, _email}) {
   try {
     const dataUser = {
       address: _address,
       publicKey: _publicKey,
       privateKey: _privateKey,
       apps: null,
+      email: _email
     };
 
 
@@ -24,6 +25,7 @@ function addNewAccount({_address, _publicKey, _privateKey}) {
     localStorage.setItem("address", _address);
     localStorage.setItem("publicKey", _publicKey);
     localStorage.setItem("privateKey", _privateKey);
+
 
     return true
   } catch (error) {
@@ -152,11 +154,12 @@ function getAccount(address) {
 
       if(!dataUser) throw new Error ("Error getAccount: address not found");
 
-      return  {
-          address: dataUser.address,
-          publicKey: dataUser.publicKey,
-          privateKey: dataUser.privateKey
-        }
+      return {
+        address: dataUser.address,
+        publicKey: dataUser.publicKey,
+        privateKey: dataUser.privateKey,
+        email: dataUser.email,
+      }
     }
     throw new Error ("Error getAccount: address not found");
     

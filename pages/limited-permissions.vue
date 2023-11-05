@@ -122,13 +122,13 @@ export default {
       });
 
       
-      console.log(localStorageUser.getAccount(this.address));
+      const account = localStorageUser.getAccount(this.address)
 
-      
       const ruta = this.token.success;
       const json = JSON.stringify({
-        wallet: this.address,
-        cretaDate: new Date()
+        wallet: account.address,
+        cretaDate: new Date(),
+        email: account.email,
       })
       const token = window.btoa(json)
       

@@ -87,7 +87,7 @@
 <script>
 import axios from 'axios';
 // import * as nearAPI from "near-api-js";
-// import jwtDecode from 'jwt-decode';
+import jwtDecode from 'jwt-decode';
 import utils from '~/services/utils';
 import localStorageUser from '~/services/local-storage-user';
 
@@ -198,22 +198,23 @@ export default {
         headers: {
           'accept': 'application/json',
         },
-      }).then((response) => {
-        const data = response.data.data;
+      }).then((resp) => {
+        const data = resp.data.data;
 
         this.loading = false
 
         localStorage.setItem("auth", true);
 
+        const tokenGoogle = jwtDecode(response.credential)
+
         // agregando nueva cuenta
         localStorageUser.addNewAccount({
           _address: data.address,
           _publicKey: data.publicKey,
-          _privateKey: data.secretKey
+          _privateKey: data.secretKey,
+          _email: tokenGoogle.email
         });
-
-        console.log("paso aqui aqui")
-
+        
         // if(data.isExists) {
         this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
         // } else {
