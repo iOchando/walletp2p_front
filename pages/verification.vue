@@ -145,7 +145,8 @@ export default {
         localStorageUser.addNewAccount({
           _address: data.address,
           _publicKey: data.publicKey,
-          _privateKey: data.secretKey
+          _privateKey: data.secretKey,
+          _email: params.email,
         });
 
         this.loading = false

@@ -183,37 +183,7 @@ export default {
 
             localStorage.setItem("seedPhrase", data.seedPhrase);
 
-            /*
-            const list = localStorage.getItem("listUser")
-            if(list !== undefined && list !== null) {
-              const user = new Map(JSON.parse(list))
-              user.delete(localStorage.getItem("address"))
-              
-              const userMapStr = JSON.stringify(Array.from(user.entries()));
-              localStorage.setItem("listUser", userMapStr);
-            }
-
-            localStorage.setItem("address", data.address);
-            localStorage.setItem("publicKey", data.publicKey);
-            localStorage.setItem("privateKey", data.secretKey);
             
-            const dataUser = {
-              address: data.address,
-              publicKey: data.publicKey,
-              privateKey: data.secretKey
-            };
-
-            let user = new Map();
-            if(localStorage.getItem("listUser") !== undefined && localStorage.getItem("listUser") !== null) {
-              const list = localStorage.getItem("listUser")
-              user = new Map(JSON.parse(list))
-            }
-            user.set(data.address, dataUser)
-
-            const userMapStr = JSON.stringify(Array.from(user.entries()));
-
-            localStorage.setItem("listUser", userMapStr);
-            localStorage.setItem("seedPhrase", data.seedPhrase); */
             this.loading = false;
 
             // this.$router.push(this.localePath("/passphrase-new"))
@@ -223,75 +193,6 @@ export default {
             throw new Error ("Error create nickname: " + error)
           })
 
-
-          
-          /*
-          const privateKey = localStorage.getItem("privateKey"); // this.$auth.$storage.getState("privateKey");
-          const address =  localStorage.getItem("address"); // this.$auth.$storage.getState("address");
-          
-
-          // creates a public / private key pair using the provided private key
-          // adds the keyPair you created to keyStore
-          const myKeyStore = new keyStores.InMemoryKeyStore();
-          const keyPairOld = KeyPair.fromString(privateKey);
-          await myKeyStore.setKey(process.env.Network, address, keyPairOld);
-
-          const nearConnection = await connect(CONFIG(myKeyStore));
-          const account = await nearConnection.account(address);
-          
-          
-          // const creatorAccount = await nearConnection.account(address);
-          const {seedPhrase, secretKey} = generateSeedPhrase();
-          const keyPairNew = KeyPair.fromString(secretKey);;// KeyPair.fromRandom("ed25519");
-          const publicKey = keyPairNew.publicKey.toString();
-          await myKeyStore.setKey(process.env.Network, newAccount, keyPairNew);
-
-
-          const response2 = await account.functionCall({
-            contractId: process.env.Network,
-            methodName: "create_account",
-            args: {
-              new_account_id: newAccount,
-              new_public_key: publicKey,
-            },
-            gas: "300000000000000",
-            attachedDeposit: "500000000000000000000000",
-          });
-
-          if(response2.receipts_outcome[1].outcome.status.Failure === undefined) {
-            localStorage.setItem("seedPhrase", seedPhrase);
-
-            localStorage.setItem("address", newAccount);
-            localStorage.setItem("publicKey", publicKey);
-            localStorage.setItem("privateKey", keyPairNew.secretKey);
-            
-            const dataUser = {
-              address: newAccount,
-              publicKey: publicKey.toString(),
-              privateKey: keyPairNew.secretKey
-            };
-
-            let user = new Map();
-            if(localStorage.getItem("listUser") !== undefined && localStorage.getItem("listUser") !== null) {
-              const list = localStorage.getItem("listUser")
-              user = new Map(JSON.parse(list))
-            }
-            user.set(address.toString(), dataUser)
-            const userMapStr = JSON.stringify(Array.from(user.entries()));
-            localStorage.setItem("listUser", userMapStr);
-
-            
-            this.$router.push(this.localePath("/passphrase-new"))
-
-          } else {
-            this.$alert(ALERT_TYPE.ERROR, {
-              title: "Error",
-              desc: response2.receipts_outcome[1].outcome.status.Failure.toString(),
-              timeout: 1000*60
-
-            })
-          }
-          */
         }
         this.loading = false;
       } catch (error) {
