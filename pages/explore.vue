@@ -84,6 +84,11 @@ export default {
       ],
       dataTrending: [
         {
+          img: require("@/assets/sources/logos/metademocracia.svg"),
+          name: "METADEMOCRACIA",
+          color: "#ffff"
+        },
+        {
           img: require("@/assets/sources/logos/ref-finance.svg"),
           name: "REF FINANCE",
           color: "#000"
