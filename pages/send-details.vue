@@ -190,10 +190,10 @@ export default {
         await account.state()
           .then(() => {
             response = true
-            this.successAccount = "La wallet es valida"
+            this.successAccount = "Usuario válido"
           }).catch(() => {
             response = false
-            this.errorAccount = "la wallet no existe"
+            this.errorAccount = "Usuario no existe"
           })
       }
       
