@@ -144,7 +144,7 @@ export default {
           this.loading = false;
           return
         }
-        const newAccount = this.accountNear + this.network;
+        const newAccount = this.accountNear + "." + this.dominioNear;
 
         if(localStorage.getItem("importEmail") !== undefined && localStorage.getItem("importEmail") !== null) {
           await axios.post(process.env.URL_BACKEND +'/wallet/send-code',
