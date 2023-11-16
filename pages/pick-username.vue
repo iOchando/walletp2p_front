@@ -19,7 +19,7 @@
         style="--margin-message: 1px"
         :error-messages="errorAccount"
         :success-messages="successAccount"
-        :suffix="network"
+        :suffix="dominioNear"
         :rules="required"
         @keyup="verificarAccount(accountNear)"
       ></v-text-field>
@@ -78,6 +78,7 @@ export default {
       valid:false,
       address: "",
       accountNear: null,
+      dominioNear: process.env.Network === "testnet" ? process.env.Network : "mainnet",
       required: [(v) => !!v || "Campo requerido"],
       copie: false,
       errorAccount: null,
@@ -111,8 +112,8 @@ export default {
       this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
     },
     async verificarAccount(value) {
-      const accountInput = value + "." + process.env.Network;
-      console.log(accountInput)
+      const accountInput = value + "." + this.dominioNear;
+      
 
       const keyStore = new keyStores.InMemoryKeyStore()
       const near = new Near(configNear(keyStore))
