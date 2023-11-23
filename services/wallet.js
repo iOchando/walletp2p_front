@@ -36,16 +36,20 @@ function executeQueryRpc(_method, _params) {
 
 function getBalance(_address) {
   const address = !_address ? localStorageUser.getCurrentAccount().address : _address
-
+  console.log("address: ", address)
   const params = {
     account_id: address,
     finality: "optimistic",
     request_type: "view_account"
   }
   return  utils.executeQueryRpc("query", params).then(async item => {
-    const balanceWallet = Number(item.data.result.amount) / 1000000000000000000000000;
-    const reservedStorage = Number(item.data.result.storage_usage) / 100000;
-    const reservedTransaction = 0.05;
+    console.log(item)
+    const amount = item?.data?.result?.amount ? Number(item.data.result.amount) : 0;
+    const storageUsage = item?.data?.result?.storage_usage ? Number(item.data.result.storage_usage) : 0;
+
+    const balanceWallet = amount / 1000000000000000000000000;
+    const reservedStorage = storageUsage / 100000;
+    const reservedTransaction = amount !== 0 ? 0.05 : 0;
     const balanceAvalible = balanceWallet - reservedStorage - reservedTransaction;
     let _price = 0;
 

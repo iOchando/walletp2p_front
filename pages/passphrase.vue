@@ -33,7 +33,7 @@
 
     <Footer ref="footer">
       <span class="text" style="--text: var(--text2)">¿YA TIENE UNA FRASE DE CONTRASEÑA?
-        <a style="--fw: 700" @click="onSignIn()">REGISTRARSE</a>
+        <a style="--fw: 700" @click="onSignIn()">LOGIN</a>
       </span>
     </Footer>
   </div>

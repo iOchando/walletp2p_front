@@ -78,12 +78,11 @@ export default {
       valid:false,
       address: "",
       accountNear: null,
-      dominioNear: process.env.Network === "testnet" ? process.env.Network : "near",
+      dominioNear: process.env.Network === ".testnet" ? process.env.Network : ".near",
       required: [(v) => !!v || "Campo requerido"],
       copie: false,
       errorAccount: null,
       successAccount: null,
-      network: "",
       loading: false,
     }
   },
@@ -96,7 +95,6 @@ export default {
   mounted() {
     this.$store.commit('validSession')
     this.address = localStorageUser.getCurrentAccount().address; // this.$auth.$storage.getState("address") ?? " ";
-    this.network = "."+process.env.Network
   },
   methods: {
     fnCopie() {
@@ -112,7 +110,7 @@ export default {
       this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
     },
     async verificarAccount(value) {
-      const accountInput = value + "." + this.dominioNear;
+      const accountInput = value +  this.dominioNear;
       
 
       const keyStore = new keyStores.InMemoryKeyStore()
@@ -144,7 +142,7 @@ export default {
           this.loading = false;
           return
         }
-        const newAccount = this.accountNear + "." + this.dominioNear;
+        const newAccount = this.accountNear + this.dominioNear;
 
         if(localStorage.getItem("importEmail") !== undefined && localStorage.getItem("importEmail") !== null) {
           await axios.post(process.env.URL_BACKEND +'/wallet/send-code',

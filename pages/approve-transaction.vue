@@ -177,7 +177,7 @@ export default {
       attachedDeposit: 0,
       deposit_usd: 0,
       balance: 0,
-      token: JSON.parse(sessionStorage.getItem("token")),
+      token: null,
       error: null,
       transactionDetails: {
           network: "",
@@ -192,7 +192,9 @@ export default {
     };
   },
   mounted() {
+    this.token = JSON.parse(sessionStorage.getItem("token"));
     this.loadData();
+    console.log(sessionStorage.getItem("token"))
   },
   methods: {
     async loadData(){
@@ -227,6 +229,11 @@ export default {
     async approved() {
       try {
         this.loading = true
+        if(this.balance < this.attachedDeposit) {
+          this.loading = false
+          this.error = "Su balance no es suficiente";
+          return
+        }
         // const token = JSON.parse(sessionStorage.getItem("token"));
         const dataUser = localStorageUser.getAccount(this.token.from);
         const privateKey = dataUser.privateKey;

@@ -122,8 +122,8 @@ export default {
     next() {
       
       if(!this.token) alert("error no hay token");
-
-      if (!this.address || !this.domain || !this.contract) return
+      
+      if (!this.address || !this.domain || !this.contract) {console.log("error"); return}
       
       sessionStorage.setItem("connectAppAddressSelect", this.address);
       

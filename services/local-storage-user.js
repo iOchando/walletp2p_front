@@ -131,13 +131,11 @@ function getAccounts() {
   try {
     const accounts = localStorage.getItem("listUser");
     
-    console.log(JSON.parse(accounts))
     const result = JSON.parse(accounts).map(item => {
       return {
         address: item[1].address,
       }
     });
-    console.log(result)
 
     return result
   } catch (error) {
