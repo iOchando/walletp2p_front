@@ -194,7 +194,6 @@ export default {
   mounted() {
     this.token = JSON.parse(sessionStorage.getItem("token"));
     this.loadData();
-    console.log(sessionStorage.getItem("token"))
   },
   methods: {
     async loadData(){
@@ -209,7 +208,7 @@ export default {
         depositUsd = price;
         balance = near
       }
-
+      
       this.attachedDeposit = attachedDeposit.toFixed(5);
       this.deposit_usd = (attachedDeposit * depositUsd).toFixed(2);
       this.from = utils.shortenAddress(from);

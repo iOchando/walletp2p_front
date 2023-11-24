@@ -1,13 +1,14 @@
 
 <script>
 
+import encryp from '../services/encryp';
 
 export default {
   name: "ExecuteAction",
   // layout: "default-variant",
   data() {
     return {
-      domain: null,
+      // domain: null,
       contrcat: null,
       address: null,
       routeCancel: null,
@@ -17,16 +18,19 @@ export default {
     let token
     
     if(this.$route.query.token){
-    
-      const tokenString = window.atob(this.$route.query.token);
+      // const tokenString = window.atob(this.$route.query.token);
+      const tokenString = encryp.decryp(this.$route.query.token);
       const tokenJSON = JSON.parse(tokenString);
-    
+      
       sessionStorage.setItem("token", tokenString);
+
     
       token = tokenJSON
     } else {
+      // console.log(sessionStorage.getItem("token"))
       token = JSON.parse(sessionStorage.getItem("token"));
     } 
+    
     
 
     if(!token) console.log("error no hay token");

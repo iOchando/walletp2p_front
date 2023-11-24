@@ -43,7 +43,6 @@ function getBalance(_address) {
     request_type: "view_account"
   }
   return  utils.executeQueryRpc("query", params).then(async item => {
-    console.log(item)
     const amount = item?.data?.result?.amount ? Number(item.data.result.amount) : 0;
     const storageUsage = item?.data?.result?.storage_usage ? Number(item.data.result.storage_usage) : 0;
 

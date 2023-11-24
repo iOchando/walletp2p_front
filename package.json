@@ -19,6 +19,7 @@
     "apexcharts": "^3.43.2-0",
     "big.js": "^6.2.1",
     "core-js": "^3.19.3",
+    "crypto-js": "^4.2.0",
     "html2canvas": "^1.4.1",
     "moment": "^2.29.4",
     "near-api-js": "^1.0.0",
