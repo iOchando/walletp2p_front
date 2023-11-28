@@ -181,8 +181,8 @@ export default {
               currency: (items.storage * items.price).toFixed(2)
             },
             'reservado para transacciones': {
-              amount: "0.05",
-              currency: (0.05 * items.price).toFixed(2)
+              amount: items.transaction.toFixed(5),
+              currency: (items.transaction * items.price).toFixed(2)
             },
           'Saldo disponible': {
               amount: items.near.toFixed(5),

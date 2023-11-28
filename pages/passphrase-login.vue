@@ -19,7 +19,6 @@
           :label="`enter word #${item}`" solo
           style="--margin-message: 1px"
           :rules="required"
-          @keydown="prueba()"
         ></v-text-field>
       </div>
 
@@ -55,15 +54,13 @@ export default {
     }
   },
   mounted() {
-    this.$store.commit('validSession')
+    // this.$store.commit('validSession')
   },
   methods: {
+    
     onScroll(event) {
       const container = event.currentTarget
       this.scrollEnd = container.scrollTop + container.clientHeight === container.scrollHeight
-    },
-    prueba() {
-      // this.$router.push(this.localePath("/verification"))
     },
     onTap(){
       let counterWord = 0
@@ -76,7 +73,6 @@ export default {
         } 
       }
       
-      console.log(seedPhrase)
       this.$refs.form.validate();
 
       if(counterWord === 12) {

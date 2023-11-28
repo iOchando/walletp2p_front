@@ -48,7 +48,7 @@ function getBalance(_address) {
 
     const balanceWallet = amount / 1000000000000000000000000;
     const reservedStorage = storageUsage / 100000;
-    const reservedTransaction = amount !== 0 ? 0.05 : 0;
+    const reservedTransaction = amount !== 0 ? balanceWallet - reservedStorage < 0.05 ? balanceWallet - reservedStorage : 0.05 : 0;
     const balanceAvalible = balanceWallet - reservedStorage - reservedTransaction;
     let _price = 0;
 
