@@ -36,7 +36,7 @@ function executeQueryRpc(_method, _params) {
 
 function getBalance(_address) {
   const address = !_address ? localStorageUser.getCurrentAccount().address : _address
-  console.log("address: ", address)
+  
   const params = {
     account_id: address,
     finality: "optimistic",
