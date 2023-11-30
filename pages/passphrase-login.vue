@@ -39,6 +39,7 @@ import utils from '~/services/utils';
 export default {
   name: "PassphraseLoginPage",
   layout: "auth-layout",
+  middleware: ["authenticated-process-login"],
   data() {
     return {
       scrollEnd: false,
@@ -52,6 +53,9 @@ export default {
     return {
       title,
     }
+  },
+  created() {
+    localStorage.setItem("login", true);
   },
   mounted() {
     // this.$store.commit('validSession')

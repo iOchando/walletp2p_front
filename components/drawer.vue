@@ -107,9 +107,8 @@ export default {
       window.open(process.env.ROUTER_EXPLORER_NEAR, 'self')
     },
 
-    importAccount() {
-      localStorage.setItem("login", true); 
-      this.$router.push({ path: '/passphrase-login' });
+    importAccount() { 
+      this.$router.push({ path: '/passphrase-login', query: {action: 'import-account'} });
     }
   },
 

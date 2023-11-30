@@ -36,7 +36,7 @@
       <v-btn
         class="btn-outlined"
         style="--b-color: var(--primary); --bg: var(--secondary); --c: var(--primary); margin-right: calc(var(--p-inside) + var(--p-outside));"
-        @click="$router.push({path: '/login', query: {action: 'connect-with-near'} })"
+        @click="importAccount()"
       >
         IMPORTAR CUENTA DIFERENTE
       </v-btn>
@@ -102,6 +102,10 @@ export default {
 
   },
   methods: {
+    importAccount() {
+      console.log("aqui paso");
+      this.$router.push({path: '/login', query: {action: 'connect-with-near'} });
+    },
     selectAccount(address, array){
       const list = array === undefined ? this.dataWallets : array;
 

@@ -60,8 +60,10 @@ export default {
       title,
     }
   },
+  created() {
+    this.$store.commit('validSession');
+  },
   mounted() {
-    this.$store.commit('validSession')
     this.generatePhrase();
   },
   methods: {

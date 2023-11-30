@@ -1,8 +1,11 @@
 import axios from 'axios';
 
 function routeLogin(action) {
-  if(action){
-    return "/"+action
+  if(action) {
+    if(action === "connect-with-near") {
+      return "/"+action
+    }
+    return "/"
   } else {
     return "/" 
   }

@@ -94,6 +94,7 @@ import localStorageUser from '~/services/local-storage-user';
 export default {
   name: "LoginPage",
   layout: "auth-layout",
+  middleware: ["authenticated-process-login"],
   data() {
     return {
       loading: false,

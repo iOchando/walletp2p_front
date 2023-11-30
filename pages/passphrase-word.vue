@@ -59,8 +59,11 @@ export default {
       title,
     }
   },
+  created() {
+    this.$store.commit('validSession');
+  },
   mounted() {
-    this.$store.commit('validSession')
+    // this.$store.commit('validSession')
     this.phraseNumber = Math.floor(Math.random() * 12)
     // console.log(this.$auth.$storage.getState("seedPhraseGenerate"))
     if(localStorage.getItem("seedPhraseLoginNew") !== undefined && localStorage.getItem("seedPhraseLoginNew") !== null) {

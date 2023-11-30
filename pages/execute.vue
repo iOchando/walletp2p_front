@@ -43,7 +43,7 @@ export default {
     
       if(!localStorage.getItem("listUser")) {// if(!localStorage.getItem('auth')) {
         if(token.action === "connect-seedphrase") {
-          localStorage.setItem("login", true);
+          // localStorage.setItem("login", true);
           this.$router.push({path: '/passphrase-login', query: {action: 'connect-with-near'} });
         } else {
           this.$router.push({path: '/login', query: {action: 'connect-with-near'} });
