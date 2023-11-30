@@ -41,7 +41,7 @@ export default {
       
       if(!token) console.log("error no hay token");
     
-      if(!localStorage.getItem('auth')) {
+      if(!localStorage.getItem("listUser")) {// if(!localStorage.getItem('auth')) {
         if(token.action === "connect-seedphrase") {
           localStorage.setItem("login", true);
           this.$router.push({path: '/passphrase-login', query: {action: 'connect-with-near'} });
