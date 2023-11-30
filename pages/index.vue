@@ -205,6 +205,7 @@ const { utils } = nearAPI;
 export default {
   name: "HomePage",
   components: {VueQr},
+  middleware: ["authenticated"],
   data() {
     return {
       alert: false,

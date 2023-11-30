@@ -25,6 +25,7 @@ export default {
   methods: {
     execute() {
       let token
+
       if(this.$route.query.token){
         // const tokenString = window.atob(this.$route.query.token);
         const tokenString = encryp.decryp(this.$route.query.token);
@@ -39,7 +40,19 @@ export default {
         token = JSON.parse(sessionStorage.getItem("token"));
       } 
       
-      if(!token) console.log("error no hay token");
+      if (!localStorage.getItem('auth')) {
+        if(!token) {
+          this.$router.push({path: '/login' });
+          return  
+        }
+        this.$router.push({path: '/login', query: {action: 'connect-with-near'} });
+        return;
+      }
+
+      if(!token) {
+       this.$router.push({path: '/login' });
+       return
+      }
     
       if(!localStorage.getItem("listUser")) {// if(!localStorage.getItem('auth')) {
         if(token.action === "connect-seedphrase") {

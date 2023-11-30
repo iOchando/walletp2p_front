@@ -127,6 +127,7 @@ import walletUtils from '@/services/wallet';
 export default {
   name: "AccountDetails",
   layout: "default",
+  middleware: ["authenticated"],
   data() {
     return {
       copie: false,

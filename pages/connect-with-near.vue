@@ -68,6 +68,7 @@ import localStorageUser from '~/services/local-storage-user';
 export default {
   name: "ConnectWithNear",
   layout: "default-variant",
+  middleware: ["authenticated"],
   data() {
     return {
       dataWallets: [],

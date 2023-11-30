@@ -164,6 +164,7 @@ const { KeyPair, keyStores, connect } = nearAPI;
 export default {
   name: "LimitedPermissions",
   layout: "default-variant-2",
+  middleware: ["authenticated"],
   data() {
     return {
       loading: false,

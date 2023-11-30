@@ -76,6 +76,7 @@
 export default {
   name: "ExplorePage",
   layout: "default-variant",
+  middleware: ["authenticated"],
   data() {
     return {
       selectedFilter: "",

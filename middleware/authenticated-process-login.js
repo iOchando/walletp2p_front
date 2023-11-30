@@ -8,6 +8,7 @@ export default function (data) {
       return data.redirect('/login')
     }
     console.log("paso 3")
+    return;
   }
   console.log("paso 4")
   if(data.route.fullPath === "/login" || data.route.fullPath === "/login/" || data.route.fullPath === "/passphrase-login" || data.route.fullPath === "/passphrase-login/") {
