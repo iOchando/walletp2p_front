@@ -247,7 +247,7 @@ export default {
         const response = await account.functionCall(this.token.json);
         /*
           {
-            contractId: process.env.NETWORK,
+            contractId: process.env.Network,
             methodName: "create_account",
             args: {
               new_account_id: nickname,
