@@ -1,6 +1,6 @@
 <template>
   <div id="home" class="divcol center">
-    <v-alert
+    <!-- <v-alert
       v-model="alert"
       class="mt-3"
       close-text="Close Alert"
@@ -10,7 +10,7 @@
       dismissible
     >
       <a :href="hashUrl" target="_blank">{{ hash }}</a>
-    </v-alert>
+    </v-alert> -->
 
     <Header show-append>
       <template #prepend>
@@ -153,7 +153,7 @@
             justify="center"
           >
             <p>
-              <vue-qr :text="address" :logoSrc="logoWallet" qid="addressQr"></vue-qr>
+              <vue-qr :text="address" :logo-src="logoWallet" qid="addressQr"></vue-qr>
             </p>
             <p>
               <span class="mr-4">Dirección: <strong>{{ address }}</strong></span>
@@ -297,11 +297,13 @@ export default {
         console.log(result)
         const resultSend = JSON.parse(result);
 
-        this.hash = resultSend.hash;
-        this.hashUrl = resultSend.hashUrl;
-        this.alertType = resultSend.alertType;
+        // this.hash = resultSend.hash;
+        // this.hashUrl = resultSend.hashUrl;
+        // this.alertType = resultSend.alertType;
 
-        this.alert = true;
+        // this.alert = true;
+
+        this.$alert(resultSend.alertType,{ desc: `<a href="${resultSend.hashUrl} targe="_blank">${resultSend.hash}</a>` })
 
         sessionStorage.removeItem("send-result");
       }

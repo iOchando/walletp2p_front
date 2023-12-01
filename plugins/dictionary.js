@@ -1,6 +1,7 @@
 export const ALERT_TYPE = {
   SUCCESS: "success",
   ERROR: "error",
+  WARNING: "warning",
   VALUES: () => Object.values(ALERT_TYPE),
 }
 

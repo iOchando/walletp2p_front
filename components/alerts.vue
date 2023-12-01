@@ -17,7 +17,7 @@
       </v-btn>
       <v-icon :color="item.color" size="3.5em">{{ item.icon }}</v-icon>
       <div class="divcol" style="gap: 5px">
-        <h3 class="font1">{{item.title === item.key ? $t(item.title) : item.title}}</h3>
+        <h3 v-if="item.title" class="font1">{{item.title}}</h3>
         <p
           class="font2 p"
           v-html="item.desc === `text${item.key.toCapitalize()}` ? $t(item.desc) : item.desc"
@@ -38,15 +38,15 @@ export default {
   },
   methods: {
     GenerateAlert(
-      key, title = key,
+      key, title,
       desc = `text${key.toCapitalize()}`,
-      color = key === ALERT_TYPE.SUCCESS ? 'green' : key === ALERT_TYPE.ERROR ? 'rgb(200, 0, 0)' : '',
+      color = key === ALERT_TYPE.SUCCESS ? 'green' : key === ALERT_TYPE.ERROR ? 'rgb(200, 0, 0)' : 'yellow',
       timeout = 5000, centered = true, top = true, bottom, left, right
     ) {
       // // create alert
       const alert = {
         key, title, desc, color, timeout, centered, top, bottom, left, right, model: true,
-        icon: key === ALERT_TYPE.SUCCESS ? 'mdi-check-circle' : key === ALERT_TYPE.ERROR ? 'mdi-close-circle' : '', // ---> if mdi icon
+        icon: key === ALERT_TYPE.SUCCESS ? 'mdi-check-circle' : key === ALERT_TYPE.ERROR ? 'mdi-close-circle' : 'mdi-info', // ---> if mdi icon
       }
       if (alert.bottom) {alert.top = false}
       this.dataAlerts.push(alert)

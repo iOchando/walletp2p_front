@@ -201,10 +201,8 @@ export default {
         this.loading = false;
         console.log(error)
         this.$alert(ALERT_TYPE.ERROR, {
-          title: "Error",
           desc: error.toString(),
           timeout: 1000*60
-
         })
       }
     },

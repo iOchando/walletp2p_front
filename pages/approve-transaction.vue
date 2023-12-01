@@ -1,8 +1,8 @@
 <template>
   <div id="approve-transaction" class="d-flex flex-column">
-    <v-alert v-if="error" class="mt-12" type="error">
+    <!-- <v-alert v-if="error" class="mt-12" type="error">
       {{ error }}
-    </v-alert>
+    </v-alert> -->
     <modalInfo
       activator="#more-information-btn"
       title="Detalles de la transacción"
@@ -155,6 +155,7 @@ import utils from '../services/utils';
 import localStorageUser from '~/services/local-storage-user';
 import { configNear }  from '~/services/nearConfig';
 import walletUtils from '@/services/wallet';
+import { ALERT_TYPE } from '~/plugins/dictionary';
 const nearAPI = require("near-api-js");
 const { KeyPair, keyStores, connect } = nearAPI;
 
@@ -231,7 +232,7 @@ export default {
         this.loading = true
         if(this.balance < this.attachedDeposit) {
           this.loading = false
-          this.error = "Su balance no es suficiente";
+          this.$alert(ALERT_TYPE.ERROR, { desc: "Su balance no es suficiente" })
           return
         }
         // const token = JSON.parse(sessionStorage.getItem("token"));
@@ -276,7 +277,7 @@ export default {
       }
       catch (error) {
         this.loading = false
-        this.error = error.toString();
+        this.$alert(ALERT_TYPE.ERROR, { desc: error.toString() })
         // console.log("error error: ", error.toString());
       }
     },

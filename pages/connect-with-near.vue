@@ -63,6 +63,7 @@
 
 <script>
 import localStorageUser from '~/services/local-storage-user';
+import { ALERT_TYPE } from '~/plugins/dictionary';
 
 
 export default {
@@ -126,7 +127,7 @@ export default {
     },
     next() {
       
-      if(!this.token) alert("error no hay token");
+      if(!this.token) this.$alert(ALERT_TYPE.WARNING, { desc: "no hay token" });
       
       if (!this.address || !this.domain || !this.contract) {console.log("error"); return}
       
