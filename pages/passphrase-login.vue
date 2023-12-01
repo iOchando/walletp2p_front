@@ -61,25 +61,21 @@ export default {
     // this.$store.commit('validSession')
   },
   methods: {
-    
     onScroll(event) {
       const container = event.currentTarget
-      this.scrollEnd = container.scrollTop + container.clientHeight === container.scrollHeight
+      this.scrollEnd = container.scrollTop + container.clientHeight >= (container.scrollHeight - 3)
     },
     onTap(){
-      let counterWord = 0
       let seedPhrase = ""
       for(let i = 0; i < 12; i++) {
         const word = this.seedPhraseSplit[(i+1).toString()];
-        if(word !== undefined) {
-          counterWord++;
+        console.log(i+1, word)
+        if(word !== undefined && word.trim() !== '') {
           seedPhrase = seedPhrase + (i === 0 ? word : " " + word)
         } 
       }
       
-      this.$refs.form.validate();
-
-      if(counterWord === 12) {
+      if(this.$refs.form.validate()) {
         localStorage.setItem("seedPhraseGenerate", seedPhrase);
         localStorage.setItem("seedPhraseLogin", true);
         // this.$router.push(this.localePath("/passphrase-word"))
