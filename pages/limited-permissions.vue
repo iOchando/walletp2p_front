@@ -124,7 +124,7 @@ export default {
       
       const account = localStorageUser.getAccount(this.address)
 
-      const ruta = this.token.success;
+      // const ruta = this.token.success;
       const json = JSON.stringify({
         wallet: account.address,
         cretaDate: new Date(),
@@ -135,7 +135,15 @@ export default {
       sessionStorage.removeItem("token");
       sessionStorage.removeItem("connectAppAddressSelect")
 
-      location.replace(ruta+"?token="+token);
+      let ruta = this.token.success;
+        
+      if(this.token.search) {
+        ruta += this.token.search + "&token="+token;
+      } else {
+        ruta += "?token="+token;
+      }
+
+      location.replace(ruta);
     },
     shortenAddress(address) {
       return utils.shortenAddress(address);

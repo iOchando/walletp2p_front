@@ -105,7 +105,6 @@ export default {
   },
   methods: {
     importAccount() {
-      console.log("aqui paso");
       this.$router.push({path: '/login', query: {action: 'connect-with-near'} });
     },
     selectAccount(address, array){

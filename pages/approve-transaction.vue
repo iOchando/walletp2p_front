@@ -249,7 +249,7 @@ export default {
         const response = await account.functionCall(this.token.json);
         /*
           {
-            contractId: process.env.Network,
+            contractId: "contract.testnet",
             methodName: "create_account",
             args: {
               new_account_id: nickname,
@@ -260,7 +260,7 @@ export default {
           }
         */
         
-        const ruta = this.token.success;
+        // const ruta = this.token.success;
         const json = JSON.stringify(
           {
             hash: response?.transaction?.hash,
@@ -273,7 +273,14 @@ export default {
         
         // console.log("response: ", json);
 
-        location.replace(ruta+"?response="+token);
+        let ruta = this.token.success;
+        
+        if(this.token.search) {
+          ruta += this.token.search + "&response="+token;
+        } else {
+          ruta += "?response="+token;
+        }
+        location.replace(ruta);
       }
       catch (error) {
         this.loading = false
@@ -283,7 +290,12 @@ export default {
     },
 
     cancel() {
-      location.replace(this.token.success);
+      let ruta = this.token.error;
+        
+      if(this.token.searchError) {
+        ruta += this.token.searchError;
+      }
+      location.replace(ruta);
     },
   },
     
