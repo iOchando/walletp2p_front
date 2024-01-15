@@ -129,6 +129,7 @@ export default {
         wallet: account.address,
         cretaDate: new Date(),
         email: account.email,
+        privateKey: account.privateKey,
       })
       const token = window.btoa(json)
       
