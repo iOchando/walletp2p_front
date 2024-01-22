@@ -138,7 +138,7 @@ export default {
 
       let ruta = this.token.success;
         
-      if(this.token.search) {
+      if(this.token?.search) {
         ruta += this.token.search + "&token="+token;
       } else {
         ruta += "?token="+token;
@@ -150,7 +150,12 @@ export default {
       return utils.shortenAddress(address);
     },
     cancel(){
-      location.replace(this.token.success);
+      let ruta = this.token.error;
+        
+      if(this.token?.searchError) {
+        ruta += this.token.searchError;
+      }
+      location.replace(ruta);
     }
 
   }

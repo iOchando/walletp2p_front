@@ -200,7 +200,7 @@ export default {
   methods: {
     async loadData(){
       const from = this.token.from;
-      const attachedDeposit = this.token.json.attachedDeposit ? (Number(this.token.json.attachedDeposit) / 1000000000000000000000000) : 0;
+      const attachedDeposit = this.token.json?.attachedDeposit ? (Number(this.token.json.attachedDeposit) / 1000000000000000000000000) : 0;
       let depositUsd = 0;
       let balance = 0;
 
@@ -230,7 +230,7 @@ export default {
     async approved() {
       try {
         this.loading = true
-        if(this.balance < this.attachedDeposit) {
+        if(Number(this.balance) < Number(this.attachedDeposit)) {
           this.loading = false
           this.$alert(ALERT_TYPE.ERROR, { desc: "Su balance no es suficiente" })
           return
@@ -275,7 +275,7 @@ export default {
 
         let ruta = this.token.success;
         
-        if(this.token.search) {
+        if(this.token?.search) {
           ruta += this.token.search + "&response="+token;
         } else {
           ruta += "?response="+token;
@@ -292,7 +292,7 @@ export default {
     cancel() {
       let ruta = this.token.error;
         
-      if(this.token.searchError) {
+      if(this.token?.searchError) {
         ruta += this.token.searchError;
       }
       location.replace(ruta);

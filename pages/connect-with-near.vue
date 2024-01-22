@@ -136,7 +136,12 @@ export default {
       
     },
     cancel() {
-      location.replace(this.routeCancel);
+      let ruta = this.token.error;
+        
+      if(this.token?.searchError) {
+        ruta += this.token.searchError;
+      }
+      location.replace(ruta);
     }
 
   }
