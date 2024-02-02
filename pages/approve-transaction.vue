@@ -151,13 +151,20 @@
 <script>
 // import * as nearAPI from "near-api-js";
 import moment from 'moment';
+// import {functionCall} from 'near-api-js/lib/transaction'
+import BN from 'bn.js';
 import utils from '../services/utils';
+
 import localStorageUser from '~/services/local-storage-user';
+
 import { configNear }  from '~/services/nearConfig';
+
 import walletUtils from '@/services/wallet';
 import { ALERT_TYPE } from '~/plugins/dictionary';
-const nearAPI = require("near-api-js");
-const { KeyPair, keyStores, connect } = nearAPI;
+
+// const nearAPI = require("near-api-js");
+// const { KeyPair, keyStores, connect, WalletConnection, transactions, Account } = nearAPI;
+
 
 
 
@@ -200,9 +207,19 @@ export default {
   methods: {
     async loadData(){
       const from = this.token.from;
-      const attachedDeposit = this.token.json?.attachedDeposit ? (Number(this.token.json.attachedDeposit) / 1000000000000000000000000) : 0;
+      let attachedDeposit;
       let depositUsd = 0;
       let balance = 0;
+
+      if(!Array.isArray(this.token?.json)) {
+        attachedDeposit = this.token.json?.attachedDeposit ? (Number(this.token.json.attachedDeposit) / 1000000000000000000000000) : 0;
+      } else {
+        let deposit = 0
+        for(const item of this.token?.json) {
+          deposit += !item?.attachedDeposit ? 0 : (Number(item?.attachedDeposit) / 1000000000000000000000000);
+        }
+        attachedDeposit = deposit;
+      }
 
       const { near, usd, price } = await walletUtils.getBalance(from);
 
@@ -239,14 +256,32 @@ export default {
         const dataUser = localStorageUser.getAccount(this.token.from);
         const privateKey = dataUser.privateKey;
         const address = dataUser.address;
-        // creates a public / private key pair using the provided private key
-        // adds the keyPair you created to keyStore
-        const myKeyStore = new keyStores.InMemoryKeyStore();
-        const keyPairNew = KeyPair.fromString(privateKey);
-        await myKeyStore.setKey(process.env.Network, address, keyPairNew);
-        const nearConnection = await connect(configNear(myKeyStore));
-        const account = await nearConnection.account(address);
-        const response = await account.functionCall(this.token.json);
+        
+
+        const nearAPI = require('near-api-js');
+        const keyStore = new nearAPI.keyStores.InMemoryKeyStore();
+        const keyPairNew = nearAPI.KeyPair.fromString(privateKey);
+        await keyStore.setKey(process.env.Network, address, keyPairNew);
+        const near = await nearAPI.connect(configNear(keyStore));
+        const account = await near.account(address);
+
+        let response
+        if(!Array.isArray(this.token?.json)) {
+          response = await account.functionCall(this.token.json);
+        } else {
+          const actions = this.token?.json.map((item) => {
+              return nearAPI.transactions.functionCall(
+                item.methodName, 
+                !item?.args ? {} : item.args,
+                new BN((!item?.gas ? '3000000000000' : item.gas)),
+                new BN((!item?.attachedDeposit ? "0" : item.attachedDeposit))
+              )
+            });
+
+          response = await account.signAndSendTransaction({ receiverId: this.token?.json[0]?.contractId, actions});
+
+        }
+        
         /*
           {
             contractId: "contract.testnet",
@@ -279,7 +314,9 @@ export default {
           ruta += this.token.search + "&response="+token;
         } else {
           ruta += "?response="+token;
+          
         }
+        
         location.replace(ruta);
       }
       catch (error) {

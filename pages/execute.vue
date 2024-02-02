@@ -30,7 +30,6 @@ export default {
         // const tokenString = window.atob(this.$route.query.token);
         const tokenString = encryp.decryp(this.$route.query.token);
         const tokenJSON = JSON.parse(tokenString);
-        
         sessionStorage.setItem("token", tokenString);
 
       
