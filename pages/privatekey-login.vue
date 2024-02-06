@@ -1,4 +1,5 @@
 <template>
+  <v-form ref="formValidate" v-model="validForm">
   <div id="passphrase-word" class="divcol center">
     <Header
       ref="header"
@@ -15,7 +16,7 @@
         v-model="privatekeyInput"
         label="COLOQUE AQUÍ SU PRIVATEKEY" solo
         style="--margin-message: 1px"
-        :error-messages="error"
+        :rules="required"
       ></v-textarea>
 
       <v-btn
@@ -30,6 +31,7 @@
       <v-btn class="btn-outlined" @click="$router.go(-1)">VOLVER</v-btn>
     </section>
   </div>
+  </v-form>
 </template>
 
 <script>
@@ -45,8 +47,10 @@ export default {
   layout: "auth-layout",
   data() {
     return {
+      validForm: false,
       loading: false,
       error: null,
+      required: [(v) => !!v || "Es requerido"],
       phraseNumber: 0,
       privatekeyInput: null,
     }
@@ -67,39 +71,41 @@ export default {
   },
   methods: {
     async onVerify() {
-      this.error = null;
-      this.loading = true;
-     //  const seedPhrase = localStorage.getItem("seedPhraseGenerate").split(" ").map((item) => { return item });
+      if(this.$refs.formValidate.validate()) {
+        this.error = null;
+        this.loading = true;
+      //  const seedPhrase = localStorage.getItem("seedPhraseGenerate").split(" ").map((item) => { return item });
 
-      // const { secretKey, publicKey } = await parseSeedPhrase(localStorage.getItem("seedPhraseGenerate"));
-      
-      const secretKey = this.privatekeyInput;
-      const keyPairNew = KeyPair.fromString(secretKey);
-      const publicKey = keyPairNew.publicKey.toString();
-      let implicitAccountId = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
-      
-      await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
-        .then((response) => {
-
-          if(response.data.length > 0) {
-            implicitAccountId = response.data[0].toString()
-          }
-      })
-      
-      // agregando nueva cuenta
-      localStorageUser.addNewAccount({
-        _address: implicitAccountId,
-        _publicKey: publicKey,
-        _privateKey: secretKey
-      })
-
-      localStorage.setItem("auth", true)
-      this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
+        // const { secretKey, publicKey } = await parseSeedPhrase(localStorage.getItem("seedPhraseGenerate"));
         
-      /* } else {
-        this.loading = false;
-        this.error = "incorrect word";
-      } */
+        const secretKey = this.privatekeyInput;
+        const keyPairNew = KeyPair.fromString(secretKey);
+        const publicKey = keyPairNew.publicKey.toString();
+        let implicitAccountId = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
+        
+        await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
+          .then((response) => {
+
+            if(response.data.length > 0) {
+              implicitAccountId = response.data[0].toString()
+            }
+        })
+        
+        // agregando nueva cuenta
+        localStorageUser.addNewAccount({
+          _address: implicitAccountId,
+          _publicKey: publicKey,
+          _privateKey: secretKey
+        })
+
+        localStorage.setItem("auth", true)
+        this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
+          
+        /* } else {
+          this.loading = false;
+          this.error = "incorrect word";
+        } */
+      }
       
     }
   }
