@@ -3,9 +3,9 @@
   <div id="passphrase-login" class="divcol center">
     <Header
       ref="header"
-      top-text="FRASE DE CONTRASEÑA"
-      bottom-text="ACCESO"
-      description="INICIA SESIÓN CON TU CONTRASEÑA EXCLUSIVA"
+      top-text="INGRESAR CON"
+      bottom-text="PASSPHRASE"
+      description="INICIA SESSIÓN CON TU FRASE CONTRASEÑA"
       max-width="284px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"

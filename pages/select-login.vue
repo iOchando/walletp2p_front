@@ -4,17 +4,18 @@
     <Header
       ref="header"
       :show-back-btn="false"
-      top-text="INICIAR LA AVENTURA"
-      description="INICIAR SESIÓN O REGÍSTRESE PARA UNIRTE A LA DIVERSIÓN"
+      top-text="INGRESAR CON"
+      bottom-text="BILLETERA"
+      description="SELECCIONA TU MEOJOR OPCIÓN Y COMIENZA A USAR LA WEB3"
       max-width="251px"
     />
 
     <!--<div v-for="i in 3" :id="`login-decoration-${i}`" :key="i" />-->
 
     <section id="login-content">
-        <!--<v-text-field
+        <v-text-field
           v-model="emailImput"
-          solo label="email"
+          solo label="Correo"
           style="--margin-message: 1px"
           :rules="requiredEmail"
         ></v-text-field>
@@ -25,28 +26,31 @@
           :loading="loading"
           @click="onContinue()"
         >
-          continuar
-        </v-btn> -->
+          RECIBIR CÓDIGO AL CORREO
+        </v-btn>
+
+      
+
+      <p class="p tcenter">o</p>
+      
+      <v-btn
+        class="btn-outlined"
+        :disable="loading"
+        :loading="loading"
+        @click="onContinueLogin('/privatekey-login')"
+      >
+        INGRESAR CON PRIVATEKEY
+      </v-btn>
 
       <v-btn
         class="btn-outlined"
         :disable="loading"
         :loading="loading"
-        @click="onContinue('/select-login')"
+        @click="onContinueLogin('/passphrase-login')"
       >
-        INGRESAR CON TU BILLETERA
+        INGRESAR CON PASSPHRASE
       </v-btn>
 
-      <p class="p tcenter">o</p>
-      
-      <v-btn
-        class="btn"
-        :disable="loading"
-        :loading="loading"
-        @click="onContinue('/create-wallet')"
-      >
-        CREAR UNA CUENTA NUEVA
-      </v-btn>
       <!--<v-btn
         class="btn-outlined"
         @click="onContinueGoogle()"
@@ -103,9 +107,9 @@
 <script>
 import axios from 'axios';
 // import * as nearAPI from "near-api-js";
-import jwtDecode from 'jwt-decode';
+// import jwtDecode from 'jwt-decode';
 import utils from '~/services/utils';
-import localStorageUser from '~/services/local-storage-user';
+// import localStorageUser from '~/services/local-storage-user';
 
 export default {
   name: "CreateWallet",
@@ -126,9 +130,11 @@ export default {
     }
   },
   mounted() {    
+    this.$store.commit('validSession')
+
     // localStorage.removeItem("auth");
     // initialize Google Sign in
-    window.google.accounts.id.initialize({
+    /* window.google.accounts.id.initialize({
         client_id: process.env.CLIEN_ID_GOOGLE,
         callback: this.handleCredentialResponse, // method to run after user clicks the Google sign in button
         context: 'signin'
@@ -146,14 +152,14 @@ export default {
         logo_alignment: 'left',
         width: 330
       }
-    );
-    localStorage.removeItem("importEmailNickname")
-    localStorage.removeItem("importEmail")
-    localStorage.removeItem("seedPhraseLoginNew")
-    localStorage.removeItem("seedPhraseLogin")
-    localStorage.removeItem("seedPhrase")
-    localStorage.removeItem("login")
-    localStorage.removeItem("seedPhraseGenerate");
+    ); */
+    // localStorage.removeItem("importEmailNickname")
+    // localStorage.removeItem("importEmail")
+    // localStorage.removeItem("seedPhraseLoginNew")
+    // localStorage.removeItem("seedPhraseLogin")
+    // localStorage.removeItem("seedPhrase")
+    // localStorage.removeItem("login")
+    // localStorage.removeItem("seedPhraseGenerate");
 
     /* if(this.$route.query.redirect !== undefined){
       localStorage.setItem("loginExternal", this.$route.query.redirect)
@@ -161,11 +167,13 @@ export default {
     } */
   },
   methods: {
-    onContinue(rute) {
+    /* onContinue(rute) {
         localStorage.setItem("login", true);  
-        this.$router.push(utils.routeAction(this.$route.query.action,rute));
-    },
-    /* async onContinue() {
+        this.$router.push(utils.routeAction(this.$route.query.action,rute));      
+      
+    }, */
+
+    async onContinue() {
       if(this.$refs.formEmail.validate()) {
         this.loading = true
         await axios.post(process.env.URL_BACKEND +'/wallet/send-code',
@@ -176,15 +184,15 @@ export default {
         }).then(() => {
           this.loading = false
           localStorage.setItem("email", this.emailImput);
-          localStorage.setItem("login", true);
+          // localStorage.setItem("login", true);
           
-          this.$router.push(utils.routeAction(this.$route.query.action,"/verification"));
-          // this.$router.push(this.localePath("/verification"))
+          this.$router.push(utils.routeAction(this.$route.query.action,"/verification-login-email"));
+          // this.$router.push(this.localePath("/verification-login-email"))
         }).catch(() => {
           this.loading = false
         })
       }
-    }, */
+    },
 
     /* onContinueGoogle() {
       window.google.accounts.id.initialize({
@@ -198,7 +206,7 @@ export default {
       // this.$auth.loginWith('google')
     }, */
 
-    async handleCredentialResponse(response) {
+    // async handleCredentialResponse(response) {
       /*
       console.log(response)
       console.log("--------------------------------")
@@ -214,7 +222,7 @@ export default {
       console.log(`Email: ${token.email}`)
       */
 
-      await axios.post(process.env.URL_BACKEND +'/wallet/verify-google',
+    /*  await axios.post(process.env.URL_BACKEND +'/wallet/verify-google',
         {token: response.credential}, {
         headers: {
           'accept': 'application/json',
@@ -244,14 +252,14 @@ export default {
       }).catch((error) => {
         console.log("error: ", error)
       })
-    },
+    }, */
 
-    onContinuePassphrase() {
-      localStorage.setItem("login", true);
-      this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase"));
+    onContinueLogin(rute) {
+      // localStorage.setItem("login", true);
+      this.$router.push(utils.routeAction(this.$route.query.action,rute));
       // this.$router.push(this.localePath("/passphrase"))
     }
-  }
+  } 
 };
 </script>
 

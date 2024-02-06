@@ -25,10 +25,10 @@
         :loading="loading"
         @click="onVerify()"
       >
-        verificar
+        VERIFICAR
       </v-btn>
 
-      <v-btn class="btn-outlined" @click="$router.go(-1)">atrás</v-btn>
+      <v-btn class="btn-outlined" @click="$router.go(-1)">VOLVER</v-btn>
     </section>
   </div>
 </template>

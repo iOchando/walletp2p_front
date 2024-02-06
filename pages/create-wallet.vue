@@ -92,6 +92,7 @@ import axios from 'axios';
 // import jwtDecode from 'jwt-decode';
 import utils from '~/services/utils';
 // import localStorageUser from '~/services/local-storage-user';
+import { ALERT_TYPE } from '~/plugins/dictionary';
 
 export default {
   name: "LoginPage",
@@ -125,7 +126,7 @@ export default {
     async onContinue() {
       if(this.$refs.formEmail.validate()) {
         this.loading = true
-        await axios.post(process.env.URL_BACKEND +'/wallet/send-code',
+        await axios.post(process.env.URL_BACKEND +'/wallet/send-code-verify-email',
         {email: this.emailImput, cedula: this.cedulaImput}, {
           headers: {
             'accept': 'application/json',
@@ -138,8 +139,10 @@ export default {
           
           this.$router.push(utils.routeAction(this.$route.query.action,"/verification"));
           // this.$router.push(this.localePath("/verification"))
-        }).catch(() => {
+        }).catch((error) => {
           this.loading = false
+          this.$alert(ALERT_TYPE.ERROR, { desc: error.response.data || error.toString() })
+          console.log(error.response)
         })
       }
     },

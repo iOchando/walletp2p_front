@@ -8,8 +8,8 @@
       id="auth-layout-background"
       :src="
         require(`~/assets/sources/images/circle${
-          route === '/login' || route === '/new-login' ? '-main'
-          : route === '/verification' ? '-person'
+          route === '/login' || route === '/select-login' || route === '/create-wallet' ? '-main'
+          : route === '/verification' || route === '/verification-login-email'  ? '-person'
           : ''
         }.svg`)
       "
