@@ -4,8 +4,8 @@
     <Header
       ref="header"
       top-text="ESCOGE UN"
-      bottom-text="NOMBRE DE USUARIO"
-      description="ESTA SERÁ SU DIRECCIÓN LEGIBLE DE BILLETERA"
+      bottom-text="DIRECCIÓN LEGIBLE"
+      description="INGRESE EL NOMBRE DE USUARIO QUE DESEA ESTE NOMBRE JUNTO CON .NEAR SE COVIERTE EN SU DIRECCIÓN PARA RECIBIR PAGOS"
       max-width="283px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"
@@ -37,9 +37,9 @@
         </v-btn>
       </p>
       <p>must have <strong>0.5</strong> NEAR available, to be able to assign a name</p>-->
-      <v-btn :loading="loading" class="btn" @click="onCreateName()">registrarse</v-btn>
+      <v-btn :loading="loading" class="btn" @click="onCreateName()">VERIFICAR</v-btn>
       <v-btn
-        class="btn-outlined"
+        class="btn-outlined mt-10"
         :disable="loading"
         :loading="loading"
         @click="redirect('/login')"
@@ -47,13 +47,13 @@
         VOLVER
       </v-btn>
 
-      <article class="btn-outlined">
+      <!--<article class="btn-outlined">
         <img width="36px" src="@/assets/sources/icons/warning.svg" alt="warning icon">
 
         <p class="p">
           <span>NOTA:</span> Su nombre de usuario servirá como dirección de su billetera, lo que permitirá transferencias fluidas con solo presionar unas pocas teclas.
         </p>
-      </article>
+      </article>-->
     </section>
 
     <Footer ref="footer">
