@@ -38,7 +38,14 @@
       </p>
       <p>must have <strong>0.5</strong> NEAR available, to be able to assign a name</p>-->
       <v-btn :loading="loading" class="btn" @click="onCreateName()">registrarse</v-btn>
-      <v-btn :loading="loading" class="btn-outlined mt-5" @click="onSignUp()">saltar</v-btn>
+      <v-btn
+        class="btn-outlined"
+        :disable="loading"
+        :loading="loading"
+        @click="redirect('/login')"
+      >
+        VOLVER
+      </v-btn>
 
       <article class="btn-outlined">
         <img width="36px" src="@/assets/sources/icons/warning.svg" alt="warning icon">
@@ -100,6 +107,10 @@ export default {
     this.address = localStorageUser.getCurrentAccount().address; // this.$auth.$storage.getState("address") ?? " ";
   },
   methods: {
+    redirect(rute) {
+      this.$router.push(utils.routeAction(this.$route.query.action,rute));    
+    },
+
     fnCopie() {
       this.copie = true;
       const timer = setInterval(() => {
