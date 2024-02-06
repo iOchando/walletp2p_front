@@ -177,7 +177,11 @@ export default {
           this.$router.push(this.localePath("/verification"))
         } else { */
           await axios.post(process.env.URL_BACKEND +'/wallet/create-nickname',
-          {nickname: newAccount}, {
+          {
+            nickname: newAccount,
+            email: sessionStorage.getItem("email"),
+            cedula: sessionStorage.getItem("cedula")
+          }, {
             headers: {
               'accept': 'application/json',
             },
