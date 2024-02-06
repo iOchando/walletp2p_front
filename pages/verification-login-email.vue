@@ -127,9 +127,10 @@ export default {
       // let route = "email-wallet-import"
       const params = {email: localStorage.getItem("email"), code: this.otp.toString()}
       
-
-      await axios.post(process.env.URL_BACKEND +'/wallet/email-wallet-import"', params
+      console.log("entro 2")
+      await axios.post(process.env.URL_BACKEND +'/wallet/email-wallet-import', params
       ).then((response) => {
+        console.log("entro 1")
         const data = response.data.data;
         
         // agregando nueva cuenta con nicname
@@ -147,6 +148,7 @@ export default {
         this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
         
       }).catch((error) => {
+        console.log("entro 4")
         this.error = error.response.data
         this.loading = false
       })
