@@ -2,9 +2,9 @@
   <div id="passphrase-word" class="divcol center">
     <Header
       ref="header"
-      top-text="FRASE DE CONTRASEÑA"
-      bottom-text="REGISTRARSE"
-      description="INGRESE LA SIGUIENTE PALABRA DE SU FRASE DE RECUPERACIÓN PARA COMPLETAR EL PROCESO DE CONFIGURACIÓN"
+      top-text=""
+      bottom-text="VERIFICAR PASSPHRASE"
+      description="INGRESE LA SIGUIENTE PALABRA DE SU FRASE CONTRASEÑA PARA CONFIRMAR QUE LA HAZ GUARDADO DE FORMA SEGURA"
       max-width="284px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"

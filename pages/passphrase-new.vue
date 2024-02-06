@@ -2,9 +2,9 @@
   <div id="passphrase" class="divcol center">
     <Header
       ref="header"
-      top-text="NUEVA FRASE"
-      bottom-text="PARA INICIAR SESIÓN"
-      description="GUARDE DE FORMA SEGURA SU NUEVA CONTRASEÑA"
+      top-text=""
+      bottom-text="CREACIÓN DE CONTRASEÑA"
+      description="GENERAR Y ALMACENAR DE FORMA SEGURA UNA FRASE CONTRASEÑA ÚNICA"
       max-width="284px"
       top-text-dir="rtl"
       bottom-text-dir="ltr"

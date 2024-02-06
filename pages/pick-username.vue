@@ -158,7 +158,7 @@ export default {
         }
         const newAccount = this.accountNear + this.dominioNear;
 
-        if(localStorage.getItem("importEmail") !== undefined && localStorage.getItem("importEmail") !== null) {
+        /* if(localStorage.getItem("importEmail") !== undefined && localStorage.getItem("importEmail") !== null) {
           await axios.post(process.env.URL_BACKEND +'/wallet/send-code',
           {email: localStorage.getItem("email")}, {
             headers: {
@@ -175,7 +175,7 @@ export default {
           
             
           this.$router.push(this.localePath("/verification"))
-        } else {
+        } else { */
           await axios.post(process.env.URL_BACKEND +'/wallet/create-nickname',
           {nickname: newAccount}, {
             headers: {
@@ -185,7 +185,7 @@ export default {
             const data = response.data.data;
             
             // remover cuenta antigua para poder agregar nueva cuenta con nicname
-            localStorageUser.removeAccount(localStorageUser.getCurrentAccount().address)
+            // localStorageUser.removeAccount(localStorageUser.getCurrentAccount().address)
 
             // agregando nueva cuenta con nicname
             localStorageUser.addNewAccount({
@@ -206,7 +206,7 @@ export default {
             throw new Error ("Error create nickname: " + error)
           })
 
-        }
+        // }
         this.loading = false;
       } catch (error) {
         this.loading = false;
