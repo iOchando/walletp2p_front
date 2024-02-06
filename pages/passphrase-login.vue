@@ -27,14 +27,19 @@
         <img width="10px" src="@/assets/sources/icons/scroll-down.svg" alt="scroll down">
       </v-btn>
 
-      <v-btn v-else class="btn" @click="onTap()">Continuar</v-btn>
+      <v-btn v-else class="btn" :loading="loading" @click="onTap()">Continuar</v-btn>
     </section>
   </div>
   </v-form>
 </template>
 
 <script>
+import axios from 'axios';
+import { parseSeedPhrase } from 'near-seed-phrase';
+import * as nearAPI from "near-api-js";
+import localStorageUser from '../services/local-storage-user';
 import utils from '~/services/utils';
+const { KeyPair } = nearAPI;
 
 export default {
   name: "PassphraseLoginPage",
@@ -46,6 +51,7 @@ export default {
       seedPhraseSplit: {},
       valid: false,
       required: [(v) => !!v || "Campo requerido"],
+      loading: false,
     }
   },
   head() {
@@ -65,7 +71,8 @@ export default {
       const container = event.currentTarget
       this.scrollEnd = container.scrollTop + container.clientHeight >= (container.scrollHeight - 3)
     },
-    onTap(){
+    async onTap(){
+      this.loading = true;
       let seedPhrase = ""
       for(let i = 0; i < 12; i++) {
         const word = this.seedPhraseSplit[(i+1).toString()];
@@ -76,11 +83,35 @@ export default {
       }
       
       if(this.$refs.form.validate()) {
-        localStorage.setItem("seedPhraseGenerate", seedPhrase);
-        localStorage.setItem("seedPhraseLogin", true);
+        // localStorage.setItem("seedPhraseGenerate", seedPhrase);
+        // localStorage.setItem("seedPhraseLogin", true);
         // this.$router.push(this.localePath("/passphrase-word"))
-        this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-word"));
+        // this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-word"));
+        const { secretKey, publicKey } = await parseSeedPhrase(seedPhrase);
+        const keyPairNew = KeyPair.fromString(secretKey);
+        let address = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
+
+        await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
+          .then((response) => {
+            if(response.data.length > 0) {
+              address = response.data[0].toString()
+            }
+        })
+        
+        // agregando nueva cuenta
+        localStorageUser.addNewAccount({
+          _address: address,
+          _publicKey: publicKey,
+          _privateKey: secretKey
+        })
+
+        this.loading = false;
+        
+        localStorage.setItem("auth", true)
+        // this.$router.push(this.localePath("/"))
+        this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
       }
+      this.loading = false;
     },
   }
 };
