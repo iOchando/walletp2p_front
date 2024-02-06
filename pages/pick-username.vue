@@ -3,7 +3,7 @@
   <div id="pick-username" class="divcol center">
     <Header
       ref="header"
-      top-text="ESCOGE UN"
+      top-text=""
       bottom-text="DIRECCIÓN LEGIBLE"
       description="INGRESE EL NOMBRE DE USUARIO QUE DESEA ESTE NOMBRE JUNTO CON .NEAR SE COVIERTE EN SU DIRECCIÓN PARA RECIBIR PAGOS"
       max-width="283px"
