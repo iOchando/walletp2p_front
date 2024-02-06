@@ -4,15 +4,15 @@
     <Header
       ref="header"
       :show-back-btn="false"
-      top-text="EMPEZAR"
-      description="INICIAR SESIÓN O REGÍSTRESE PARA UNIRSE A LA DIVERSIÓN"
+      top-text="INICIAR LA AVENTURA"
+      description="INICIAR SESIÓN O REGÍSTRESE PARA UNIRTE A LA DIVERSIÓN"
       max-width="251px"
     />
 
-    <div v-for="i in 3" :id="`login-decoration-${i}`" :key="i" />
+    <!--<div v-for="i in 3" :id="`login-decoration-${i}`" :key="i" />-->
 
     <section id="login-content">
-        <v-text-field
+        <!--<v-text-field
           v-model="emailImput"
           solo label="email"
           style="--margin-message: 1px"
@@ -26,11 +26,27 @@
           @click="onContinue()"
         >
           continuar
-        </v-btn>
+        </v-btn> -->
 
+      <v-btn
+        class="btn-outlined"
+        :disable="loading"
+        :loading="loading"
+        @click="onContinue('/new-login')"
+      >
+        INGRESAR CON TU BILLETERA
+      </v-btn>
 
       <p class="p tcenter">o</p>
-
+      
+      <v-btn
+        class="btn"
+        :disable="loading"
+        :loading="loading"
+        @click="onContinue('/new-login')"
+      >
+        CREAR UNA CUENTA NUEVA
+      </v-btn>
       <!--<v-btn
         class="btn-outlined"
         @click="onContinueGoogle()"
@@ -46,7 +62,7 @@
         <img width="18px" src="~/assets/sources/logos/gmail.svg" alt="gmail logo" style="margin-right: 10px">
         <span>CONTINUE WITH GOOGLE</span>
       </v-btn> -->
-      <v-btn
+      <!--<v-btn
         class="btn-outlined"
         :loading="loading"
       >
@@ -61,7 +77,7 @@
         @click="onContinuePassphrase()"
       >
         CONTINUAR CON CONTRASEÑA
-      </v-btn>
+      </v-btn>-->
 
 
       <!--<v-btn
@@ -92,7 +108,7 @@ import utils from '~/services/utils';
 import localStorageUser from '~/services/local-storage-user';
 
 export default {
-  name: "LoginPage",
+  name: "CreateWallet",
   layout: "auth-layout",
   middleware: ["authenticated-process-login"],
   data() {
@@ -145,7 +161,12 @@ export default {
     } */
   },
   methods: {
-    async onContinue() {
+    onContinue(rute) {
+        localStorage.setItem("login", true);  
+        this.$router.push(utils.routeAction(this.$route.query.action,rute));      
+      
+    },
+    /* async onContinue() {
       if(this.$refs.formEmail.validate()) {
         this.loading = true
         await axios.post(process.env.URL_BACKEND +'/wallet/send-code',
@@ -164,7 +185,7 @@ export default {
           this.loading = false
         })
       }
-    },
+    }, */
 
     /* onContinueGoogle() {
       window.google.accounts.id.initialize({

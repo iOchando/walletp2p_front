@@ -3,8 +3,8 @@
     <Header
       ref="header"
       top-text="otp"
-      bottom-text="VALIDACIÓN DE SEGURIDAD"
-      description="INGRESE EL CÓDIGO DE VERIFICACIÓN QUE ACABAMOS DE ENVIAR A SU CORREO"
+      bottom-text="verificación"
+      description="INGRESE EL CÓDIGO DE VERIFICACIÓN QUE ACABAMOS DE ENVIAR A SU DIRECCIÓN DE CORREO ELECTRÓNICO"
       max-width="279px"
       top-text-dir="rtl"
       top-text-indent="2.8ch"
@@ -56,7 +56,7 @@
 
 <script>
 import axios from 'axios';
-// import localStorageUser from '../services/local-storage-user';
+import localStorageUser from '../services/local-storage-user';
 import utils from '~/services/utils';
 
 export default {
@@ -108,10 +108,7 @@ export default {
     async resendCode() {
       this.disabledResend = true
         await axios.post(process.env.URL_BACKEND +'/wallet/send-code', 
-        {
-          email: sessionStorage.getItem("email"),
-          cedula: sessionStorage.getItem("cedula")
-        }, {
+        {email: localStorage.getItem("email")}, {
           headers: {
             'accept': 'application/json',
           },
@@ -127,41 +124,71 @@ export default {
       this.loading = true;
       this.error = null;
       
-      // const route = "email-wallet-import"
-      const params = {email: sessionStorage.getItem("email"), cedula: sessionStorage.getItem("cedula"), code: this.otp.toString()}
-      
-      /* const importWalletNickname = localStorage.getItem("importEmailNickname")
+      let route = "email-wallet-import"
+      let params = {email: localStorage.getItem("email"), code: this.otp.toString()}
+      const importWalletNickname = localStorage.getItem("importEmailNickname")
       if(importWalletNickname !== undefined && importWalletNickname !== null) {
         route = "email-create-nickname"
         params = {email: localStorage.getItem("email"), code: this.otp.toString(), nickname: importWalletNickname }
-      } */
+      }
 
-      await axios.post(process.env.URL_BACKEND +'/wallet/verify-code', params
+      await axios.post(process.env.URL_BACKEND +'/wallet/'+route, params
       ).then((response) => {
         const data = response.data.data;
-
-        if(!data) throw new Error("Error inesperado")
         
-        /* if(localStorage.getItem("importEmailNickname") !== undefined && localStorage.getItem("importEmailNickname") !== null) {
+        if(localStorage.getItem("importEmailNickname") !== undefined && localStorage.getItem("importEmailNickname") !== null) {
           // remover cuenta antigua para poder agregar nueva cuenta con nicname
           localStorageUser.removeAccount(localStorageUser.getCurrentAccount().address)
-        } */
+        }
 
         // agregando nueva cuenta con nicname
-        /* localStorageUser.addNewAccount({
+        localStorageUser.addNewAccount({
           _address: data.address,
           _publicKey: data.publicKey,
           _privateKey: data.secretKey,
           _email: params.email,
-        }); */
+        });
 
         this.loading = false
 
-        localStorage.setItem("importEmail", true)
-          // this.$router.push(this.localePath("/pick-username"))
-        this.$router.push(utils.routeAction(this.$route.query.action,"/pick-username"));
+        /*
+        if(localStorage.getItem("importEmailNickname") !== undefined && localStorage.getItem("importEmailNickname") !== null) {
+          const list = localStorage.getItem("listUser")
+          if(list !== undefined && list !== null) {
+            const user = new Map(JSON.parse(list))
+            user.delete(localStorage.getItem("address"))
+            
+            const userMapStr = JSON.stringify(Array.from(user.entries()));
+            localStorage.setItem("listUser", userMapStr);
+          }
+        }
+        
+        this.loading = false
 
-        /* if(data.isExists) {
+        localStorage.setItem("address", data.address);
+        localStorage.setItem("publicKey", data.publicKey);
+        localStorage.setItem("privateKey", data.secretKey);
+        
+
+        const dataUser = {
+          address: data.address.toString(),
+          publicKey: data.publicKey.toString(),
+          privateKey: data.secretKey.toString()
+        };
+
+        let user = new Map();
+        if(localStorage.getItem("listUser") !== undefined && localStorage.getItem("listUser") !== null) {
+          const list = localStorage.getItem("listUser")
+          user = new Map(JSON.parse(list))
+        }
+        user.set(data.address.toString(), dataUser)
+        const userMapStr = JSON.stringify(Array.from(user.entries()));
+        localStorage.setItem("listUser", userMapStr);
+
+        console.log(data)
+        */
+
+        if(data.isExists) {
           localStorage.setItem("auth", true)
           // this.$router.push(this.localePath("/"))
           this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
@@ -169,7 +196,7 @@ export default {
           localStorage.setItem("importEmail", true)
           // this.$router.push(this.localePath("/pick-username"))
           this.$router.push(utils.routeAction(this.$route.query.action,"/pick-username"));
-        } */
+        }
       }).catch((error) => {
         this.error = error.response.data
         this.loading = false
