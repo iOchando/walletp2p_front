@@ -33,11 +33,11 @@
           IMPORTAR CUENTA
         </v-btn>
 
-        <!--<v-btn
+        <v-btn
           class="btn-outlined"
           style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary)"
-          @click="$router.push({ path: '/login' })"
-        >CREAR CUENTA NUEVA</v-btn>-->
+          @click="$router.push({path: '/login', query: {action: '/'} })"
+        >CREAR CUENTA NUEVA</v-btn>
       </section>
     </div>
   </nav>
