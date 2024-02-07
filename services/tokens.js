@@ -76,6 +76,7 @@ async function getListTokensBalance() {
         }
 
         if(Number(balance) > 0) {
+          const balanceUsd = (Number(walletUtils.formatTokenAmount(balance, metadata.decimals, 5)) * Number(price)).toFixed(2)
           list.push({
             contract: listContract[i],
             balance: walletUtils.formatTokenAmount(balance, metadata.decimals, 5),
@@ -83,7 +84,7 @@ async function getListTokensBalance() {
             symbol: metadata.symbol,
             decimals: metadata.decimals,
             icon: metadata.icon,
-            balance_usd: (Number(walletUtils.formatTokenAmount(balance, metadata.decimals, 5)) * Number(price)).toFixed(2),
+            balance_usd: isNaN(balanceUsd) ? 0.00 : balanceUsd,
             price
           });
         }
