@@ -83,7 +83,7 @@ export default {
   data() {
     return {
       valid:false,
-      address: "",
+      // address: "",
       accountNear: null,
       dominioNear: process.env.Network === "testnet" ? "." + process.env.Network : ".near",
       required: [(v) => !!v || "Campo requerido"],
@@ -104,7 +104,7 @@ export default {
   },
   mounted() {
     // this.$store.commit('validSession')
-    this.address = localStorageUser.getCurrentAccount().address; // this.$auth.$storage.getState("address") ?? " ";
+    // this.address = localStorageUser.getCurrentAccount().address; // this.$auth.$storage.getState("address") ?? " ";
   },
   methods: {
     redirect(rute) {

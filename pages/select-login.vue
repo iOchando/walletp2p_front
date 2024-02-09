@@ -13,7 +13,7 @@
     <!--<div v-for="i in 3" :id="`login-decoration-${i}`" :key="i" />-->
 
     <section id="login-content">
-        <v-text-field
+        <!--<v-text-field
           v-model="emailImput"
           solo label="Correo"
           style="--margin-message: 1px"
@@ -31,7 +31,7 @@
 
       
 
-      <p class="p tcenter">o</p>
+      <p class="p tcenter">o</p>-->
       
       <v-btn
         class="btn-outlined"
