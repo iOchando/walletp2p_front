@@ -58,6 +58,8 @@
 import axios from 'axios';
 // import localStorageUser from '../services/local-storage-user';
 import utils from '~/services/utils';
+import { ALERT_TYPE } from '~/plugins/dictionary';
+
 
 export default {
   name: "VerificationPage",
@@ -118,8 +120,9 @@ export default {
         }).then(() => {
           this.minutes = 5
           this.disabledResend = false
-        }).catch(() => {
+        }).catch((error) => {
           this.disabledResend = false
+          this.$alert(ALERT_TYPE.ERROR, { desc: error.response.data || error.toString() })
         })
     },
 

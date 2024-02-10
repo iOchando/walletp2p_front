@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 // import * as nearAPI from "near-api-js";
 // import jwtDecode from 'jwt-decode';
 import utils from '~/services/utils';
