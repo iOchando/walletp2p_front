@@ -107,7 +107,7 @@ export default {
 
     async resendCode() {
       this.disabledResend = true
-        await axios.post(process.env.URL_BACKEND +'/wallet/send-code', 
+        await axios.post(process.env.URL_BACKEND +'/wallet/send-code-verify-email', 
         {
           email: sessionStorage.getItem("email"),
           cedula: sessionStorage.getItem("cedula")
