@@ -48,7 +48,7 @@
 
     <Footer ref="footer">
       <span class="text" style="--text: var(--text2)">¿NECESITAS AYUDA? 
-        <a style="--fw: 700" href="#" target="_blank">SOPORTE</a>
+        <a style="--fw: 700" href="https://t.me/nearp2p" target="_blank">SOPORTE</a>
       </span>
     </Footer>
   </div>
