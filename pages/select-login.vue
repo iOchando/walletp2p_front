@@ -119,8 +119,8 @@ export default {
     return {
       loading: false,
       validEmail: false,
-      requiredEmail: [(v) => !!v || "Campo requerido", (v) => /.+@.+/.test(v) || 'E-mail inválido'],
-      emailImput: null,
+      // requiredEmail: [(v) => !!v || "Campo requerido", (v) => /.+@.+/.test(v) || 'E-mail inválido'],
+      // emailImput: null,
     }
   },
   head() {
@@ -132,48 +132,9 @@ export default {
   mounted() {    
     this.$store.commit('validSession')
 
-    // localStorage.removeItem("auth");
-    // initialize Google Sign in
-    /* window.google.accounts.id.initialize({
-        client_id: process.env.CLIEN_ID_GOOGLE,
-        callback: this.handleCredentialResponse, // method to run after user clicks the Google sign in button
-        context: 'signin'
-      });
-
-    // render button
-    window.google.accounts.id.renderButton(
-      document.getElementById('googleButton'),
-      {
-        type: 'standard',
-        theme: 'outline',
-        size: 'large',
-        text: 'CONTINUE WITH GOOGLE',
-        shape: 'circle',
-        logo_alignment: 'left',
-        width: 330
-      }
-    ); */
-    // localStorage.removeItem("importEmailNickname")
-    // localStorage.removeItem("importEmail")
-    // localStorage.removeItem("seedPhraseLoginNew")
-    // localStorage.removeItem("seedPhraseLogin")
-    // localStorage.removeItem("seedPhrase")
-    // localStorage.removeItem("login")
-    // localStorage.removeItem("seedPhraseGenerate");
-
-    /* if(this.$route.query.redirect !== undefined){
-      localStorage.setItem("loginExternal", this.$route.query.redirect)
-      console.log("paso login: ", localStorage.getItem("loginExternal"))
-    } */
   },
   methods: {
-    /* onContinue(rute) {
-        localStorage.setItem("login", true);  
-        this.$router.push(utils.routeAction(this.$route.query.action,rute));      
-      
-    }, */
-
-    async onContinue() {
+    /* async onContinue() {
       if(this.$refs.formEmail.validate()) {
         this.loading = true
         await axios.post(process.env.URL_BACKEND +'/wallet/send-code',
@@ -192,67 +153,8 @@ export default {
           this.loading = false
         })
       }
-    },
-
-    /* onContinueGoogle() {
-      window.google.accounts.id.initialize({
-        client_id: process.env.CLIEN_ID_GOOGLE,
-        callback: this.handleCredentialResponse, // method to run after user clicks the Google sign in button
-        context: 'signin'
-      })
-      window.google.accounts.id.prompt()
-
-      // this.$auth.loginWith('google', { params: { prompt: "select_account" } })
-      // this.$auth.loginWith('google')
     }, */
 
-    // async handleCredentialResponse(response) {
-      /*
-      console.log(response)
-      console.log("--------------------------------")
-      console.log(response.credential)
-      console.log("--------------------------------")
-      const token = jwtDecode(response.credential)
-      console.log(token)
-      console.log(`ID: ${token.sub}`)
-      console.log(`Full Name: ${token.name}`)
-      console.log(`Given Name: ${token.given_name}`)
-      console.log(`Family Name: ${token.family_name}`)
-      console.log(`Image URL: ${token.picture}`)
-      console.log(`Email: ${token.email}`)
-      */
-
-    /*  await axios.post(process.env.URL_BACKEND +'/wallet/verify-google',
-        {token: response.credential}, {
-        headers: {
-          'accept': 'application/json',
-        },
-      }).then((resp) => {
-        const data = resp.data.data;
-
-        this.loading = false
-
-        localStorage.setItem("auth", true);
-
-        const tokenGoogle = jwtDecode(response.credential)
-
-        // agregando nueva cuenta
-        localStorageUser.addNewAccount({
-          _address: data.address,
-          _publicKey: data.publicKey,
-          _privateKey: data.secretKey,
-          _email: tokenGoogle.email
-        });
-        
-        // if(data.isExists) {
-        this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
-        // } else {
-          // this.$router.push(this.localePath("/pick-username"))
-        // }
-      }).catch((error) => {
-        console.log("error: ", error)
-      })
-    }, */
 
     onContinueLogin(rute) {
       // localStorage.setItem("login", true);
