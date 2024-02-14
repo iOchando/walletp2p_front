@@ -74,9 +74,10 @@ export default {
     async onTap(){
       this.loading = true;
       let seedPhrase = ""
+      // const prub = ["swamp", "great", "sorry", "primary", "shoulder", "camera", "vague", "excuse", "uncle", "behind", "blast", "clerk"];
       for(let i = 0; i < 12; i++) {
         const word = this.seedPhraseSplit[(i+1).toString()];
-        console.log(i+1, word)
+        // const word = prub[i]
         if(word !== undefined && word.trim() !== '') {
           seedPhrase = seedPhrase + (i === 0 ? word : " " + word)
         } 
@@ -87,8 +88,9 @@ export default {
         // localStorage.setItem("seedPhraseLogin", true);
         // this.$router.push(this.localePath("/passphrase-word"))
         // this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-word"));
-        const { secretKey, publicKey } = await parseSeedPhrase(seedPhrase);
+        const { secretKey } = await parseSeedPhrase(seedPhrase);
         const keyPairNew = KeyPair.fromString(secretKey);
+        const publicKey = keyPairNew.publicKey.toString();
         let address = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
 
         await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
@@ -97,6 +99,16 @@ export default {
               address = response.data[0].toString()
             }
         })
+
+        await axios.get(process.env.URL_API_INDEXER2 + "/keys/" + publicKey )
+          .then((response) => {
+            if(response.data?.keys?.length > 0) {
+              if(response.data?.keys[0]?.account_id) {
+                address = response.data?.keys[0]?.account_id
+              }
+            }
+        })
+        
         
         // agregando nueva cuenta
         localStorageUser.addNewAccount({
@@ -108,6 +120,7 @@ export default {
         this.loading = false;
         
         localStorage.setItem("auth", true)
+        
         // this.$router.push(this.localePath("/"))
         this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
       }

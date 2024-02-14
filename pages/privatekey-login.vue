@@ -85,9 +85,17 @@ export default {
         
         await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
           .then((response) => {
-
             if(response.data.length > 0) {
               implicitAccountId = response.data[0].toString()
+            }
+        })
+
+        await axios.get(process.env.URL_API_INDEXER2 + "/keys/" + publicKey )
+          .then((response) => {
+            if(response.data?.keys?.length > 0) {
+              if(response.data?.keys[0]?.account_id) {
+                implicitAccountId = response.data?.keys[0]?.account_id
+              }
             }
         })
         
