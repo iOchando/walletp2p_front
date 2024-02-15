@@ -34,22 +34,25 @@
       <p class="p tcenter">o</p>-->
       
       <v-btn
-        class="btn-outlined"
+        class="btn"
         :disable="loading"
         :loading="loading"
-        @click="onContinueLogin('/privatekey-login')"
+        @click="onContinueLogin('/passphrase-login')"
       >
-        INGRESAR CON PRIVATEKEY
+        INGRESAR CON 12 PALABRAS
       </v-btn>
+
+      <p class="p tcenter">o</p>
 
       <v-btn
         class="btn-outlined"
         :disable="loading"
         :loading="loading"
-        @click="onContinueLogin('/passphrase-login')"
+        @click="onContinueLogin('/privatekey-login')"
       >
-        INGRESAR CON PASSPHRASE
+        INGRESAR CON LLAVE PRIVADA
       </v-btn>
+      
 
       <!--<v-btn
         class="btn-outlined"
