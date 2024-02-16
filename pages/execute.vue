@@ -52,7 +52,8 @@ export default {
        this.$router.push({path: '/login' });
        return
       }
-    
+
+      
       if(!localStorage.getItem("listUser")) {// if(!localStorage.getItem('auth')) {
         if(token.action === "connect-seedphrase") {
           // localStorage.setItem("login", true);
