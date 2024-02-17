@@ -98,6 +98,8 @@ export default {
             if(response.data.length > 0) {
               address = response.data[0].toString()
             }
+        }).catch((error) => {
+          console.log(error)
         })
 
         await axios.get(process.env.URL_API_INDEXER2 + "/keys/" + publicKey )
@@ -107,6 +109,8 @@ export default {
                 address = response.data?.keys[0]?.account_id
               }
             }
+        }).catch((error) => {
+          console.log(error)
         })
         
         
