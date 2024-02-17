@@ -84,15 +84,14 @@ export default {
       //  const seedPhrase = localStorage.getItem("seedPhraseGenerate").split(" ").map((item) => { return item });
 
         // const { secretKey, publicKey } = await parseSeedPhrase(localStorage.getItem("seedPhraseGenerate"));
-        console.log("paso 1")
+        
         const secretKey = this.privatekeyInput;
         const keyPairNew = KeyPair.fromString(secretKey);
         const publicKey = keyPairNew.publicKey.toString();
         let implicitAccountId = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
-        console.log("paso 2")
+        
         await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
           .then((response) => {
-            console.log("paso 2.1")
             if(response.data.length > 0) {
               implicitAccountId = response.data[0].toString()
             }
@@ -100,10 +99,8 @@ export default {
           console.log(error)
         })
 
-        console.log("paso 3")
         await axios.get(process.env.URL_API_INDEXER2 + "/keys/" + publicKey )
           .then((response) => {
-            console.log("paso 3.1")
             if(response.data?.keys?.length > 0) {
               if(response.data?.keys[0]?.account_id) {
                 implicitAccountId = response.data?.keys[0]?.account_id
@@ -112,16 +109,16 @@ export default {
         }).catch((error) => {
           console.log(error)
         })
-        console.log("paso 4")
+        
         // agregando nueva cuenta
         localStorageUser.addNewAccount({
           _address: implicitAccountId,
           _publicKey: publicKey,
           _privateKey: secretKey
         })
-        console.log("paso 5")
+        
         localStorage.setItem("auth", true)
-        console.log("paso 6")
+        
         this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
           
         /* } else {
