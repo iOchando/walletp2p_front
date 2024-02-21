@@ -61,7 +61,6 @@ async function getInventoryUser() {
 
   await axios.get(`${process.env.URL_API_INDEXER}/account/${address}/inventory`)
   .then(response => {
-    console.log("tokens: ", response.data.inventory)
     const data = response.data?.inventory;
 
     if(!data) throw new Error("no existe inventory");

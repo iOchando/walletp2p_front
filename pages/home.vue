@@ -259,13 +259,13 @@ export default {
 
     sessionStorage.removeItem("create-import-proccess")
 
-    localStorage.removeItem("importEmailNickname");
-    localStorage.removeItem("importEmail");
+    // localStorage.removeItem("importEmailNickname");
+    // localStorage.removeItem("importEmail");
     localStorage.removeItem("seedPhraseLoginNew");
     localStorage.removeItem("seedPhraseLogin");
     localStorage.removeItem("seedPhrase");
     localStorage.removeItem("login");
-    localStorage.removeItem("seedPhraseGenerate");
+    // localStorage.removeItem("seedPhraseGenerate");
     localStorage.removeItem("token");
     
     /* if(!localStorage.removeItem("login") === undefined || !localStorage.getItem("privateKey") === undefined) {
@@ -344,61 +344,70 @@ export default {
 
     async recentActivity() {
       const wallet = this.address;
-      await axios.get(`${process.env.URL_API_INDEXER}/account/${wallet}/txns?order=desc&page=1&per_page=6`)
+      await axios.get(`${process.env.URL_API_INDEXER}/account/${wallet}/txns?order=desc&page=1&per_page=25`)
       .then((response) => {
-        const data = response.data?.txns;
+        try {
+          const data = response.data?.txns;
 
-        if(!data) return
-        
-        moment.locale('es');
-        const dataActivity = data.filter((item) => item.predecessor_account_id !== "system") .map((items) => {
-          let typeParam = "";
-          let amountParam = "";
-          let coinParam = "";
-          let accountParam = "";
-          let text2;
+          if(!data) return
+          console.log(data.filter((item) => item.predecessor_account_id !== "system"))
+          // moment.locale('es');
+          const dataActivity = data.filter((item) => item.predecessor_account_id !== "system").map((items) => {
+            let typeParam = "";
+            let amountParam = "";
+            let coinParam = "";
+            let accountParam = "";
+            let text2;
 
-          if(items.actions.length === 1) {
-            switch (items.actions[0].action) {
-              case "TRANSFER":
-                typeParam = items.predecessor_account_id === wallet ? "sent" : "receive";
-                accountParam = items.predecessor_account_id === wallet ? items.receiver_account_id : items.predecessor_account_id;
-                amountParam = (items.predecessor_account_id === wallet ? "-" : "+")+Number(utils.format.formatNearAmount(items.actions_agg.deposit)).toFixed(5);
-                coinParam = "NEAR"
-                break;
-              case "CREATE_ACCOUNT":
-                typeParam = "account";
-                accountParam = items.receiver_account_id;
-                break;
-              case "ADD_KEY":
-                typeParam = "access";
-                accountParam = items.receiver_account_id;
-                break;
-              case "FUNCTION_CALL":
-                typeParam = "function";
-                accountParam = items.receiver_account_id;
-                text2 = items.actions[0].method;
-                break;
+            if(items.actions.length === 1) {
+              switch (items.actions[0].action) {
+                case "TRANSFER":
+                  typeParam = items.predecessor_account_id === wallet ? "sent" : "receive";
+                  accountParam = items.predecessor_account_id === wallet ? items.receiver_account_id : items.predecessor_account_id;
+                  amountParam = (items.predecessor_account_id === wallet ? "-" : "+")+Number(utils.format.formatNearAmount(BigInt(items.actions_agg.deposit).toString())).toFixed(5);
+                  coinParam = "NEAR"
+                  break;
+                case "CREATE_ACCOUNT":
+                  typeParam = "account";
+                  accountParam = items.receiver_account_id;
+                  break;
+                case "ADD_KEY":
+                  typeParam = "access";
+                  accountParam = items.receiver_account_id;
+                  break;
+                case "FUNCTION_CALL":
+                  typeParam = "function";
+                  accountParam = items.receiver_account_id;
+                  text2 = items.actions[0].method;
+                  break;
+                default:
+                  typeParam = "access";
+                  accountParam = items.receiver_account_id;
+                  break;
+              }
+            } else {
+              typeParam = "batch";
+              accountParam = items.receiver_account_id
             }
-          } else {
-            typeParam = "batch";
-            accountParam = items.receiver_account_id
-          }
 
 
-          const res = {
-            type: typeParam,
-            account: walletUtils.shortenAddress(accountParam),
-            coin: coinParam,
-            amount: amountParam,
-            date: moment(items.block_timestamp/1000000).fromNow(),
-            text2
-          }
+            const res = {
+              type: typeParam,
+              account: walletUtils.shortenAddress(accountParam),
+              coin: coinParam,
+              amount: amountParam,
+              date: moment(items.block_timestamp/1000000).fromNow(),
+              text2
+            }
 
-          return res
-        })
+            return res
+          })
 
-        this.dataActivity = dataActivity; // .slice(0, 9);
+          this.dataActivity = dataActivity.slice(0, 7);
+
+        } catch (error) {
+          console.log("blablabla: ",error)
+        }
 
       })
     }

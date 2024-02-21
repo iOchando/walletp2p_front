@@ -62,7 +62,7 @@ export default {
         "sent": {
           icon: require("@/assets/sources/icons/icon-sent.svg"),
           title: "send",
-          text: "Desde: ",
+          text: "Para: ",
           text2: "",
         },
         "access": {
@@ -102,7 +102,7 @@ export default {
 
 <style lang="scss">
 #activity-card {
-  --gap: 13px;
+  --gap: 17px;
 
   display: flex;
   justify-content: space-between;
