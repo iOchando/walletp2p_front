@@ -79,7 +79,7 @@ export default {
         localStorage.removeItem("seedPhraseLogin")
         // this.$router.push(this.localePath("/"))
         // this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
-        this.$router.push({ path: sessionStorage.getItem("create-import-proccess") });
+        this.$router.push(JSON.parse(sessionStorage.getItem("create-import-proccess")));
         
         
       } else {

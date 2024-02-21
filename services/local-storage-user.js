@@ -139,7 +139,7 @@ function getAccounts() {
 
     return result
   } catch (error) {
-   throw new Error ("Error getAccounts: " + error.toString()) 
+    throw new Error ("Error getAccounts: " + error.toString())
   }
 }
 

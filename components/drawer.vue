@@ -107,12 +107,18 @@ export default {
       window.open(process.env.ROUTER_EXPLORER_NEAR, 'self')
     },
 
-    importAccount() { 
-      sessionStorage.setItem("create-import-proccess", "/");
+    importAccount() {
+      const jsonCreateImportProccess = JSON.stringify({
+        path: "/",
+      })
+      sessionStorage.setItem("create-import-proccess", jsonCreateImportProccess);
       this.$router.push({ path: '/import-wallet'});
     },
     createAccount() { 
-      sessionStorage.setItem("create-import-proccess", "/");
+      const jsonCreateImportProccess = JSON.stringify({
+        path: "/",
+      })
+      sessionStorage.setItem("create-import-proccess", jsonCreateImportProccess);
       this.$router.push({ path: '/create-wallet'});
     }
   },

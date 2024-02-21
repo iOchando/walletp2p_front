@@ -103,7 +103,29 @@ export default {
       // sessionStorage.setItem("token", tokenString);
       this.token = tokenJSON
     }
-  
+    
+    this.domain = this.token.domain;
+    this.contract = this.token.contract;
+    this.routeCancel = this.token.success; 
+
+    try {
+      const arrayRes = localStorageUser.getAccounts();
+      const arrayMap = arrayRes.map(item => {
+        return {
+          wallet: item.address,
+          pass: "******"
+        }
+      });
+      const currentAccount = localStorageUser.getCurrentAccount();
+      this.selectAccount(currentAccount.address, arrayMap);
+    } catch (error) {
+      const jsonCreateImportProccess = JSON.stringify({
+        path: "/login",
+        query: this.$route.query
+      })
+      sessionStorage.setItem("create-import-proccess", jsonCreateImportProccess);
+      this.$router.push({path: '/'});
+    }
 
     /* this.domain = this.$route.query?.success_url ? this.$route.query?.success_url.split("/")[2] : "";
     this.contract = "";
@@ -120,25 +142,16 @@ export default {
     this.selectAccount(currentAccount.address, arrayMap); */
   },
   mounted() {
-    this.domain = this.token.domain;
-    this.contract = this.token.contract;
-    this.routeCancel = this.token.success; 
-
-    const arrayRes = localStorageUser.getAccounts();
-    const arrayMap = arrayRes.map(item => {
-      return {
-        wallet: item.address,
-        pass: "******"
-      }
-    });
-    const currentAccount = localStorageUser.getCurrentAccount();
-    this.selectAccount(currentAccount.address, arrayMap);
+    
     
 
   },
   methods: {
     importAccount() {
-      sessionStorage.setItem("create-import-proccess", "/login");
+      const jsonCreateImportProccess = JSON.stringify({
+        path: "/login",
+      })
+      sessionStorage.setItem("create-import-proccess", jsonCreateImportProccess);
       this.$router.push({path: '/import-wallet'});
     },
     selectAccount(address, array){
