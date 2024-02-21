@@ -350,8 +350,8 @@ export default {
           const data = response.data?.txns;
 
           if(!data) return
-          console.log(data.filter((item) => item.predecessor_account_id !== "system"))
-          // moment.locale('es');
+        
+          moment.locale('es');
           const dataActivity = data.filter((item) => item.predecessor_account_id !== "system").map((items) => {
             let typeParam = "";
             let amountParam = "";
@@ -406,7 +406,7 @@ export default {
           this.dataActivity = dataActivity.slice(0, 7);
 
         } catch (error) {
-          console.log("blablabla: ",error)
+          console.log("error a mapear lista de actividades recientes: ", error)
         }
 
       })
