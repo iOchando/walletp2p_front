@@ -90,7 +90,11 @@ export default {
 
   methods: {
     async loadTokens() {
-      this.dataTokens = await tokens.getListTokensBalance()
+      const inventory = await tokens.getInventoryUser();
+
+      if(!inventory) return 
+
+      this.dataTokens = inventory.fts
     }
   },
 

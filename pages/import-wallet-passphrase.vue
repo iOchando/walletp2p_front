@@ -38,13 +38,13 @@ import axios from 'axios';
 import { parseSeedPhrase } from 'near-seed-phrase';
 import * as nearAPI from "near-api-js";
 import localStorageUser from '../services/local-storage-user';
-import utils from '~/services/utils';
+// import utils from '~/services/utils';
 const { KeyPair } = nearAPI;
 
 export default {
   name: "PassphraseLoginPage",
   layout: "auth-layout",
-  middleware: ["authenticated-process-login"],
+  middleware: ["authenticated-create-import"],
   data() {
     return {
       scrollEnd: false,
@@ -54,18 +54,12 @@ export default {
       loading: false,
     }
   },
-  head() {
+  /* head() {
     const title = 'Passphrase login';
     return {
       title,
     }
-  },
-  created() {
-    localStorage.setItem("login", true);
-  },
-  mounted() {
-    // this.$store.commit('validSession')
-  },
+  }, */
   methods: {
     onScroll(event) {
       const container = event.currentTarget
@@ -84,25 +78,21 @@ export default {
       }
       
       if(this.$refs.form.validate()) {
-        // localStorage.setItem("seedPhraseGenerate", seedPhrase);
-        // localStorage.setItem("seedPhraseLogin", true);
-        // this.$router.push(this.localePath("/passphrase-word"))
-        // this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-word"));
         const { secretKey } = await parseSeedPhrase(seedPhrase);
         const keyPairNew = KeyPair.fromString(secretKey);
         const publicKey = keyPairNew.publicKey.toString();
         let address = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
 
-        await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
+        /* await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
           .then((response) => {
             if(response.data.length > 0) {
               address = response.data[0].toString()
             }
         }).catch((error) => {
           console.log(error)
-        })
+        }) */
 
-        await axios.get(process.env.URL_API_INDEXER2 + "/keys/" + publicKey )
+        await axios.get(process.env.URL_API_INDEXER + "/keys/" + publicKey )
           .then((response) => {
             if(response.data?.keys?.length > 0) {
               if(response.data?.keys[0]?.account_id) {
@@ -126,7 +116,8 @@ export default {
         localStorage.setItem("auth", true)
         
         // this.$router.push(this.localePath("/"))
-        this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
+        // this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
+        this.$router.push({ path: sessionStorage.getItem("create-import-proccess")})
       }
       this.loading = false;
     },

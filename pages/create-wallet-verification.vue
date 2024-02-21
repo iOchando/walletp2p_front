@@ -57,13 +57,14 @@
 <script>
 import axios from 'axios';
 // import localStorageUser from '../services/local-storage-user';
-import utils from '~/services/utils';
+// import utils from '~/services/utils';
 import { ALERT_TYPE } from '~/plugins/dictionary';
 
 
 export default {
   name: "VerificationPage",
   layout: "auth-layout",
+  middleware: ["authenticated-create-import"],
   data() {
     return {
       loading: false,
@@ -87,7 +88,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.commit('validSession')
+    // this.$store.commit('validSession')
     this.initCounter();
   },
   methods: {
@@ -160,9 +161,10 @@ export default {
 
         this.loading = false
 
-        localStorage.setItem("importEmail", true)
-          // this.$router.push(this.localePath("/pick-username"))
-        this.$router.push(utils.routeAction(this.$route.query.action,"/pick-username"));
+        // localStorage.setItem("importEmail", true)
+        // this.$router.push(this.localePath("/pick-username"))
+        // this.$router.push(utils.routeAction(this.$route.query.action,"/create-wallet-pick-username"));
+        this.$router.push({ path: "/create-wallet-pick-username" });
 
         /* if(data.isExists) {
           localStorage.setItem("auth", true)

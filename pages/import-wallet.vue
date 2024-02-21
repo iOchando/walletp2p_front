@@ -1,5 +1,4 @@
 <template>
-  <v-form ref="formEmail" v-model="validEmail">
   <div id="login" class="divcol center">
     <Header
       ref="header"
@@ -37,7 +36,7 @@
         class="btn"
         :disable="loading"
         :loading="loading"
-        @click="onContinueLogin('/passphrase-login')"
+        @click="onContinueLogin('/import-wallet-passphrase')"
       >
         INGRESAR CON 12 PALABRAS
       </v-btn>
@@ -48,7 +47,7 @@
         class="btn-outlined"
         :disable="loading"
         :loading="loading"
-        @click="onContinueLogin('/privatekey-login')"
+        @click="onContinueLogin('/import-wallet-privatekey')"
       >
         INGRESAR CON LLAVE PRIVADA
       </v-btn>
@@ -104,20 +103,19 @@
       >POLÍTICA DE PRIVACIDAD</span>
     </Footer>
   </div>
-</v-form>
 </template>
 
 <script>
 // import axios from 'axios';
 // import * as nearAPI from "near-api-js";
 // import jwtDecode from 'jwt-decode';
-import utils from '~/services/utils';
+// import utils from '~/services/utils';
 // import localStorageUser from '~/services/local-storage-user';
 
 export default {
-  name: "CreateWallet",
+  name: "ImportWalletPage",
   layout: "auth-layout",
-  middleware: ["authenticated-process-login"],
+  middleware: ["authenticated-create-import"],
   data() {
     return {
       loading: false,
@@ -131,10 +129,6 @@ export default {
     return {
       title,
     }
-  },
-  mounted() {    
-    this.$store.commit('validSession')
-
   },
   methods: {
     /* async onContinue() {
@@ -161,7 +155,8 @@ export default {
 
     onContinueLogin(rute) {
       // localStorage.setItem("login", true);
-      this.$router.push(utils.routeAction(this.$route.query.action,rute));
+      // this.$router.push(utils.routeAction(this.$route.query.action,rute));
+      this.$router.push({ path: rute });
       // this.$router.push(this.localePath("/passphrase"))
     }
   } 

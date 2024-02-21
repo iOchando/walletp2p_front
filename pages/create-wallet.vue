@@ -90,14 +90,14 @@
 import axios from 'axios';
 // import * as nearAPI from "near-api-js";
 // import jwtDecode from 'jwt-decode';
-import utils from '~/services/utils';
+// import utils from '~/services/utils';
 // import localStorageUser from '~/services/local-storage-user';
 import { ALERT_TYPE } from '~/plugins/dictionary';
 
 export default {
-  name: "LoginPage",
+  name: "CreateWalletPage",
   layout: "auth-layout",
-  middleware: ["authenticated-process-login"],
+  middleware: ["authenticated-create-import"],
   data() {
     return {
       loading: false,
@@ -115,7 +115,7 @@ export default {
     }
   },
   mounted() {    
-    this.$store.commit('validSession')
+    // this.$store.commit('validSession')
 
     /* if(this.$route.query.redirect !== undefined){
       localStorage.setItem("loginExternal", this.$route.query.redirect)
@@ -135,9 +135,11 @@ export default {
           this.loading = false
           sessionStorage.setItem("email", this.emailImput);
           sessionStorage.setItem("cedula", this.cedulaImput);
-          localStorage.setItem("login", true);
+          // localStorage.setItem("login", true);
           
-          this.$router.push(utils.routeAction(this.$route.query.action,"/verification"));
+          // this.$router.push(utils.routeAction(this.$route.query.action,"/create-wallet-verification"));
+          
+          this.$router.push({ path: "/create-wallet-verification" });
           // this.$router.push(this.localePath("/verification"))
         }).catch((error) => {
           this.loading = false

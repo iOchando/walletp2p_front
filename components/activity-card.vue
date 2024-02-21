@@ -8,6 +8,9 @@
         <span>{{matchingType.text}} 
           <span style="--fw: 700">{{account}}</span>
         </span>
+        <span v-if="text2">{{matchingType.text2}} 
+          <span style="--fw: 700">{{text2}}</span>
+        </span>
       </div>
     </div>
 
@@ -42,6 +45,10 @@ export default {
       type: String,
       default: undefined
     },
+    text2: {
+      type: String,
+      default: undefined
+    },
   },
   data() {
     return {
@@ -49,22 +56,38 @@ export default {
         "receive": {
           icon: require("@/assets/sources/icons/icon-recieved.svg"),
           title: "received",
-          text: "From",
+          text: "Desde: ",
+          text2: "",
         },
         "sent": {
           icon: require("@/assets/sources/icons/icon-sent.svg"),
           title: "send",
-          text: "From",
+          text: "Desde: ",
+          text2: "",
         },
         "access": {
           icon: require("@/assets/sources/icons/icon-access-key.svg"),
           title: "access key",
-          text: "For",
+          text: "Para: ",
+          text2: "",
         },
         "account": {
           icon: require("@/assets/sources/icons/icon-new-account.svg"),
           title: "new account created",
-          text: "Account",
+          text: "Cuenta",
+          text2: "",
+        },
+        "function": {
+          icon: require("@/assets/sources/icons/double-chevron-right.svg"),
+          title: "function call",
+          text: "Desde: ",
+          text2: "Metodo: ",
+        },
+        "batch": {
+          icon: require("@/assets/sources/icons/menu-active.svg"),
+          title: "batch transactions",
+          text: "Acciones realizadas: ",
+          text2: "",
         },
       }
     }

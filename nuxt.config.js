@@ -10,12 +10,10 @@ export default {
     URL_BACKEND: process.env.URL_BACKEND || 'http://localhost:3000',
     URL_APIP_PRICE: process.env.URL_APIP_PRICE || 'http://localhost:3000',
     URL_API_INDEXER: process.env.URL_API_INDEXER || 'http://localhost:3000',
-    URL_API_INDEXER2: process.env.URL_API_INDEXER2 || 'http://localhost:3000',
     CLIEN_ID_GOOGLE: process.env.CLIEN_ID_GOOGLE || 'http://localhost:3000',
     URL_EXPLORER: process.env.URL_EXPLORER || 'http://localhost:3000',
     ROUTER_EXPLORER_NEAR: process.env.ROUTER_EXPLORER_NEAR || 'http://localhost:3000',
     ROUTER_RPC: process.env.ROUTER_RPC || 'http://localhost:3000',
-    URL_NEAR_API: process.env.URL_NEAR_API || 'http://localhost:3000',
   },
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,

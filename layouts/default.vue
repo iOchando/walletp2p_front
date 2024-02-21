@@ -26,7 +26,7 @@
 <script>
 export default {
   name: "DefaultLayout",
-  middleware: ['authenticated'],
+  // middleware: ['authenticated'],
   data() {
     return {
     }

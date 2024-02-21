@@ -36,11 +36,12 @@
 </template>
 
 <script>
-import utils from '~/services/utils';
+// import utils from '~/services/utils';
 
 export default {
   name: "PassphraseNewPage",
   layout: "auth-layout",
+  middleware: ["authenticated-create-import"],
   data() {
     return {
       dataPassphrase: [],
@@ -54,11 +55,7 @@ export default {
       title,
     }
   },
-  created() {
-    this.$store.commit('validSession');
-  },
   mounted() {
-    // this.$store.commit('validSession')
     this.generatePhrase();
   },
   methods: {
@@ -73,7 +70,8 @@ export default {
 
     onContinue() {
       // this.$router.push(this.localePath("/passphrase-word"))
-      this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-word"));
+      // this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-word"));
+      this.$router.push({ path: "/create-wallet-passphrase-word" });
     },
     generatePhrase() {
       const seedPhrase = localStorage.getItem("seedPhrase");

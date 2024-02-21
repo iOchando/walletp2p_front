@@ -8,7 +8,7 @@
       id="auth-layout-background"
       :src="
         require(`~/assets/sources/images/circle${
-          route === '/login' || route === '/select-login' || route === '/create-wallet' ? '-main'
+          route === '/create-import' || route === '/import-wallet' || route === '/create-wallet' ? '-main'
           : route === '/verification' || route === '/verification-login-email'  ? '-person'
           : ''
         }.svg`)
@@ -37,8 +37,14 @@ export default {
   computed: {
     route() {
       const route = this.$route.path
-      
+
       if (route.endsWith("/")) {
+        if(!sessionStorage.getItem("indexSelect")) return route.slice(0, -1)
+
+        if(sessionStorage.getItem("indexSelect") === "create-import") {
+          sessionStorage.removeItem("indexSelect")
+          return "/create-import";  
+        }
         return route.slice(0, -1);
       }
 

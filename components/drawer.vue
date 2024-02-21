@@ -36,7 +36,7 @@
         <v-btn
           class="btn-outlined"
           style="--bg: var(--secondary); --b-color: var(--primary); --c: var(--primary)"
-          @click="$router.push({path: '/login', query: {action: '/'} })"
+          @click="createAccount()"
         >CREAR CUENTA NUEVA</v-btn>
       </section>
     </div>
@@ -108,7 +108,12 @@ export default {
     },
 
     importAccount() { 
-      this.$router.push({ path: '/passphrase-login', query: {action: 'import-account'} });
+      sessionStorage.setItem("create-import-proccess", "/");
+      this.$router.push({ path: '/import-wallet'});
+    },
+    createAccount() { 
+      sessionStorage.setItem("create-import-proccess", "/");
+      this.$router.push({ path: '/create-wallet'});
     }
   },
 

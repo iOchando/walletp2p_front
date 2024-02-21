@@ -1,258 +1,190 @@
 <template>
-  <v-form ref="formEmail" v-model="validEmail">
-  <div id="login" class="divcol center">
+  <div id="connect-with-near" class="d-flex flex-column">
     <Header
-      ref="header"
-      :show-back-btn="false"
-      top-text="INICIAR LA AVENTURA"
-      description="INICIAR SESIÓN O REGÍSTRESE PARA UNIRTE A LA DIVERSIÓN"
-      max-width="251px"
-    />
+      top-text="CONECTAR"
+      top-text-dir="rtl"
+      bottom-text="CON NEAR"
+      bottom-text-dir="ltr"
+      :show-prepend="false"
+      description="UNA APLICACIÓN SOLICITA ACCESO LIMITADO A SU NUEVA CUENTA. SELECCIONE LA CUENTA QUE DESEA CONECTAR."
+    ></Header>
 
-    <!--<div v-for="i in 3" :id="`login-decoration-${i}`" :key="i" />-->
+    <v-btn
+      class="btn-outlined mx-auto mt-2 mb-6"
+      style="--bg: var(--secondary); --h: 34px"
+    >
+      <img src="@/assets/sources/icons/language-blue.svg">
+      <h5 class="mb-0">{{ domain }}</h5>
+    </v-btn>
 
-    <section id="login-content">
-        <!--<v-text-field
-          v-model="emailImput"
-          solo label="email"
-          style="--margin-message: 1px"
-          :rules="requiredEmail"
-        ></v-text-field>
 
-        <v-btn
-          class="btn"
-          :disable="loading"
-          :loading="loading"
-          @click="onContinue()"
-        >
-          continuar
-        </v-btn> -->
-
-      <v-btn
-        class="btn-outlined"
-        :disable="loading"
-        :loading="loading"
-        @click="onContinue('/select-login')"
-      >
-        INGRESAR CON TU BILLETERA
-      </v-btn>
-
-      <p class="p tcenter">o</p>
-      
-      <v-btn
-        class="btn"
-        :disable="loading"
-        :loading="loading"
-        @click="onContinue('/create-wallet')"
-      >
-        CREAR UNA CUENTA NUEVA
-      </v-btn>
-      <!--<v-btn
-        class="btn-outlined"
-        @click="onContinueGoogle()"
-      >
-        <img width="18px" src="~/assets/sources/logos/gmail.svg" alt="gmail logo" style="margin-right: 10px">
-        <span>CONTINUE WITH GOOGLE</span>
-      </v-btn> -->
-
-      <!-- <v-btn
-        id="googleButton"
-        class="btn-outlined"
-      >
-        <img width="18px" src="~/assets/sources/logos/gmail.svg" alt="gmail logo" style="margin-right: 10px">
-        <span>CONTINUE WITH GOOGLE</span>
-      </v-btn> -->
-      <!--<v-btn
-        class="btn-outlined"
-        :loading="loading"
-      >
-        <span id="googleButton"></span>
-      </v-btn>
-
+    <v-card class="btn-outlined d-flex flex-column" style="gap: 14px;">
+      <div class="v-card__wrapper d-flex flex-column" style="gap: 14px;">
+        <WalletCard
+          v-for="(item, i) in dataWallets" :key="i"
+          :wallet="item.wallet"
+          :pass="item.pass"
+          collapsed
+          :active="i == 0"
+          :disabled="i != 0"
+          :show="i == 0"
+          clickable
+          @click="selectAccount(item.wallet)"
+        />
+      </div>
 
       <v-btn
         class="btn-outlined"
-        :disable="loading"
-        :loading="loading"
-        @click="onContinuePassphrase()"
+        style="--b-color: var(--primary); --bg: var(--secondary); --c: var(--primary); margin-right: calc(var(--p-inside) + var(--p-outside));"
+        @click="importAccount()"
       >
-        CONTINUAR CON CONTRASEÑA
-      </v-btn>-->
+        IMPORTAR CUENTA DIFERENTE
+      </v-btn>
+    </v-card>
 
-
-      <!--<v-btn
-        class="btn-outlined"
-        @click="prueba()"
+    <aside class="d-flex justify-space-between mt-6" style="gap: 12px;">
+      <v-btn
+        class="btn-outlined flex-grow-1"
+        style="--bg: var(--secondary)"
+        @click="cancel()"
       >
-        Pruebas login
-      </v-btn>-->
-    </section>
+        CANCELAR
+      </v-btn>
 
-
-
-    <Footer ref="footer">
-      <span
-        class="text tcenter"
-        style="--fw: 700; --text: var(--text2); margin-top: 22px"
-      >POLÍTICA DE PRIVACIDAD</span>
-    </Footer>
+      <v-btn
+        class="btn flex-grow-1"
+        @click="next()"
+      >
+        SIGUIENTE
+      </v-btn>
+    </aside>
   </div>
-</v-form>
 </template>
 
 <script>
-import axios from 'axios';
 // import * as nearAPI from "near-api-js";
-import jwtDecode from 'jwt-decode';
-import utils from '~/services/utils';
+import encryp from '../services/encryp';
 import localStorageUser from '~/services/local-storage-user';
+import { ALERT_TYPE } from '~/plugins/dictionary';
+
 
 export default {
-  name: "CreateWallet",
-  layout: "auth-layout",
-  middleware: ["authenticated-process-login"],
+  name: "ConnectWithNear",
+  layout: "default-variant",
+  // middleware: ["authenticated"],
   data() {
     return {
-      loading: false,
-      validEmail: false,
-      requiredEmail: [(v) => !!v || "Campo requerido", (v) => /.+@.+/.test(v) || 'E-mail inválido'],
-      emailImput: null,
+      dataWallets: [],
+      domain: null,
+      contrcat: null,
+      address: null,
+      routeCancel: null,
+      token: JSON.parse(sessionStorage.getItem("token")),
     }
   },
   head() {
-    const title = 'Get started';
+    const title = 'Connect with NEAR';
     return {
       title,
     }
   },
-  mounted() {    
-    // localStorage.removeItem("auth");
-    // initialize Google Sign in
-    window.google.accounts.id.initialize({
-        client_id: process.env.CLIEN_ID_GOOGLE,
-        callback: this.handleCredentialResponse, // method to run after user clicks the Google sign in button
-        context: 'signin'
-      });
+  created() {
+    sessionStorage.removeItem("create-import-proccess")
 
-    // render button
-    window.google.accounts.id.renderButton(
-      document.getElementById('googleButton'),
-      {
-        type: 'standard',
-        theme: 'outline',
-        size: 'large',
-        text: 'CONTINUE WITH GOOGLE',
-        shape: 'circle',
-        logo_alignment: 'left',
-        width: 330
+    // console.log((atob(this.$route.query.transactions).toString("UTF-10")))
+
+    
+    // console.log( this.$route.query.transactions)
+    
+    if(this.$route.query.token){
+      // const tokenString = window.atob(this.$route.query.token);
+      const tokenString = encryp.decryp(this.$route.query.token);
+      const tokenJSON = JSON.parse(tokenString);
+      // sessionStorage.setItem("token", tokenString);
+      this.token = tokenJSON
+    }
+  
+
+    /* this.domain = this.$route.query?.success_url ? this.$route.query?.success_url.split("/")[2] : "";
+    this.contract = "";
+    this.routeCancel = this.$route.query?.success_url;
+
+    const arrayRes = localStorageUser.getAccounts();
+    const arrayMap = arrayRes.map(item => {
+      return {
+        wallet: item.address,
+        pass: "******"
       }
-    );
-    localStorage.removeItem("importEmailNickname")
-    localStorage.removeItem("importEmail")
-    localStorage.removeItem("seedPhraseLoginNew")
-    localStorage.removeItem("seedPhraseLogin")
-    localStorage.removeItem("seedPhrase")
-    localStorage.removeItem("login")
-    localStorage.removeItem("seedPhraseGenerate");
+    });
+    const currentAccount = localStorageUser.getCurrentAccount();
+    this.selectAccount(currentAccount.address, arrayMap); */
+  },
+  mounted() {
+    this.domain = this.token.domain;
+    this.contract = this.token.contract;
+    this.routeCancel = this.token.success; 
 
-    /* if(this.$route.query.redirect !== undefined){
-      localStorage.setItem("loginExternal", this.$route.query.redirect)
-      console.log("paso login: ", localStorage.getItem("loginExternal"))
-    } */
+    const arrayRes = localStorageUser.getAccounts();
+    const arrayMap = arrayRes.map(item => {
+      return {
+        wallet: item.address,
+        pass: "******"
+      }
+    });
+    const currentAccount = localStorageUser.getCurrentAccount();
+    this.selectAccount(currentAccount.address, arrayMap);
+    
+
   },
   methods: {
-    onContinue(rute) {
-        localStorage.setItem("login", true);  
-        this.$router.push(utils.routeAction(this.$route.query.action,rute));
+    importAccount() {
+      sessionStorage.setItem("create-import-proccess", "/login");
+      this.$router.push({path: '/import-wallet'});
     },
-    /* async onContinue() {
-      if(this.$refs.formEmail.validate()) {
-        this.loading = true
-        await axios.post(process.env.URL_BACKEND +'/wallet/send-code',
-        {email: this.emailImput}, {
-          headers: {
-            'accept': 'application/json',
-          },
-        }).then(() => {
-          this.loading = false
-          localStorage.setItem("email", this.emailImput);
-          localStorage.setItem("login", true);
-          
-          this.$router.push(utils.routeAction(this.$route.query.action,"/verification"));
-          // this.$router.push(this.localePath("/verification"))
-        }).catch(() => {
-          this.loading = false
-        })
+    selectAccount(address, array){
+      const list = array === undefined ? this.dataWallets : array;
+
+      const arrayRet = [];
+      let indexCount = 1;
+      for(let index = 0; index < list.length; index++) {
+        if(list[index].wallet === address) {
+          arrayRet[0] = list[index];
+          this.address = list[index].wallet;
+        } else {
+          arrayRet[indexCount] = list[index];
+          indexCount += 1;
+        }
       }
-    }, */
 
-    /* onContinueGoogle() {
-      window.google.accounts.id.initialize({
-        client_id: process.env.CLIEN_ID_GOOGLE,
-        callback: this.handleCredentialResponse, // method to run after user clicks the Google sign in button
-        context: 'signin'
-      })
-      window.google.accounts.id.prompt()
-
-      // this.$auth.loginWith('google', { params: { prompt: "select_account" } })
-      // this.$auth.loginWith('google')
-    }, */
-
-    async handleCredentialResponse(response) {
-      /*
-      console.log(response)
-      console.log("--------------------------------")
-      console.log(response.credential)
-      console.log("--------------------------------")
-      const token = jwtDecode(response.credential)
-      console.log(token)
-      console.log(`ID: ${token.sub}`)
-      console.log(`Full Name: ${token.name}`)
-      console.log(`Given Name: ${token.given_name}`)
-      console.log(`Family Name: ${token.family_name}`)
-      console.log(`Image URL: ${token.picture}`)
-      console.log(`Email: ${token.email}`)
-      */
-
-      await axios.post(process.env.URL_BACKEND +'/wallet/verify-google',
-        {token: response.credential}, {
-        headers: {
-          'accept': 'application/json',
-        },
-      }).then((resp) => {
-        const data = resp.data.data;
-
-        this.loading = false
-
-        localStorage.setItem("auth", true);
-
-        const tokenGoogle = jwtDecode(response.credential)
-
-        // agregando nueva cuenta
-        localStorageUser.addNewAccount({
-          _address: data.address,
-          _publicKey: data.publicKey,
-          _privateKey: data.secretKey,
-          _email: tokenGoogle.email
-        });
-        
-        // if(data.isExists) {
-        this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
-        // } else {
-          // this.$router.push(this.localePath("/pick-username"))
-        // }
-      }).catch((error) => {
-        console.log("error: ", error)
-      })
+      this.dataWallets = arrayRet;
     },
+    next() {
+      if(!this.routeCancel) { this.$router.push({ path: "/"}) }
 
-    onContinuePassphrase() {
-      localStorage.setItem("login", true);
-      this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase"));
-      // this.$router.push(this.localePath("/passphrase"))
+      if(!this.token) this.$alert(ALERT_TYPE.WARNING, { desc: "no hay token" });
+      
+      // if (!this.address || !this.domain || !this.contract) {console.log("error"); return}
+      
+      sessionStorage.setItem("connectAppAddressSelect", this.address);
+      
+      this.$router.push({ path: "/login-limited-permissions", query: this.$route.query });
+      
+    },
+    cancel() {
+      if(this.routeCancel) {
+        /* let ruta = this.token.error;
+          
+        if(this.token?.searchError) {
+          ruta += this.token.searchError;
+        } */
+        location.replace(this.routeCancel);
+      } else {
+        this.$router.push({ path: "/"})
+      }
     }
+
   }
-};
+}
 </script>
 
-<style src="~/assets/styles/pages/login.scss" lang="scss" />
+<style src="@/assets/styles/pages/connect-with-near.scss" lang="scss"></style>

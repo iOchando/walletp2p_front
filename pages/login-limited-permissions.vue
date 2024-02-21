@@ -77,6 +77,7 @@
 
 <script>
 import utils from '../services/utils';
+import encryp from '../services/encryp';
 import localStorageUser from '~/services/local-storage-user';
 
 
@@ -105,26 +106,36 @@ export default {
     }
   },
   mounted() {
-    const token = sessionStorage.getItem("token");
-    const tokenJSON = JSON.parse(token);
+    // const token = sessionStorage.getItem("token");
+    let tokenJSON;
+    if(this.$route.query.token){
+      // const tokenString = window.atob(this.$route.query.token);
+      const tokenString = encryp.decryp(this.$route.query.token);
+      tokenJSON = JSON.parse(tokenString);
+      // sessionStorage.setItem("token", tokenString);
+    }
+
+    /* this.domain = this.$route.query?.success_url ? this.$route.query?.success_url.split("/")[2] : "";
+    this.contract = "";
+    this.routeCancel = this.$route.query?.success_url; */
     this.domain = tokenJSON.domain;
     this.contract = tokenJSON.contract;
     this.token = tokenJSON;
   },
   methods: {
     connect(){
-      if (!this.address || !this.contract || !this.domain || !this.token) return
+      if (!this.address || !this.domain) return
+      
 
       localStorageUser.addApp({
           _address: this.address, 
-          _contract: this.contract, 
+          _contract: this.domain, 
           _domain: this.domain
       });
 
-      
       const account = localStorageUser.getAccount(this.address)
 
-      // const ruta = this.token.success;
+      let ruta = this.token.success;
       const json = JSON.stringify({
         wallet: account.address,
         cretaDate: new Date(),
@@ -133,29 +144,36 @@ export default {
       })
       const token = window.btoa(json)
       
-      sessionStorage.removeItem("token");
-      sessionStorage.removeItem("connectAppAddressSelect")
+      // sessionStorage.removeItem("token");
+      // sessionStorage.removeItem("connectAppAddressSelect")
+      
+      // const paramsOrigin = this.$route.query?.success_url.split("?").length > 0 ? "&" : "?"
+      // const ruta =  `${this.$route.query?.success_url}${paramsOrigin}account_id=${account.address}&all_keys=${account.privateKey}`;// this.token.success;
 
-      let ruta = this.token.success;
-        
+
+
       if(this.token?.search) {
         ruta += this.token.search + "&token="+token;
       } else {
         ruta += "?token="+token;
       }
-
+      
       location.replace(ruta);
     },
     shortenAddress(address) {
       return utils.shortenAddress(address);
     },
     cancel(){
-      let ruta = this.token.error;
-        
-      if(this.token?.searchError) {
-        ruta += this.token.searchError;
+      if(this.routeCancel) {
+        /* let ruta = this.token.error;
+          
+        if(this.token?.searchError) {
+          ruta += this.token.searchError;
+        } */
+        location.replace(this.routeCancel);
+      } else {
+        this.$router.push({ path: "/"})
       }
-      location.replace(ruta);
     }
 
   }

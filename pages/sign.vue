@@ -154,7 +154,7 @@ import moment from 'moment';
 // import {functionCall} from 'near-api-js/lib/transaction'
 import BN from 'bn.js';
 import utils from '../services/utils';
-
+import encryp from '../services/encryp';
 import localStorageUser from '~/services/local-storage-user';
 
 import { configNear }  from '~/services/nearConfig';
@@ -200,8 +200,17 @@ export default {
         title,
     };
   },
+  created() {
+    if(this.$route.query.token){
+      // const tokenString = window.atob(this.$route.query.token);
+      const tokenString = encryp.decryp(this.$route.query.token);
+      const tokenJSON = JSON.parse(tokenString);
+      // sessionStorage.setItem("token", tokenString);
+      this.token = tokenJSON
+    }
+  },
   mounted() {
-    this.token = JSON.parse(sessionStorage.getItem("token"));
+    // this.token = JSON.parse(sessionStorage.getItem("token"));
     this.loadData();
   },
   methods: {
@@ -304,7 +313,7 @@ export default {
         )
         const token = window.btoa(json)
         
-        sessionStorage.removeItem("token");
+        // sessionStorage.removeItem("token");
         
         // console.log("response: ", json);
 

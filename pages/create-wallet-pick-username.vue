@@ -42,7 +42,7 @@
         class="btn-outlined mt-10"
         :disable="loading"
         :loading="loading"
-        @click="redirect('/login')"
+        @click="redirect('/')"
       >
         VOLVER
       </v-btn>
@@ -80,6 +80,7 @@ const { keyStores, Account, Near } = nearAPI;
 export default {
   name: "PickUsernamePage",
   layout: "auth-layout",
+  middleware: ["authenticated-create-import"],
   data() {
     return {
       valid:false,
@@ -100,7 +101,7 @@ export default {
     }
   },
   created() {
-    this.$store.commit('validSession');
+    // this.$store.commit('validSession');
   },
   mounted() {
     // this.$store.commit('validSession')
@@ -197,14 +198,15 @@ export default {
               _publicKey: data.publicKey,
               _privateKey: data.secretKey
             })
-
+        
             localStorage.setItem("seedPhrase", data.seedPhrase);
 
             
             this.loading = false;
 
             // this.$router.push(this.localePath("/passphrase-new"))
-            this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-new"));
+            // this.$router.push(utils.routeAction(this.$route.query.action,"/passphrase-new"));
+            this.$router.push({ path: "/create-wallet-passphrase" });
 
           }).catch((error) => {
             throw new Error ("Error create nickname: " + error)
