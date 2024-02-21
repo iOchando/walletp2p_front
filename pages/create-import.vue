@@ -82,12 +82,15 @@ export default {
   methods: {
     onContinue(rute) {
         // const typeSession = rute === "/create-wallet" ? "create" : "import";
-        if(!sessionStorage.getItem("create-import-proccess")) {
+        if(!sessionStorage.getItem("login-create-import-proccess")) {
           const jsonCreateImportProccess = JSON.stringify({
             path: "/",
           })
           sessionStorage.setItem("create-import-proccess", jsonCreateImportProccess);
+        } else {
+          sessionStorage.setItem("create-import-proccess", sessionStorage.getItem("login-create-import-proccess"));
         }
+
         this.$router.push({ path: rute });
 
         // this.$router.push(utils.routeAction(this.$route.query.action,rute));

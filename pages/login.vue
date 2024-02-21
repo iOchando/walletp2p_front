@@ -123,7 +123,7 @@ export default {
         path: "/login",
         query: this.$route.query
       })
-      sessionStorage.setItem("create-import-proccess", jsonCreateImportProccess);
+      sessionStorage.setItem("login-create-import-proccess", jsonCreateImportProccess);
       this.$router.push({path: '/'});
     }
 

@@ -71,6 +71,7 @@ function getBalance(_address) {
   })
 }
 
+
 function getPrice(fiat, crypto) {
   const _fiat = !fiat ? "USD" : fiat;
   const _crypto = !crypto ? "NEAR" : crypto;
@@ -102,6 +103,30 @@ async function nearConnection() {
   
 }
 
+async function getNearId(_publicKey) {
+  const params = {
+    "query":"\n  query mintbase_js_data__accountsByPublicKey(\n    $publicKey: String!\n  ) {\n    accounts: access_keys(\n  where: {\n  public_key: { _eq: $publicKey }\n removed_at: { _is_null: true }\n      }\n    ) {\n      id: account_id\n    }\n  }\n",
+    "variables":{"publicKey": _publicKey},
+    "operationName":"mintbase_js_data__accountsByPublicKey"
+  }
+
+  let nearId;
+  let error = ""
+  await axios.post(`https://interop-${process.env.Network}.hasura.app/v1/graphql`,  params)
+    .then((response) => {
+      if(response.data?.data?.accounts[0]) {
+        nearId = response.data?.data?.accounts[0].id
+      }
+  }).catch((err) => {
+    error = err
+  })
+
+  if(!nearId) throw new Error(error)
+  
+
+  return nearId
+}
+
 
 export default {
   formatTokenAmount,
@@ -111,4 +136,5 @@ export default {
   getBalance,
   getPrice,
   nearConnection,
+  getNearId,
 }

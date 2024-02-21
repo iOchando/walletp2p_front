@@ -42,11 +42,12 @@
 </template>
 
 <script>
-import axios from 'axios';
+// import axios from 'axios';
 // import { parseSeedPhrase } from 'near-seed-phrase';
 import * as nearAPI from "near-api-js";
 import localStorageUser from '../services/local-storage-user';
 // import utils from '~/services/utils';
+import WalletUtils from '@/services/wallet';
 const { KeyPair } = nearAPI;
 
 export default {
@@ -80,25 +81,23 @@ export default {
         
         const secretKey = this.privatekeyInput;
         const keyPairNew = KeyPair.fromString(secretKey);
-        const publicKey = keyPairNew.publicKey.toString();
+        const publicKey = keyPairNew.getPublicKey().toString();
         let implicitAccountId = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
         
-        /* await axios.get(process.env.URL_API_INDEXER + "/publicKey/" + publicKey +'/accounts')
+        /* await axios.get(process.env.URL_API_INDEXER + "/keys/" + publicKey )
           .then((response) => {
-            if(response.data.length > 0) {
-              implicitAccountId = response.data[0].toString()
-            }
-        }).catch((error) => {
-          console.log(error)
-        }) */
-
-        await axios.get(process.env.URL_API_INDEXER + "/keys/" + publicKey )
-          .then((response) => {
+            console.log(response)
             if(response.data?.keys?.length > 0) {
               if(response.data?.keys[0]?.account_id) {
                 implicitAccountId = response.data?.keys[0]?.account_id
               }
             }
+        }).catch((error) => {
+          console.log(error)
+        }) */
+
+        await WalletUtils.getNearId(publicKey).then((item) => {
+          implicitAccountId = item
         }).catch((error) => {
           console.log(error)
         })
@@ -111,7 +110,7 @@ export default {
         })
         
         localStorage.setItem("auth", true)
-        
+
         // this.$router.push({ path: sessionStorage.getItem("create-import-proccess")})
         this.$router.push(JSON.parse(sessionStorage.getItem("create-import-proccess")))
         // this.$router.push(this.localePath(utils.routeLogin(this.$route.query.action)));
