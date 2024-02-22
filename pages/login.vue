@@ -150,6 +150,7 @@ export default {
     importAccount() {
       const jsonCreateImportProccess = JSON.stringify({
         path: "/login",
+        query: this.$route.query
       })
       sessionStorage.setItem("create-import-proccess", jsonCreateImportProccess);
       this.$router.push({path: '/import-wallet'});
