@@ -81,7 +81,7 @@ export default {
       if(this.$refs.form.validate()) {
         const { secretKey } = await parseSeedPhrase(seedPhrase);
         const keyPairNew = KeyPair.fromString(secretKey);
-        const publicKey = keyPairNew.publicKey.toString();
+        const publicKey = keyPairNew.getPublicKey().toString(); // keyPairNew.publicKey.toString();
         let address = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
 
         /* await axios.get(process.env.URL_API_INDEXER + "/keys/" + publicKey )
