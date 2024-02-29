@@ -1,5 +1,11 @@
 <template>
   <div id="document-transfer">
+    <modalWarning
+      ref="modalWarning"
+      text="You are going to transfer an NFT and it is going to spend XXX amount on the network fee."
+      @click="$router.push({ path: '/document-transfer-complete', query: { id: $route.query.id } })"
+    ></modalWarning>
+
     <Header
       top-text="TRANSFERIR"
       top-text-dir="rtl"
@@ -39,13 +45,13 @@
       </v-card>
 
       <div style="gap: 10px; display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 100px), 1fr))">
-        <v-btn class="btn-outlined" @click="$router.back()">
+        <v-btn class="btn-outlined-2" @click="$router.back()">
           CANCEL
         </v-btn>
 
         <v-btn
           class="btn"
-          @click="$router.push({ path: '/document-transfer-complete', query: { id: $route.query.id } })"
+          @click="$refs.modalWarning.model = true"
         >
           SEND
         </v-btn>

@@ -6,7 +6,10 @@
 
     <img
       id="default-layout-background"
-      src="~/assets/sources/images/circle.svg"
+      :src="
+        require(`~/assets/sources/images/circle${
+          $route.path === '/document-transfer' ? '-bubbles' : ''
+        }.svg`)"
       alt="background"
     >
 

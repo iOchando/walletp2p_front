@@ -1,5 +1,5 @@
 <template>
-  <div id="header">
+  <div class="header">
     <Navbar
       :show-append="showAppend"
       :show-prepend="showPrepend"
@@ -13,7 +13,7 @@
 
     <div
       v-if="topText || bottomText || description"
-      id="header-content"
+      class="header-content"
       :style="`--max-width: ${maxWidth}; --margin-left: ${marginLeftContent}; --margin-right: ${marginRightContent}`"
     >
       <h1
@@ -132,7 +132,7 @@ export default {
 </script>
 
 <style lang="scss">
-#header {
+.header {
   margin-top: var(--margin-header);
   width: 100%;
   display: flex;
