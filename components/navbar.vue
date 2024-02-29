@@ -10,11 +10,11 @@
       </slot>
 
       <aside v-if="showAppend" class="container-btns">
-        <v-btn data-avatar class="btn-icon" to="/account-details">
+        <v-btn v-if="!hideProfile" data-avatar class="btn-icon" to="/account-details">
           <img src="@/assets/sources/avatars/person.png" alt="avatar">
         </v-btn>
 
-            <v-btn class="btn-icon" style="--bg: var(--primary);" @click="showDrawer()">
+        <v-btn class="btn-icon" style="--bg: var(--primary);" @click="showDrawer()">
           <img src="@/assets/sources/icons/options.svg" alt="settings">
         </v-btn>
       </aside>
@@ -26,6 +26,10 @@
 export default {
   name: "NavbarComponent",
   props: {
+    hideProfile: {
+      type: Boolean,
+      default: false,
+    },
     showAppend: {
       type: Boolean,
       default: false,

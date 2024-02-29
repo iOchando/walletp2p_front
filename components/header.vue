@@ -3,6 +3,7 @@
     <Navbar
       :show-append="showAppend"
       :show-prepend="showPrepend"
+      :hide-profile="hideProfile"
       :on-press-back-btn="onPressBackBtn ? () => onPressBackBtn() : null"
     >
       <template #prepend>
@@ -21,6 +22,11 @@
         :style="`--dir: ${topTextDir}; --indent: ${topTextIndent}`"
       >{{topText}}</h1>
       <h1
+        v-if="middleText"
+        :class="{p: bottomText, tcenter: middleTextCenter}"
+        :style="`--dir: ${middleTextDir}; --indent: ${middleTextIndent}`"
+      >{{middleText}}</h1>
+      <h1
         v-if="bottomText"
         :class="{tcenter: bottomTextCenter}"
         :style="`--dir: ${bottomTextDir}; --indent: ${bottomTextIndent}`"
@@ -37,6 +43,10 @@
 export default {
   name: "HeaderComponent",
   props: {
+    hideProfile: {
+      type: Boolean,
+      default: false,
+    },
     showAppend: {
       type: Boolean,
       default: false,
@@ -65,11 +75,19 @@ export default {
       type: String,
       default: undefined
     },
+    middleText: {
+      type: String,
+      default: undefined
+    },
     bottomText: {
       type: String,
       default: undefined
     },
     topTextCenter: {
+      type: Boolean,
+      default: false
+    },
+    middleTextCenter: {
       type: Boolean,
       default: false
     },
@@ -81,11 +99,19 @@ export default {
       type: String,
       default: "ltr"
     },
+    middleTextDir: {
+      type: String,
+      default: "ltr"
+    },
     bottomTextDir: {
       type: String,
       default: "rtl"
     },
     topTextIndent: {
+      type: String,
+      default: undefined
+    },
+    middleTextIndent: {
       type: String,
       default: undefined
     },

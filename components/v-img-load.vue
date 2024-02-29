@@ -24,6 +24,7 @@
       --box-shadow: ${boxShadow};
       --background-color: ${bgColor};
     `"
+    @click="$emit('click')"
   >
     <template v-if="!lazySrc" #placeholder>
       <v-skeleton-loader

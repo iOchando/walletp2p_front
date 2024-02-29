@@ -14,11 +14,12 @@
     <section id="passphrase-login-content">
       <div ref="container" class="container-words" @scroll="onScroll">
         <v-text-field
-          v-for="item in 12" :key="item"
-          v-model="seedPhraseSplit[item]"
-          :label="`enter word #${item}`" solo
+          v-for="(item, i) in words" :key="i"
+          v-model="item.model"
+          :label="`enter word #${i}`" solo
           style="--margin-message: 1px"
           :rules="required"
+          @paste="onPaste"
         ></v-text-field>
       </div>
 
@@ -49,7 +50,7 @@ export default {
   data() {
     return {
       scrollEnd: false,
-      seedPhraseSplit: {},
+      words: [{model: null}, {model: null}, {model: null}, {model: null}, {model: null}, {model: null}, {model: null}, {model: null}, {model: null}, {model: null}, {model: null}, {model: null}],
       valid: false,
       required: [(v) => !!v || "Campo requerido"],
       loading: false,
@@ -62,24 +63,27 @@ export default {
     }
   }, */
   methods: {
+    async onPaste(event) {
+      const value = await navigator.clipboard.readText(),
+        words = value.split(' ');
+      if (words.length !== 12) return;
+      event.preventDefault()
+
+      let i = 0;
+      for (const item of this.words) {
+        item.model = words[i];
+        i++;
+      }
+    },
     onScroll(event) {
       const container = event.currentTarget
       this.scrollEnd = container.scrollTop + container.clientHeight >= (container.scrollHeight - 3)
     },
     async onTap(){
       this.loading = true;
-      let seedPhrase = ""
-      // const prub = ["swamp", "great", "sorry", "primary", "shoulder", "camera", "vague", "excuse", "uncle", "behind", "blast", "clerk"];
-      for(let i = 0; i < 12; i++) {
-        const word = this.seedPhraseSplit[(i+1).toString()];
-        // const word = prub[i]
-        if(word !== undefined && word.trim() !== '') {
-          seedPhrase = seedPhrase + (i === 0 ? word : " " + word)
-        } 
-      }
       
       if(this.$refs.form.validate()) {
-        const { secretKey } = await parseSeedPhrase(seedPhrase);
+        const { secretKey } = await parseSeedPhrase(this.words.join(' '));
         const keyPairNew = KeyPair.fromString(secretKey);
         const publicKey = keyPairNew.getPublicKey().toString(); // keyPairNew.publicKey.toString();
         let address = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");

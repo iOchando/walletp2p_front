@@ -81,8 +81,7 @@
       </v-btn>
     </v-card>-->
 
-
-    <!--<v-card
+    <!-- <v-card
       class="btn-outlined d-flex align-center justify-space-between"
       style="--br: 20px; padding: 22px 17px; gap: 19px; background-color: var(--secondary) !important; margin-bottom: 27px;"
     >
@@ -99,16 +98,38 @@
       <v-btn style="border-radius: 50px !important; max-width: 134px; min-height: 34.26px;" class="btn flex-grow-1">
         <span style="color: #fff !important;">DESACTIVADO</span>
       </v-btn>
-    </v-card>-->
+    </v-card> -->
+    
+    <v-card
+      v-for="(item, i) in 2" :key="i"
+      class="btn-outlined d-flex align-center justify-space-between mb-4"
+      style="--br: 20px; padding: 22px 17px; gap: 19px; background-color: var(--secondary) !important;"
+    >
+      <div class="d-flex flex-column" style="gap: 5px; max-width: 126px;">
+        <h5 class="mb-0">PATRICIA2.near</h5>
 
+        <p class="mb-0">$344.71 USD</p>
+      </div>
 
-    <div class="d-flex flex-column" style="gap: 15px;">
-      <!--<v-btn
+      <v-btn style="border-radius: 50px !important; max-width: 134px; min-height: 34.26px;" class="btn flex-grow-1">
+        <span style="color: #fff !important;">ABRIR</span>
+      </v-btn>
+    </v-card>
+
+    <div class="d-flex flex-column mt-10" style="gap: 15px;">
+      <v-btn
         class="btn-outlined"
         style="--b-color: var(--primary); --bg: var(--secondary)"
       >
-        <span style="color: var(--primary) !important;">exportar clave privada local</span>
-      </v-btn>-->
+        <span style="color: var(--primary) !important;">crear una nueva cuenta</span>
+      </v-btn>
+
+      <v-btn
+        class="btn-outlined"
+        style="--b-color: var(--primary); --bg: var(--secondary)"
+      >
+        <span style="color: var(--primary) !important;">importar otra cuenta</span>
+      </v-btn>
 
       <v-btn
         class="btn"
