@@ -66,7 +66,13 @@ $yAxis: calc(var(--margin-header) + 16px);
     margin-left: auto;
     position: relative;
 
-    .action-btn { position: absolute }
+    .action-btn {
+      position: absolute;
+
+      &.inactive {
+        visibility: hidden;
+      }
+    }
     
     .action-btn:first-child { top: 0; right: 0 }
     .action-btn:last-child { bottom: 0; right: 0 }
