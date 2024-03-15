@@ -51,7 +51,6 @@ async function getListTokensBalance() {
   const address = localStorageUser.getCurrentAccount().address;
   const contractFromBlock = await getListContractToken(address)
   if(!contractFromBlock) return
-  console.log("paso 1: ", contractFromBlock)
   const listContract = contractFromBlock;
   const list = {
     fts: [],
@@ -60,6 +59,18 @@ async function getListTokensBalance() {
 
   const balanceNear = await walletUtils.getBalance();
   
+  /* list.fts.push({
+    contract: "NEAR",
+    balance: balanceNear.near.toFixed(5),
+    name: "NEAR",
+    symbol: "NEAR",
+    decimals: 24,
+    icon: require('@/assets/sources/logos/near-icon.svg'),
+    balance_usd: balanceNear.usd.toFixed(2),
+    price: balanceNear.price
+  }); */
+
+
   list.fts.push({
     contract: "NEAR",
     balance: balanceNear.near.toFixed(5),
@@ -71,7 +82,7 @@ async function getListTokensBalance() {
     price: balanceNear.price
   });
 
-  console.log(listContract)
+  
 
   for(let i = 0; i < listContract.length; i++){
     try {
