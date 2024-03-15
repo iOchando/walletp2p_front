@@ -18,7 +18,17 @@
 
 
     <v-card class="cryptos-card">
-      <div class="cryptos-card__wrapper">
+      <div
+        v-if="loading"
+        class="cryptos-card__wrapper"
+        style="text-align: center;"
+      >
+      Cargando....
+      </div>
+      <div
+        v-else
+        class="cryptos-card__wrapper"
+      >
         <v-card
           v-for="(item, i) in dataTokens" :key="i"
           color="transparent"
@@ -57,6 +67,7 @@ export default {
       model: false,
       search: '',
       selectedCoin: undefined,
+      loading: false,
       dataTokens: [
         /* {
           contract: ,
@@ -90,9 +101,12 @@ export default {
 
   methods: {
     async loadTokens() {
-      const inventory = await tokens.getInventoryUser();
+      this.loading = true;
+      const inventory = await tokens.getListTokensBalance() // tokens.getInventoryUser();
 
-      if(!inventory) return 
+      if(!inventory) return
+
+      this.loading = false;
 
       this.dataTokens = inventory.fts
     }

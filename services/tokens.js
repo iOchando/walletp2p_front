@@ -7,7 +7,8 @@ import localStorageUser from '~/services/local-storage-user';
 
 
 function getListContractToken(address) {
-  return axios.get(process.env.URL_NEAR_API+"account/"+address+"/likelyTokensFromBlock")
+  // https://api.kitwallet.app/account//likelyTokensFromBlock
+  return axios.get(`https://api.nearblocks.io/v1/kitwallet/account/${address}/likelyTokensFromBlock?fromBlockTimestamp=0`)
     .then(response => {
       return response.data.list
     }).catch(error => {return error}
@@ -48,14 +49,18 @@ async function getTokenMetadata(contract) {
 
 async function getListTokensBalance() {
   const address = localStorageUser.getCurrentAccount().address;
-  const listContract = await getListContractToken(address)
-  const list = [];
-
-  console.log()
+  const contractFromBlock = await getListContractToken(address)
+  if(!contractFromBlock) return
+  console.log("paso 1: ", contractFromBlock)
+  const listContract = contractFromBlock;
+  const list = {
+    fts: [],
+    nfts: [],
+  };
 
   const balanceNear = await walletUtils.getBalance();
   
-  list.push({
+  list.fts.push({
     contract: "NEAR",
     balance: balanceNear.near.toFixed(5),
     name: "NEAR",
@@ -66,10 +71,11 @@ async function getListTokensBalance() {
     price: balanceNear.price
   });
 
+  console.log(listContract)
+
   for(let i = 0; i < listContract.length; i++){
     try {
       await getTokenMetadata(listContract[i]).then( async (metadata) => {
-        console.log("aqui", metadata)
         let { balance, price } = { balance: 0, price: 0};
         const getBalance = await getTokenBalance({ contract: listContract[i], address, symbol: metadata.symbol })
         
@@ -80,7 +86,7 @@ async function getListTokensBalance() {
 
         if(Number(balance) > 0) {
           const balanceUsd = (Number(walletUtils.formatTokenAmount(balance, metadata.decimals, 5)) * Number(price)).toFixed(2)
-          list.push({
+          list.fts.push({
             contract: listContract[i],
             balance: walletUtils.formatTokenAmount(balance, metadata.decimals, 5),
             name: metadata.name,
