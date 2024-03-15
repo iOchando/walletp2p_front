@@ -1,5 +1,8 @@
 <template>
   <div id="home" class="divcol center">
+    <modalCryptos ref="modalCryptos"
+    ></modalCryptos>
+
     <!-- <v-alert
       v-model="alert"
       class="mt-3"
@@ -22,10 +25,10 @@
 
     <section id="section-available" style="padding-top: 23px;">
       <div class="space" style="gap: 10px">
-        <!--<v-btn
+        <v-btn
           class="btn-outlined"
           style="--bg: var(--secondary); flex: 1 1"
-          @click="sheet=true"
+          @click="$refs.modalCryptos.model = true"
         >
           BALANCES
         </v-btn>
@@ -33,10 +36,10 @@
         <v-btn
           class="btn"
           style="flex: 1 1"
-          @click="sheet=true"
+          @click="$router.push('/documents')"
         >
-          COLECCIONABLES
-        </v-btn>-->
+          DOCUMENTOS
+        </v-btn>
       </div>
 
       <aside class="container-available">

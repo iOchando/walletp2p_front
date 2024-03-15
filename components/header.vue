@@ -1,8 +1,9 @@
 <template>
-  <div id="header">
+  <div class="header">
     <Navbar
       :show-append="showAppend"
       :show-prepend="showPrepend"
+      :hide-profile="hideProfile"
       :on-press-back-btn="onPressBackBtn ? () => onPressBackBtn() : null"
     >
       <template #prepend>
@@ -12,7 +13,7 @@
 
     <div
       v-if="topText || bottomText || description"
-      id="header-content"
+      class="header-content"
       :style="`--max-width: ${maxWidth}; --margin-left: ${marginLeftContent}; --margin-right: ${marginRightContent}`"
     >
       <h1
@@ -20,6 +21,11 @@
         :class="{p: bottomText, tcenter: topTextCenter}"
         :style="`--dir: ${topTextDir}; --indent: ${topTextIndent}`"
       >{{topText}}</h1>
+      <h1
+        v-if="middleText"
+        :class="{p: bottomText, tcenter: middleTextCenter}"
+        :style="`--dir: ${middleTextDir}; --indent: ${middleTextIndent}`"
+      >{{middleText}}</h1>
       <h1
         v-if="bottomText"
         :class="{tcenter: bottomTextCenter}"
@@ -37,6 +43,10 @@
 export default {
   name: "HeaderComponent",
   props: {
+    hideProfile: {
+      type: Boolean,
+      default: false,
+    },
     showAppend: {
       type: Boolean,
       default: false,
@@ -65,11 +75,19 @@ export default {
       type: String,
       default: undefined
     },
+    middleText: {
+      type: String,
+      default: undefined
+    },
     bottomText: {
       type: String,
       default: undefined
     },
     topTextCenter: {
+      type: Boolean,
+      default: false
+    },
+    middleTextCenter: {
       type: Boolean,
       default: false
     },
@@ -81,11 +99,19 @@ export default {
       type: String,
       default: "ltr"
     },
+    middleTextDir: {
+      type: String,
+      default: "ltr"
+    },
     bottomTextDir: {
       type: String,
       default: "rtl"
     },
     topTextIndent: {
+      type: String,
+      default: undefined
+    },
+    middleTextIndent: {
       type: String,
       default: undefined
     },
@@ -106,7 +132,7 @@ export default {
 </script>
 
 <style lang="scss">
-#header {
+.header {
   margin-top: var(--margin-header);
   width: 100%;
   display: flex;

@@ -5,7 +5,7 @@
     :overlay-opacity=".9"
     content-class="modal-cryptos"
   >
-    <!--<aside class="d-flex justify-end mb-5">
+    <aside class="d-flex justify-end mb-5">
       <v-text-field
         v-model="search"
         hide-details solo
@@ -14,7 +14,7 @@
           <img src="@/assets/sources/icons/magnify.svg" alt="search icon">
         </template>
       </v-text-field>
-    </aside>-->
+    </aside>
 
 
     <v-card class="cryptos-card">
@@ -33,8 +33,7 @@
           v-for="(item, i) in dataTokens" :key="i"
           color="transparent"
           class="cryptos-card-coin space"
-          :class="{active: selectedCoin?.coin === item.symbol}"
-          @click="model = false; $emit('on-selected-coin', item)"
+          @click="onSelected(item)"
         >
           <div class="center" style="gap: 14px;">
             <v-img-load
@@ -69,23 +68,51 @@ export default {
       selectedCoin: undefined,
       loading: false,
       dataTokens: [
-        /* {
-          contract: ,
-          balance: walletUtils.formatTokenAmount(balance, metadata.decimals, 5),
-          name: metadata.name,
-          symbol: metadata.symbol,
-          decimals: metadata.decimals,
-          icon: metadata.icon,
-          balance_usd: Number(walletUtils.formatTokenAmount(balance, metadata.decimals, 5)) * Number(price),
-          price
-        }*
+        // {
+        //   contract: ,
+        //   balance: walletUtils.formatTokenAmount(balance, metadata.decimals, 5),
+        //   name: metadata.name,
+        //   symbol: metadata.symbol,
+        //   decimals: metadata.decimals,
+        //   icon: metadata.icon,
+        //   balance_usd: Number(walletUtils.formatTokenAmount(balance, metadata.decimals, 5)) * Number(price),
+        //   price
+        // }*
         {
-          img: require('@/assets/sources/tokens/eth.svg'),
+          icon: require('@/assets/sources/tokens/btc.svg'),
           coin: "ETH",
           name: "ETHEREUM",
           amount: "59.744",
-          currency: "79.379"
-        }, */
+          balance_usd: "79.379"
+        },
+        {
+          icon: require('@/assets/sources/tokens/dai.svg'),
+          coin: "ETH",
+          name: "ETHEREUM",
+          amount: "59.744",
+          balance_usd: "79.379"
+        },
+        {
+          icon: require('@/assets/sources/tokens/klay.svg'),
+          coin: "ETH",
+          name: "ETHEREUM",
+          amount: "59.744",
+          balance_usd: "79.379"
+        },
+        {
+          icon: require('@/assets/sources/tokens/matic.svg'),
+          coin: "ETH",
+          name: "ETHEREUM",
+          amount: "59.744",
+          balance_usd: "79.379"
+        },
+        {
+          icon: require('@/assets/sources/tokens/shib.svg'),
+          coin: "ETH",
+          name: "ETHEREUM",
+          amount: "59.744",
+          balance_usd: "79.379"
+        },
       ]
     }
   },
@@ -109,6 +136,10 @@ export default {
       this.loading = false;
 
       this.dataTokens = inventory.fts
+    },
+    onSelected(item) {
+      this.model = false;
+      this.$emit('on-selected-coin', item)
     }
   },
 
@@ -160,6 +191,7 @@ export default {
       flex-direction: column;
       scrollbar-gutter: stable;
       max-height: calc(var(--height) - var(--padding-block) * 2);
+      padding-left: 10px;
       border-radius: 0 !important;
       overflow-y: auto;
     }
@@ -182,12 +214,12 @@ export default {
         background-color: var(--secondary);
       }
 
-      &.active {
+      /* &.active {
         background-color: hsl(216 99% 52% / .7) !important;
         &::after { background-color: #333 !important }
 
         * { color: #fff !important }
-      }
+      } */
     }
 
     

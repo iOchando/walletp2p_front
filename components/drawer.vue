@@ -10,6 +10,7 @@
         <div
           v-for="(item, i) in dataButtons" :key="i"
           class="action-btn d-flex align-center"
+          :class="{inactive: item.inactive}"
           style="gap: 11px;"
         >
           <h5 v-if="item.name" class="mb-0" style="text-transform: uppercase !important">{{ item.name }}</h5>
@@ -62,11 +63,12 @@ export default {
           icon: require("@/assets/sources/drawer/wallet.svg"),
           action: () => { this.model = false },
         },
-        /* {
+        {
+          inactive: true,
           name: "staking",
           icon: require("@/assets/sources/drawer/staking.svg"),
           action: () => {},
-        }, */
+        },
         {
           name: "explorar",
           icon: require("@/assets/sources/drawer/explore.svg"),
@@ -77,16 +79,18 @@ export default {
           icon: require("@/assets/sources/drawer/account.svg"),
           action: () => { this.$router.push({ path: "/account-details" }) },
         },
-        /* {
+        {
+          inactive: true,
           name: "soporte",
           icon: require("@/assets/sources/drawer/support.svg"),
           action: () => {},
-        }, */
-        /* {
+        },
+        {
+          inactive: true,
           name: "es",
           icon: require("@/assets/sources/drawer/language.svg"),
           action: () => {},
-        }, */
+        },
       ]
     }
   },

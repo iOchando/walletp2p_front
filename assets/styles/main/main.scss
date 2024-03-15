@@ -112,3 +112,24 @@
     text-transform: var(--tt, uppercase);
   }
 }
+
+
+.btn-outlined-2 {
+  --h: 45px;
+  --fw: 700;
+  --tt: uppercase;
+
+  min-height: var(--h);
+  background: var(--bg, var(--card-2)) !important;
+  border-radius: var(--br, 40px) !important;
+  border: 1px solid var(--b-color, var(--text)) !important;
+  span {
+    color: var(--c, var(--text)) !important;
+    font-family: var(--font2) !important;
+    font-weight: var(--fw) !important;
+    font-size: var(--fs, 10px);
+    line-height: 1 !important;
+    letter-spacing: var(--ls, 3.9px) !important;
+    text-transform: var(--tt, uppercase);
+  }
+}
