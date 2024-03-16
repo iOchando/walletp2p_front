@@ -19,9 +19,12 @@
         style="--margin-message: 1px"
         :error-messages="errorAccount"
         :success-messages="successAccount"
-        :suffix="dominioNear"
+        :suffix="dominioNearInput"
         :rules="required"
         @keyup="verificarAccount(accountNear)"
+        @keydown="evt => {
+                  !(/^[a-z0-9_-]+$/.test(evt.key)) && evt.preventDefault()
+                }"
       ></v-text-field>
       <!--<p>The following wallet </p>
       <p> 
@@ -86,6 +89,7 @@ export default {
       valid:false,
       // address: "",
       accountNear: null,
+      dominioNearInput: process.env.Network === "testnet" ? "." + process.env.Network : ".near",
       dominioNear: process.env.Network === "testnet" ? "." + process.env.Network : ".near",
       required: [(v) => !!v || "Campo requerido"],
       copie: false,
