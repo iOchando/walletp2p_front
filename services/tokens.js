@@ -8,7 +8,8 @@ import localStorageUser from '~/services/local-storage-user';
 
 function getListContractToken(address) {
   // https://api.kitwallet.app/account//likelyTokensFromBlock
-  return axios.get(`https://api.nearblocks.io/v1/kitwallet/account/${address}/likelyTokensFromBlock?fromBlockTimestamp=0`)
+  const network = !process.env.Network ? "-testnet" : process.env.Network === "mainnet" ? "" : "-testnet";
+  return axios.get(`https://api${network}.nearblocks.io/v1/kitwallet/account/${address}/likelyTokensFromBlock?fromBlockTimestamp=0`)
     .then(response => {
       return response.data.list
     }).catch(error => {return error}

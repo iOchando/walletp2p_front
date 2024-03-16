@@ -4,7 +4,7 @@
     <Header
       ref="header"
       top-text="INGRESAR CON"
-      bottom-text="PASSPHRASE"
+      bottom-text="12 PALABRAS"
       description="INICIA SESSIÓN CON TU FRASE CONTRASEÑA"
       max-width="284px"
       top-text-dir="rtl"
@@ -16,7 +16,7 @@
         <v-text-field
           v-for="(item, i) in words" :key="i"
           v-model="item.model"
-          :label="`enter word #${i}`" solo
+          :label="`Coloque frase #${i+1}`" solo
           style="--margin-message: 1px"
           :rules="required"
           @paste="onPaste"
