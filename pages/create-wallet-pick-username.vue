@@ -23,7 +23,7 @@
         :rules="required"
         @keyup="verificarAccount(accountNear)"
         @keydown="evt => {
-                  !(/^[a-z0-9_-]+$/.test(evt.key)) && evt.preventDefault()
+                  (['ArrowLeft', 'ArrowRight', 'Backspace', 'Delete'].includes(evt.key) ? false : !(/^[a-z0-9_-]+$/.test(evt.key)) ) && evt.preventDefault()
                 }"
       ></v-text-field>
       <!--<p>The following wallet </p>
