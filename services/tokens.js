@@ -126,6 +126,8 @@ async function getInventoryUser() {
   .then(response => {
     const data = response.data?.inventory;
 
+    console.log("DATA CRYTOS", data)
+
     if(!data) throw new Error("no existe inventory");
 
     list.nfts = data.nfts
