@@ -4,7 +4,7 @@
     <Header
       ref="header"
       top-text="INGRESAR CON"
-      bottom-text="PASSPHRASE"
+      bottom-text="12 PALABRAS"
       description="INICIA SESSIÓN CON TU FRASE CONTRASEÑA"
       max-width="284px"
       top-text-dir="rtl"
@@ -16,7 +16,7 @@
         <v-text-field
           v-for="(item, i) in words" :key="i"
           v-model="item.model"
-          :label="`enter word #${i}`" solo
+          :label="`Coloque frase #${i+1}`" solo
           style="--margin-message: 1px"
           :rules="required"
           @paste="onPaste"
@@ -83,7 +83,7 @@ export default {
       this.loading = true;
       
       if(this.$refs.form.validate()) {
-        const { secretKey } = await parseSeedPhrase(this.words.join(' '));
+        const { secretKey } = await parseSeedPhrase(this.words.map((item) => { return item.model}).join(' '));
         const keyPairNew = KeyPair.fromString(secretKey);
         const publicKey = keyPairNew.getPublicKey().toString(); // keyPairNew.publicKey.toString();
         let address = Buffer.from(keyPairNew.getPublicKey().data).toString("hex");
